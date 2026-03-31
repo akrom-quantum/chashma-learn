@@ -3,35 +3,53 @@ module.exports = {
   darkMode: "class",
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
-    "./src/app/**/*.{js,jsx,ts,tsx}",
-    "./src/components/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
       colors: {
-        "primary":                    "#036c48",
-        "primary-dim":                "#005f3e",
-        "primary-fixed":              "#9df5c6",
-        "primary-container":          "#9df5c6",
-        "on-primary":                 "#e1ffeb",
-        "on-primary-container":       "#005e3e",
-        "secondary-container":        "#e1e3df",
-        "on-secondary-container":     "#4f524f",
-        "tertiary":                   "#5a6341",
-        "on-tertiary":                "#f4fed2",
-        "background":                 "#f9f9f8",
-        "surface":                    "#f9f9f8",
-        "surface-container-lowest":   "#ffffff",
-        "surface-container-low":      "#f2f4f2",
-        "surface-container":          "#ebefec",
-        "surface-container-high":     "#e4e9e7",
-        "on-surface":                 "#2d3432",
-        "on-surface-variant":         "#5a615e",
-        "outline":                    "#757c7a",
-        "outline-variant":            "#acb3b1",
-        "error":                      "#9f403d",
-        "error-container":            "#fe8983",
-        "on-error":                   "#fff7f6",
+        primary: {
+          DEFAULT: "#036c48",
+          dim:     "#005f3e",
+          fixed:   "#9df5c6",
+          container: "#9df5c6",
+        },
+        onPrimary: {
+          DEFAULT:   "#e1ffeb",
+          container: "#005e3e",
+        },
+        secondary: {
+          container: "#e1e3df",
+        },
+        onSecondary: {
+          container: "#4f524f",
+        },
+        tertiary: {
+          DEFAULT:   "#5a6341",
+          container: "#eef8cd",
+        },
+        onTertiary: {
+          DEFAULT: "#f4fed2",
+        },
+        surface: {
+          DEFAULT:   "#f9f9f8",
+          low:       "#f2f4f2",
+          container: "#ebefec",
+          high:      "#e4e9e7",
+          lowest:    "#ffffff",
+        },
+        onSurface: {
+          DEFAULT: "#2d3432",
+          variant: "#5a615e",
+        },
+        outline: {
+          DEFAULT: "#757c7a",
+          variant: "#acb3b1",
+        },
+        error: {
+          DEFAULT:   "#9f403d",
+          container: "#fe8983",
+        },
+        onError: "#fff7f6",
       },
       fontFamily: {
         headline: ["var(--font-manrope)", "sans-serif"],
