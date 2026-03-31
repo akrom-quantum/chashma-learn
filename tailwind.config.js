@@ -58,10 +58,10 @@ module.exports = {
         "on-error-container":         "#752121",
       },
       fontFamily: {
-        headline: ["Manrope", "sans-serif"],
-        body:     ["Manrope", "sans-serif"],
-        label:    ["Manrope", "sans-serif"],
-      },
+          headline: ["var(--font-manrope)", "sans-serif"],
+          body:     ["var(--font-manrope)", "sans-serif"],
+          label:    ["var(--font-manrope)", "sans-serif"],
+      },  
       borderRadius: {
         DEFAULT: "0.125rem",
         lg:      "0.25rem",
