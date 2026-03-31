@@ -1,6 +1,6 @@
 import Link from "next/link";
-import TopNav from "@/components/TopNav";
-import SideNav from "@/components/SideNav";
+import TopNav from "@/app/components/TopNav";
+import SideNav from "@/app/components/SideNav";
 
 export const metadata = { title: "Choose Your Path | Chashma Learn" };
 
