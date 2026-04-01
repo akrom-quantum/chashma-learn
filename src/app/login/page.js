@@ -1,35 +1,63 @@
 "use client";
-export const dynamic = "force-dynamic";
 import Link from "next/link";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/lib/AuthContext";
+import { useState, useEffect } from "react";
+import { initializeApp, getApps } from "firebase/app";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  browserLocalPersistence,
+  setPersistence,
+} from "firebase/auth";
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyBD65CTP7Tx84l-qL-KT9pj3uMUOsLOCI4",
+  authDomain:        "chashma-learn.firebaseapp.com",
+  projectId:         "chashma-learn",
+  storageBucket:     "chashma-learn.firebasestorage.app",
+  messagingSenderId: "1059701555295",
+  appId:             "1:1059701555295:web:104a64e41d60252a28dbea",
+};
+
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const auth = getAuth(app);
 
 export default function LoginPage() {
-  const { signInWithGoogle, signInWithEmail } = useAuth();
-  const router = useRouter();
   const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
   const [error, setError]       = useState("");
   const [loading, setLoading]   = useState(false);
 
+  useEffect(() => {
+    setPersistence(auth, browserLocalPersistence);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        window.location.href = "/dashboard";
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
   const handleGoogle = async () => {
-  try {
-    setLoading(true);
-    await signInWithGoogle();
-    window.location.href = "/dashboard";
-  } catch (err) {
-    setError(err.message);
-    setLoading(false);
-  }
-};
+    try {
+      setLoading(true);
+      setError("");
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  };
 
   const handleEmail = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      await signInWithEmail(email, password);
-      router.push("/dashboard");
+      setError("");
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (err) {
       setError("Invalid email or password.");
       setLoading(false);
