@@ -60,8 +60,10 @@ export function AuthProvider({ children }) {
     setRole(null);
   }
   setLoading(false);
-});
-    
+  }); 
+    return () => unsubscribe();
+  }, []);
+
   const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider);
