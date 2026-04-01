@@ -14,15 +14,17 @@ export default function LoginPage() {
   const [loading, setLoading]   = useState(false);
 
   const handleGoogle = async () => {
-    try {
-      setLoading(true);
-      await signInWithGoogle();
-      router.push("/dashboard");
-    } catch (err) {
-      setError("Google sign-in failed. Please try again.");
-      setLoading(false);
-    }
-  };
+  alert("Button clicked");
+  try {
+    setLoading(true);
+    await signInWithGoogle();
+    router.push("/dashboard");
+  } catch (err) {
+    alert("Error: " + err.message);
+    setError(err.message);
+    setLoading(false);
+  }
+};  
 
   const handleEmail = async (e) => {
     e.preventDefault();
