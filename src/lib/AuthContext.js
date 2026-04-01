@@ -33,31 +33,35 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        const ref  = doc(db, "users", firebaseUser.uid);
-        const snap = await getDoc(ref);
-        if (!snap.exists()) {
-          await setDoc(ref, {
-            uid:       firebaseUser.uid,
-            email:     firebaseUser.email,
-            name:      firebaseUser.displayName || "",
-            role:      "viewer",
-            createdAt: new Date(),
-          });
-          setRole("viewer");
-        } else {
-          setRole(snap.data().role);
-        }
-        setUser(firebaseUser);
+  if (firebaseUser) {
+    try {
+      const ref  = doc(db, "users", firebaseUser.uid);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) {
+        await setDoc(ref, {
+          uid:       firebaseUser.uid,
+          email:     firebaseUser.email,
+          name:      firebaseUser.displayName || "",
+          role:      "viewer",
+          createdAt: new Date(),
+        });
+        setRole("viewer");
       } else {
-        setUser(null);
-        setRole(null);
+        setRole(snap.data().role);
       }
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
-
+      setUser(firebaseUser);
+    } catch (err) {
+      console.error("Firestore error:", err);
+      setUser(firebaseUser);
+      setRole("viewer");
+    }
+  } else {
+    setUser(null);
+    setRole(null);
+  }
+  setLoading(false);
+});
+    
   const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider);
