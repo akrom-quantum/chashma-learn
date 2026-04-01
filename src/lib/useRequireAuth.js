@@ -1,7 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import { initializeApp, getApps } from "firebase/app";
-import { getAuth, onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  browserLocalPersistence,
+  setPersistence,
+} from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -26,7 +31,10 @@ export function useRequireAuth() {
     setPersistence(auth, browserLocalPersistence).then(() => {
       const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
         if (!firebaseUser) {
-          window.location.href = "/login";
+          setLoading(false);
+          setTimeout(() => {
+            window.location.href = "/login";
+          }, 1500);
           return;
         }
         try {
