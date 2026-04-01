@@ -44,38 +44,47 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        try {
-          const ref  = doc(db, "users", firebaseUser.uid);
-          const snap = await getDoc(ref);
-          if (!snap.exists()) {
-            await setDoc(ref, {
-              uid:       firebaseUser.uid,
-              email:     firebaseUser.email,
-              name:      firebaseUser.displayName || "",
-              role:      "viewer",
-              createdAt: new Date(),
-            });
-            setRole("viewer");
-          } else {
-            setRole(snap.data().role);
-          }
-          setUser(firebaseUser);
-        } catch (err) {
-          console.error("Firestore error:", err);
-          setUser(firebaseUser);
-          setRole("viewer");
-        }
-      } else {
-        setUser(null);
-        setRole(null);
-      }
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
+  const timeout = setTimeout(() => {
+    setLoading(false);
+  }, 5000);
 
+  const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+    clearTimeout(timeout);
+    if (firebaseUser) {
+      try {
+        const ref  = doc(db, "users", firebaseUser.uid);
+        const snap = await getDoc(ref);
+        if (!snap.exists()) {
+          await setDoc(ref, {
+            uid:       firebaseUser.uid,
+            email:     firebaseUser.email,
+            name:      firebaseUser.displayName || "",
+            role:      "viewer",
+            createdAt: new Date(),
+          });
+          setRole("viewer");
+        } else {
+          setRole(snap.data().role);
+        }
+        setUser(firebaseUser);
+      } catch (err) {
+        console.error("Firestore error:", err);
+        setUser(firebaseUser);
+        setRole("viewer");
+      }
+    } else {
+      setUser(null);
+      setRole(null);
+    }
+    setLoading(false);
+  });
+
+  return () => {
+    clearTimeout(timeout);
+    unsubscribe();
+  };
+}, []);
+  
   const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider);
