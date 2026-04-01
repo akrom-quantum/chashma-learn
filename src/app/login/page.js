@@ -14,15 +14,15 @@ export default function LoginPage() {
   const [loading, setLoading]   = useState(false);
 
   const handleGoogle = async () => {
-    try {
-      setLoading(true);
-      await signInWithGoogle();
-      router.push("/dashboard");
-    } catch (err) {
-      setError(err.message);
-      setLoading(false);
-    }
-  };
+  try {
+    setLoading(true);
+    await signInWithGoogle();
+    window.location.href = "/dashboard";
+  } catch (err) {
+    setError(err.message);
+    setLoading(false);
+  }
+};
 
   const handleEmail = async (e) => {
     e.preventDefault();
