@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRequireAuth } from "@/lib/useRequireAuth";
-import LockedContent from "@/components/LockedContent";
+import LockedContent from "@/app/components/LockedContent";
 
 export default function GrammarLessonPage() {
   const { user, role, loading } = useRequireAuth();
