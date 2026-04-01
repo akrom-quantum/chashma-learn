@@ -1,7 +1,19 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged, signInWithPopup, signInWithEmailAndPassword, GoogleAuthProvider, signOut } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signOut,
+} from "firebase/auth";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+} from "firebase/firestore";
 import { initializeApp, getApps } from "firebase/app";
 
 const firebaseConfig = {
@@ -33,34 +45,34 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-  if (firebaseUser) {
-    try {
-      const ref  = doc(db, "users", firebaseUser.uid);
-      const snap = await getDoc(ref);
-      if (!snap.exists()) {
-        await setDoc(ref, {
-          uid:       firebaseUser.uid,
-          email:     firebaseUser.email,
-          name:      firebaseUser.displayName || "",
-          role:      "viewer",
-          createdAt: new Date(),
-        });
-        setRole("viewer");
+      if (firebaseUser) {
+        try {
+          const ref  = doc(db, "users", firebaseUser.uid);
+          const snap = await getDoc(ref);
+          if (!snap.exists()) {
+            await setDoc(ref, {
+              uid:       firebaseUser.uid,
+              email:     firebaseUser.email,
+              name:      firebaseUser.displayName || "",
+              role:      "viewer",
+              createdAt: new Date(),
+            });
+            setRole("viewer");
+          } else {
+            setRole(snap.data().role);
+          }
+          setUser(firebaseUser);
+        } catch (err) {
+          console.error("Firestore error:", err);
+          setUser(firebaseUser);
+          setRole("viewer");
+        }
       } else {
-        setRole(snap.data().role);
+        setUser(null);
+        setRole(null);
       }
-      setUser(firebaseUser);
-    } catch (err) {
-      console.error("Firestore error:", err);
-      setUser(firebaseUser);
-      setRole("viewer");
-    }
-  } else {
-    setUser(null);
-    setRole(null);
-  }
-  setLoading(false);
-  }); 
+      setLoading(false);
+    });
     return () => unsubscribe();
   }, []);
 
