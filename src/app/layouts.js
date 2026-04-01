@@ -1,4 +1,3 @@
-export const dynamic = "force-dynamic";
 import "./globals.css";
 import { AuthProvider } from "@/lib/AuthContext";
 
