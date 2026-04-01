@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { initializeApp, getApps } from "firebase/app";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey:            "AIzaSyBD65CTP7Tx84l-qL-KT9pj3uMUOsLOCI4",
@@ -20,17 +20,19 @@ export default function DashboardPage() {
   const [user, setUser]     = useState(null);
 
   useEffect(() => {
-    setStatus("Setting up auth listener...");
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        setStatus("Signed in!");
-        setUser(firebaseUser);
-      } else {
-        setStatus("No user — not signed in");
-        setUser(null);
-      }
+    setPersistence(auth, browserLocalPersistence).then(() => {
+      setStatus("Listening for auth state...");
+      const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+        if (firebaseUser) {
+          setStatus("Signed in!");
+          setUser(firebaseUser);
+        } else {
+          setStatus("No user — not signed in");
+          setUser(null);
+        }
+      });
+      return () => unsubscribe();
     });
-    return () => unsubscribe();
   }, []);
 
   return (
