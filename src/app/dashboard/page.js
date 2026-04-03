@@ -136,7 +136,24 @@ export default function DashboardPage() {
             </div>
           </div>
         )}
-
+{/* My Groups link for learners */}
+{(role === "learner" || role === "admin" || role === "owner") && (
+  <div style={{ marginBottom: "24px" }}>
+    <Link
+      href="/my-groups"
+      style={{ display: "inline-flex", alignItems: "center", gap: "10px", backgroundColor: "#ffffff", border: "1px solid #e5e7eb", borderRadius: "10px", padding: "14px 20px", textDecoration: "none" }}
+    >
+      <div style={{ width: "36px", height: "36px", borderRadius: "8px", backgroundColor: "#d1fae5", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <span className="material-symbols-outlined" style={{ color: "#036c48", fontSize: "20px" }}>group</span>
+      </div>
+      <div>
+        <p style={{ fontSize: "14px", fontWeight: 700, color: "#111827" }}>My Groups</p>
+        <p style={{ fontSize: "12px", color: "#9ca3af" }}>View your assignments, attendance and scores</p>
+      </div>
+      <span className="material-symbols-outlined" style={{ fontSize: "20px", color: "#d1d5db", marginLeft: "8px" }}>chevron_right</span>
+    </Link>
+  </div>
+)}
         {/* Mode cards */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", marginBottom: "48px" }}>
           {[
