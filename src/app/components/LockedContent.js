@@ -1,5 +1,8 @@
 "use client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { initializeApp, getApps } from "firebase/app";
+import { getAuth, onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
 
 export default function LockedContent({ title }) {
   return (
