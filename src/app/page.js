@@ -1,6 +1,33 @@
+"use client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { initializeApp, getApps } from "firebase/app";
+import { getAuth, onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyBD65CTP7Tx84l-qL-KT9pj3uMUOsLOCI4",
+  authDomain:        "chashma-learn.firebaseapp.com",
+  projectId:         "chashma-learn",
+  storageBucket:     "chashma-learn.firebasestorage.app",
+  messagingSenderId: "1059701555295",
+  appId:             "1:1059701955295:web:104a64e41d60252a28dbea",
+};
+
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const auth = getAuth(app);
 
 export default function HomePage() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    setPersistence(auth, browserLocalPersistence).then(() => {
+      const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+        setUser(firebaseUser || null);
+      });
+      return () => unsubscribe();
+    });
+  }, []);
+
   return (
     <div style={{ fontFamily: "'Manrope', sans-serif", backgroundColor: "#ffffff", minHeight: "100vh", color: "#111827" }}>
 
@@ -18,18 +45,23 @@ export default function HomePage() {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "32px" }}>
             <div style={{ display: "flex", gap: "24px" }}>
-              {[
-                { label: "Courses",   href: "/courses"   },
-                { label: "About",     href: "#about"     },
-              ].map((link) => (
-                <Link key={link.href} href={link.href} style={{ fontSize: "14px", color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>
-                  {link.label}
-                </Link>
-              ))}
+              <Link href="/courses" style={{ fontSize: "14px", color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>Courses</Link>
+              <Link href="#about" style={{ fontSize: "14px", color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>About</Link>
             </div>
-            <Link href="/login" style={{ backgroundColor: "#036c48", color: "#ffffff", padding: "9px 22px", borderRadius: "8px", fontSize: "14px", fontWeight: 700, textDecoration: "none", letterSpacing: "-0.2px" }}>
-              Sign In
-            </Link>
+            {user ? (
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <span style={{ fontSize: "13px", color: "#6b7280", fontWeight: 500 }}>
+                  {user.displayName || user.email}
+                </span>
+                <Link href="/dashboard" style={{ backgroundColor: "#036c48", color: "#ffffff", padding: "9px 22px", borderRadius: "8px", fontSize: "14px", fontWeight: 700, textDecoration: "none" }}>
+                  Dashboard
+                </Link>
+              </div>
+            ) : (
+              <Link href="/login" style={{ backgroundColor: "#036c48", color: "#ffffff", padding: "9px 22px", borderRadius: "8px", fontSize: "14px", fontWeight: 700, textDecoration: "none", letterSpacing: "-0.2px" }}>
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       </nav>
