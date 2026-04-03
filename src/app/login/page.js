@@ -79,12 +79,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div style={{ position: "relative", zIndex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "48px" }}>
-            <div style={{ width: "36px", height: "36px", backgroundColor: "rgba(255,255,255,0.15)", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
-                <path d="M8 2L14 5.5V10.5L8 14L2 10.5V5.5L8 2Z" stroke="white" strokeWidth="1.5" fill="none"/>
-                <circle cx="8" cy="8" r="2" fill="white"/>
-              </svg>
-            </div>
+            <img src="/logo.png" alt="Chashma Learn" style={{ width: "36px", height: "36px", objectFit: "contain" }} />
             <span style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.5px" }}>Chashma Learn</span>
           </div>
 
