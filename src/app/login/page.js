@@ -91,8 +91,8 @@ export default function LoginPage() {
           <h1 style={{ fontSize: "40px", fontWeight: 800, color: "#ffffff", letterSpacing: "-1.5px", lineHeight: 1.1, marginBottom: "16px" }}>
             Your path to<br />English mastery
           </h1>
-          <p style={{ fontSize: "16px", color: "#6ee7b7", lineHeight: 1.7, maxWidth: "340px", fontWeight: 400 }}>
-            IELTS, SAT, and General English — structured lessons, real practice, expert guidance.
+          <p style={{ fontSize: "16px", color: "#6ee7b7", lineHeight: 1.7, maxWidth: "340px", fontWeight: 400, fontStyle: "italic" }}>
+            From your first lesson to your dream score — Chashma Learn gives you the structure, the practice, and the guidance to get there.
           </p>
         </div>
 
@@ -111,7 +111,7 @@ export default function LoginPage() {
             ))}
           </div>
           <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", fontWeight: 500 }}>
-            © 2025 Chashma Learn. All rights reserved.
+            © 2026 Chashma Learn. All rights reserved.
           </p>
         </div>
       </div>
