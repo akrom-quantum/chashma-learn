@@ -79,7 +79,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div style={{ position: "relative", zIndex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "48px" }}>
-            <img src="/logo.png" alt="Chashma Learn" style={{ width: "36px", height: "36px", borderRadius: "3px", objectFit: "contain" }} />
+            <img src="/logo.png" alt="Chashma Learn" style={{ width: "36px", height: "36px", borderRadius: "6px", objectFit: "contain" }} />
             <span style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.5px" }}>Chashma Learn</span>
           </div>
 
