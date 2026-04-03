@@ -83,9 +83,10 @@ export default function DashboardPage() {
       {/* NAV */}
       <nav style={{ backgroundColor: "rgba(255,255,255,0.95)", borderBottom: "1px solid #e5e7eb", position: "fixed", top: 0, width: "100%", zIndex: 50 }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 32px", height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Link href="/" style={{ fontSize: "20px", fontWeight: 800, color: "#064e3b", textDecoration: "none" }}>
-            Chashma Learn
-          </Link>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <img src="/logo.png" alt="Chashma Learn" style={{ width: "36px", height: "36px", objectFit: "contain", borderRadius: 3px }} />
+            <span style={{ fontSize: "18px", fontWeight: 800, color: "#064e3b", letterSpacing: "-0.5px" }}>Chashma Learn</span>
+          </div>
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             {isAdminOrOwner && (
               <Link href="/admin" style={{ fontSize: "13px", fontWeight: 600, color: "#036c48", textDecoration: "none", padding: "6px 14px", border: "1px solid #036c48", borderRadius: "6px" }}>
