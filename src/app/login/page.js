@@ -79,14 +79,14 @@ export default function LoginPage() {
         {/* Logo */}
         <div style={{ position: "relative", zIndex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "48px" }}>
-            <img src="/logo.png" alt="Chashma Learn" style={{ width: "36px", height: "36px", objectFit: "contain" }} />
+            <img src="/logo.png" alt="Chashma Learn" style={{ width: "36px", height: "36px", radius: "3px", objectFit: "contain" }} />
             <span style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.5px" }}>Chashma Learn</span>
           </div>
 
           <h1 style={{ fontSize: "40px", fontWeight: 800, color: "#ffffff", letterSpacing: "-1.5px", lineHeight: 1.1, marginBottom: "16px" }}>
             Your path to<br />English mastery
           </h1>
-          <p style={{ fontSize: "16px", color: "#6ee7b7", lineHeight: 1.7, maxWidth: "340px", fontWeight: 400, fontStyle: "italic" }}>
+          <p style={{ fontSize: "16px", color: "#6ee7b7", lineHeight: 1.7, maxWidth: "340px", fontWeight: 400}}>
             From your first lesson to your dream score — Chashma Learn gives you the structure, the practice, and the guidance to get there.
           </p>
         </div>
