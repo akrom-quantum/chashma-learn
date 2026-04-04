@@ -4,7 +4,6 @@ import { initializeApp, getApps } from "firebase/app";
 import { getAuth, onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 
 const firebaseConfig = {
   apiKey:            "AIzaSyBD65CTP7Tx84l-qL-KT9pj3uMUOsLOCI4",
@@ -19,375 +18,535 @@ const app  = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[
 const auth = getAuth(app);
 const db   = getFirestore(app, "chashma-learn");
 
-// ─────────────────────────────────────────────
-// BOOK REGISTRY — Add your books here manually
-// Each book has: title, authors, level, cover,
-// and sections (each section has units array)
-// ─────────────────────────────────────────────
-const bookRegistry = {
-
-  // ── PRONUNCIATION ──────────────────────────
-  "piu-elementary": {
-    title:   "Pronunciation in Use",
-    level:   "Elementary",
-    authors: "Jonathan Marks",
-    cover:   "/books/piu-elementary.jpg",
-    subject: "pronunciation",
-    sections: [
-      {
-        title: "Section 1 — Sounds & Letters",
-        units: [
-          { id: "unit-1", title: "Unit 1 — Vowel Sounds A" },
-          { id: "unit-2", title: "Unit 2 — Vowel Sounds B" },
-          { id: "unit-3", title: "Unit 3 — Consonant Sounds" },
-          { id: "unit-4", title: "Unit 4 — Word Stress" },
-        ],
-      },
-      {
-        title: "Section 2 — Natural Speech",
-        units: [
-          { id: "unit-5", title: "Unit 5 — Sentence Stress"   },
-          { id: "unit-6", title: "Unit 6 — Weak Forms"        },
-          { id: "unit-7", title: "Unit 7 — Connected Speech"  },
-          { id: "unit-8", title: "Unit 8 — Intonation Basics" },
-        ],
-      },
-    ],
-  },
-
-  "piu-intermediate": {
-    title:   "Pronunciation in Use",
-    level:   "Intermediate",
-    authors: "Mark Hancock",
-    cover:   "/books/piu-intermediate.jpg",
-    subject: "pronunciation",
-    sections: [
-      {
-        title: "Section 1 — Phonemes",
-        units: [
-          { id: "unit-1", title: "Unit 1 — Short Vowels"     },
-          { id: "unit-2", title: "Unit 2 — Long Vowels"      },
-          { id: "unit-3", title: "Unit 3 — Diphthongs"       },
-          { id: "unit-4", title: "Unit 4 — Consonant Pairs"  },
-        ],
-      },
-      {
-        title: "Section 2 — Stress & Rhythm",
-        units: [
-          { id: "unit-5", title: "Unit 5 — Word Stress Rules"    },
-          { id: "unit-6", title: "Unit 6 — Sentence Rhythm"      },
-          { id: "unit-7", title: "Unit 7 — Thought Groups"       },
-          { id: "unit-8", title: "Unit 8 — Intonation Patterns"  },
-        ],
-      },
-    ],
-  },
-
-  "piu-advanced": {
-    title:   "Pronunciation in Use",
-    level:   "Advanced",
-    authors: "Martin Hewings",
-    cover:   "/books/piu-advanced.jpg",
-    subject: "pronunciation",
-    sections: [
-      {
-        title: "Section 1 — Advanced Sounds",
-        units: [
-          { id: "unit-1", title: "Unit 1 — Problematic Vowels"    },
-          { id: "unit-2", title: "Unit 2 — Problematic Consonants"},
-          { id: "unit-3", title: "Unit 3 — Assimilation"          },
-          { id: "unit-4", title: "Unit 4 — Elision"               },
-        ],
-      },
-      {
-        title: "Section 2 — Discourse & Style",
-        units: [
-          { id: "unit-5", title: "Unit 5 — Nuclear Stress"        },
-          { id: "unit-6", title: "Unit 6 — Tone Choices"          },
-          { id: "unit-7", title: "Unit 7 — Discourse Intonation"  },
-          { id: "unit-8", title: "Unit 8 — Accent & Variety"      },
-        ],
-      },
-    ],
-  },
-
-  "unified-pronunciation": {
-    title:   "Unified Pronunciation Book",
-    level:   null,
-    authors: "Prepared by Akrom Nabi",
-    cover:   "/books/unified-pronunciation.jpg",
-    subject: "pronunciation",
-    unified: true,
-    sections: [
-      {
-        title: "Section 1 — Core Pronunciation",
-        units: [
-          { id: "unit-1", title: "Unit 1 — Introduction to Phonetics" },
-          { id: "unit-2", title: "Unit 2 — Vowel Chart"               },
-          { id: "unit-3", title: "Unit 3 — Consonant Chart"           },
-        ],
-      },
-      {
-        title: "Section 2 — Applied Pronunciation",
-        units: [
-          { id: "unit-4", title: "Unit 4 — Stress Patterns"   },
-          { id: "unit-5", title: "Unit 5 — Intonation Guide"  },
-          { id: "unit-6", title: "Unit 6 — Practice Dialogues"},
-        ],
-      },
-    ],
-  },
-
-  // ── OXFORD WORD SKILLS ─────────────────────
-  "ows-elementary": {
-    title:   "Oxford Word Skills",
-    level:   "Elementary",
-    authors: "Ruth Gairns, Stuart Redman",
-    cover:   "/books/ows-elementary.jpg",
-    subject: "oxford-word-skills",
-    sections: [
-      {
-        title: "Section 1 — Everyday Words",
-        units: [
-          { id: "unit-1", title: "Unit 1 — People & Family"   },
-          { id: "unit-2", title: "Unit 2 — Daily Routines"    },
-          { id: "unit-3", title: "Unit 3 — Food & Drink"      },
-          { id: "unit-4", title: "Unit 4 — Places & Locations"},
-        ],
-      },
-      {
-        title: "Section 2 — Describing the World",
-        units: [
-          { id: "unit-5", title: "Unit 5 — Adjectives"        },
-          { id: "unit-6", title: "Unit 6 — Colours & Sizes"   },
-          { id: "unit-7", title: "Unit 7 — Time & Numbers"    },
-          { id: "unit-8", title: "Unit 8 — Weather & Nature"  },
-        ],
-      },
-    ],
-  },
-
-  "ows-intermediate": {
-    title:   "Oxford Word Skills",
-    level:   "Intermediate",
-    authors: "Ruth Gairns, Stuart Redman",
-    cover:   "/books/ows-intermediate.jpg",
-    subject: "oxford-word-skills",
-    sections: [
-      {
-        title: "Section 1 — Social & Work Vocabulary",
-        units: [
-          { id: "unit-1", title: "Unit 1 — Work & Jobs"         },
-          { id: "unit-2", title: "Unit 2 — Money & Shopping"    },
-          { id: "unit-3", title: "Unit 3 — Travel & Transport"  },
-          { id: "unit-4", title: "Unit 4 — Health & Body"       },
-        ],
-      },
-      {
-        title: "Section 2 — Abstract Vocabulary",
-        units: [
-          { id: "unit-5", title: "Unit 5 — Feelings & Emotions" },
-          { id: "unit-6", title: "Unit 6 — Ideas & Opinions"    },
-          { id: "unit-7", title: "Unit 7 — Society & Culture"   },
-          { id: "unit-8", title: "Unit 8 — Technology & Media"  },
-        ],
-      },
-    ],
-  },
-
-  "ows-upper": {
-    title:   "Oxford Word Skills",
-    level:   "Upper-Intermediate & Advanced",
-    authors: "Ruth Gairns, Stuart Redman",
-    cover:   "/books/ows-upper.jpg",
-    subject: "oxford-word-skills",
-    sections: [
-      {
-        title: "Section 1 — Academic Vocabulary",
-        units: [
-          { id: "unit-1", title: "Unit 1 — Academic Word List A" },
-          { id: "unit-2", title: "Unit 2 — Academic Word List B" },
-          { id: "unit-3", title: "Unit 3 — Formal Language"      },
-          { id: "unit-4", title: "Unit 4 — Discourse Markers"    },
-        ],
-      },
-      {
-        title: "Section 2 — Advanced Topics",
-        units: [
-          { id: "unit-5", title: "Unit 5 — Science & Research"   },
-          { id: "unit-6", title: "Unit 6 — Law & Politics"       },
-          { id: "unit-7", title: "Unit 7 — Business & Economics" },
-          { id: "unit-8", title: "Unit 8 — Arts & Literature"    },
-        ],
-      },
-    ],
-  },
-
-  "unified-word-skills": {
-    title:   "Unified Word Skills Book",
-    level:   null,
-    authors: "Prepared by Akrom Nabi",
-    cover:   "/books/unified-word-skills.jpg",
-    subject: "oxford-word-skills",
-    unified: true,
-    sections: [
-      {
-        title: "Section 1 — Foundation Words",
-        units: [
-          { id: "unit-1", title: "Unit 1 — Core Nouns"    },
-          { id: "unit-2", title: "Unit 2 — Core Verbs"    },
-          { id: "unit-3", title: "Unit 3 — Core Adjectives"},
-        ],
-      },
-      {
-        title: "Section 2 — Extended Vocabulary",
-        units: [
-          { id: "unit-4", title: "Unit 4 — Topic Vocabulary A" },
-          { id: "unit-5", title: "Unit 5 — Topic Vocabulary B" },
-          { id: "unit-6", title: "Unit 6 — Review & Practice"  },
-        ],
-      },
-    ],
-  },
-
-  // ── GRAMMAR ────────────────────────────────
-  "oegc-basic": {
-    title:   "Oxford English Grammar Course",
-    level:   "Basic",
-    authors: "Michael Swan, Catherine Walter",
-    cover:   "/books/oegc-basic.jpg",
-    subject: "grammar",
-    sections: [
-      {
-        title: "Section 1 — Tenses",
-        units: [
-          { id: "unit-1", title: "Unit 1 — Present Simple"     },
-          { id: "unit-2", title: "Unit 2 — Present Continuous" },
-          { id: "unit-3", title: "Unit 3 — Past Simple"        },
-          { id: "unit-4", title: "Unit 4 — Future Forms"       },
-        ],
-      },
-      {
-        title: "Section 2 — Structure",
-        units: [
-          { id: "unit-5", title: "Unit 5 — Questions"          },
-          { id: "unit-6", title: "Unit 6 — Negatives"          },
-          { id: "unit-7", title: "Unit 7 — Articles"           },
-          { id: "unit-8", title: "Unit 8 — Nouns & Pronouns"   },
-        ],
-      },
-    ],
-  },
-
-  "oegc-intermediate": {
-    title:   "Oxford English Grammar Course",
-    level:   "Intermediate",
-    authors: "Michael Swan, Catherine Walter",
-    cover:   "/books/oegc-intermediate.jpg",
-    subject: "grammar",
-    sections: [
-      {
-        title: "Section 1 — Perfect Tenses",
-        units: [
-          { id: "unit-1", title: "Unit 1 — Present Perfect Simple"      },
-          { id: "unit-2", title: "Unit 2 — Present Perfect Continuous"  },
-          { id: "unit-3", title: "Unit 3 — Past Perfect"                },
-          { id: "unit-4", title: "Unit 4 — Future Perfect"              },
-        ],
-      },
-      {
-        title: "Section 2 — Complex Grammar",
-        units: [
-          { id: "unit-5", title: "Unit 5 — Conditionals"    },
-          { id: "unit-6", title: "Unit 6 — Modal Verbs"     },
-          { id: "unit-7", title: "Unit 7 — Passive Voice"   },
-          { id: "unit-8", title: "Unit 8 — Reported Speech" },
-        ],
-      },
-    ],
-  },
-
-  "oegc-advanced": {
-    title:   "Oxford English Grammar Course",
-    level:   "Advanced",
-    authors: "Michael Swan, Catherine Walter",
-    cover:   "/books/oegc-advanced.jpg",
-    subject: "grammar",
-    sections: [
-      {
-        title: "Section 1 — Advanced Structures",
-        units: [
-          { id: "unit-1", title: "Unit 1 — Inversion"               },
-          { id: "unit-2", title: "Unit 2 — Cleft Sentences"         },
-          { id: "unit-3", title: "Unit 3 — Subjunctive"             },
-          { id: "unit-4", title: "Unit 4 — Participle Clauses"      },
-        ],
-      },
-      {
-        title: "Section 2 — Style & Discourse",
-        units: [
-          { id: "unit-5", title: "Unit 5 — Emphasis & Focus"        },
-          { id: "unit-6", title: "Unit 6 — Cohesion & Reference"    },
-          { id: "unit-7", title: "Unit 7 — Register & Style"        },
-          { id: "unit-8", title: "Unit 8 — Academic Grammar"        },
-        ],
-      },
-    ],
-  },
-
-  "unified-grammar": {
-    title:   "Unified English Grammar Course",
-    level:   null,
-    authors: "Prepared by Akrom Nabi",
-    cover:   "/books/unified-grammar.jpg",
-    subject: "grammar",
-    unified: true,
-    sections: [
-      {
-        title: "Section 1 — Core Grammar",
-        units: [
-          { id: "unit-1", title: "Unit 1 — Tenses Overview"    },
-          { id: "unit-2", title: "Unit 2 — Sentence Structure"  },
-          { id: "unit-3", title: "Unit 3 — Common Errors"       },
-        ],
-      },
-      {
-        title: "Section 2 — Applied Grammar",
-        units: [
-          { id: "unit-4", title: "Unit 4 — Grammar in Writing"  },
-          { id: "unit-5", title: "Unit 5 — Grammar in Speaking" },
-          { id: "unit-6", title: "Unit 6 — Grammar Tests"       },
-        ],
-      },
-    ],
-  },
-
-  // ── Add remaining books following same pattern ──
-  // vocabulary, collocations, phrasal-verbs,
-  // idioms, speaking, writing books go here
+// ── URL helpers ────────────────────────────────────────────────────────────────
+const BASE = "https://chashma-learn.vercel.app";
+const bookPath = {
+  Basic: "pronunciation/piu-elementary",
+  Int:   "pronunciation/piu-intermediate",
+  Adv:   "pronunciation/piu-advanced",
+};
+const levelLabel = { Basic: "Elementary", Int: "Intermediate", Adv: "Advanced" };
+const levelColors = {
+  Basic: { bg: "#d1fae5", text: "#065f46", dot: "#059669" },
+  Int:   { bg: "#dbeafe", text: "#1e3a5f", dot: "#0369a1" },
+  Adv:   { bg: "#ede9fe", text: "#4c1d95", dot: "#7c3aed" },
 };
 
-const levelColor = {
-  "Elementary":                    { bg: "#dcfce7", color: "#15803d" },
-  "Pre-Intermediate & Intermediate":{ bg: "#d1fae5", color: "#036c48" },
-  "Intermediate":                  { bg: "#d1fae5", color: "#036c48" },
-  "Upper-Intermediate":            { bg: "#a7f3d0", color: "#065f46" },
-  "Upper-Intermediate & Advanced": { bg: "#a7f3d0", color: "#065f46" },
-  "Advanced":                      { bg: "#6ee7b7", color: "#064e3b" },
-  "Basic":                         { bg: "#dcfce7", color: "#15803d" },
-  "Essays":                        { bg: "#dbeafe", color: "#1d4ed8" },
-  "Essays to Research Papers":     { bg: "#ede9fe", color: "#6d28d9" },
+// src format: { level: "Basic"|"Int"|"Adv", unitId: "unit-01", label: "Unit 01 — Title" }
+// focus: string
+
+const bookData = {
+  title:   "Unified Pronunciation Book",
+  authors: "Prepared by Akrom Nabi",
+  cover:   "/books/unified-pronunciation.jpg",
+  unified: true,
+  sections: [
+    {
+      title: "Section I — Sounds & the Phonemic Alphabet",
+      icon: "🔤",
+      color: { accent: "#059669", bg: "#f0fdf4", badge: "#d1fae5", text: "#065f46", border: "#bbf7d0" },
+      units: [
+        {
+          num: "1", id: "u1",
+          title: "Introducing Letters and Sounds / Spelling and Pronunciation",
+          sources: [
+            { level: "Basic", unitId: "unit-01", label: "Unit 01 — How many letters, how many sounds?" },
+            { level: "Int",   unitId: "unit-01", label: "Unit 01 — Bye, buy (introducing letters and sounds)" },
+          ],
+          focus: "The relationship between spelling and pronunciation; the gap between written and spoken English",
+        },
+        {
+          num: "2", id: "u2",
+          title: "The Phonemic Alphabet / Chart of Phonemic Symbols",
+          sources: [
+            { level: "Basic", unitId: "unit-e1", label: "E1 — Chart of phonemic symbols" },
+            { level: "Int",   unitId: "unit-d1", label: "D1 — Introduction to phonemic symbols" },
+            { level: "Adv",   unitId: "unit-e1", label: "E1 — The phonemic alphabet: practice" },
+          ],
+          focus: "Learning and using the IPA system across all three levels",
+        },
+        {
+          num: "3", id: "u3",
+          title: "Sound Pairs (Minimal Pairs Practice)",
+          sources: [
+            { level: "Basic", unitId: "unit-e3", label: "E3 — Sound pairs" },
+            { level: "Int",   unitId: "unit-d4", label: "D4 — Sound pairs" },
+          ],
+          focus: "Distinguishing closely related sounds through minimal pair contrast",
+        },
+        {
+          num: "4", id: "u4",
+          title: "From Spelling to Sound",
+          sources: [
+            { level: "Basic", unitId: "unit-e4", label: "E4 — From spelling to sound" },
+          ],
+          focus: "Rules and patterns for predicting pronunciation from spelling",
+        },
+        {
+          num: "5", id: "u5",
+          title: "Homophones",
+          sources: [
+            { level: "Basic", unitId: "unit-e8", label: "E8 — Homophones" },
+          ],
+          focus: "Words that sound identical but differ in spelling and meaning",
+        },
+      ],
+    },
+    {
+      title: "Section II — Vowel Sounds",
+      icon: "🗣️",
+      color: { accent: "#0369a1", bg: "#f0f9ff", badge: "#bae6fd", text: "#0c4a6e", border: "#7dd3fc" },
+      units: [
+        { num: "6",  id: "u6",  title: "Short Vowels: /ʌ/, /ɒ/", sources: [{ level: "Basic", unitId: "unit-03", label: "Unit 03 — A spoonful of sugar (/ʌ/ and /ɒ/)" }], focus: "Distinguishing central short vowel from open back vowel" },
+        { num: "7",  id: "u7",  title: "Long Vowel /ɑː/ and Schwa /ə/", sources: [{ level: "Basic", unitId: "unit-04", label: "Unit 04 — Father and mother (/ɑː/ and /ə/)" }], focus: "Contrasting long open vowel and the most common unstressed vowel in English" },
+        { num: "8",  id: "u8",  title: "Vowels /ɪ/ and /ɜː/", sources: [{ level: "Basic", unitId: "unit-05", label: "Unit 05 — A dog in the corner (/ɪ/ and /ɜː/)" }], focus: "Short high vowel vs central long vowel" },
+        { num: "9",  id: "u9",  title: "Vowels /e/ and /æ/", sources: [{ level: "Basic", unitId: "unit-06", label: "Unit 06 — Bread and jam (/e/ and /æ/)" }], focus: "Mid-front vs low-front vowel distinction" },
+        { num: "10", id: "u10", title: "Vowel /ɜː/ (in depth)", sources: [{ level: "Basic", unitId: "unit-07", label: "Unit 07 — My birthday's on Thursday (/ɜː/)" }], focus: "Focused practice on the central long vowel, often difficult for learners" },
+        { num: "11", id: "u11", title: "Diphthongs /ɪə/ and /eə/", sources: [{ level: "Basic", unitId: "unit-08", label: "Unit 08 — Here and there (/ɪə/ and /eə/)" }], focus: "Centering diphthongs; awareness of vowel glides toward schwa" },
+        {
+          num: "12", id: "u12", title: "Diphthongs /eɪ/, /aɪ/, /ɔɪ/",
+          sources: [
+            { level: "Basic", unitId: "unit-09", label: "Unit 09 — Have a great time! (/eɪ/, /aɪ/ and /ɔɪ/)" },
+            { level: "Int",   unitId: "unit-02", label: "Unit 02 — Plane, plan (/eɪ/, /æ/)" },
+          ],
+          focus: "Closing diphthongs; contrasting glide vowels",
+        },
+        {
+          num: "13", id: "u13", title: "Diphthongs /əʊ/ and /aʊ/",
+          sources: [
+            { level: "Basic", unitId: "unit-10", label: "Unit 10 — Old town (/əʊ/ and /aʊ/)" },
+            { level: "Int",   unitId: "unit-20", label: "Unit 20 — Toy, town (/ɔɪ/, /aʊ/)" },
+          ],
+          focus: "Back-closing diphthongs and distinguishing similar glide patterns",
+        },
+        { num: "14", id: "u14", title: "Vowels /iː/ and /e/", sources: [{ level: "Int", unitId: "unit-06", label: "Unit 06 — Meet, met (/iː/, /e/)" }], focus: "Long high front vowel vs short mid-front vowel" },
+        { num: "15", id: "u15", title: "Vowels /aɪ/ and /ɪ/", sources: [{ level: "Int", unitId: "unit-11", label: "Unit 11 — Wine, win (/aɪ/, /ɪ/)" }], focus: "Diphthong vs short monophthong contrast" },
+        { num: "16", id: "u16", title: "Vowels /ɑː(r)/ and /eə(r)/", sources: [{ level: "Int", unitId: "unit-14", label: "Unit 14 — Car, care (/ɑː(r)/, /eə(r)/)" }], focus: "R-coloured vowels in non-rhotic and rhotic accents" },
+        { num: "17", id: "u17", title: "Vowels /əʊ/ and /ɒ/", sources: [{ level: "Int", unitId: "unit-16", label: "Unit 16 — Note, not (/əʊ/, /ɒ/)" }], focus: "Mid-back diphthong vs short open-back vowel" },
+        { num: "18", id: "u18", title: "Vowels /ʌ/, /ʊ/, /uː/", sources: [{ level: "Int", unitId: "unit-18", label: "Unit 18 — Sun, full, June (/ʌ/, /ʊ/, /uː/)" }], focus: "Three back/central vowels often confused by learners" },
+        { num: "19", id: "u19", title: "Vowels /ɜː(r)/ and /ɔː(r)/", sources: [{ level: "Int", unitId: "unit-19", label: "Unit 19 — Shirt, short (/ɜː(r)/, /ɔː(r)/)" }], focus: "Central long vowel vs open-mid back rounded vowel" },
+        { num: "20", id: "u20", title: "Vowels /ɔɪ/ and /aʊ/", sources: [{ level: "Int", unitId: "unit-20", label: "Unit 20 — Toy, town (/ɔɪ/, /aʊ/)" }], focus: "Two closing diphthongs that share similar articulation direction" },
+        {
+          num: "21", id: "u21", title: "Vowels in Unstressed Syllables (Reduction to /ə/ or /ɪ/)",
+          sources: [
+            { level: "Basic", unitId: "unit-29", label: "Unit 29 — Wait a minute – where's the waiter? (strong and weak vowels)" },
+            { level: "Adv",   unitId: "unit-23", label: "Unit 23 — calcu/u/late and calcu/ə/late" },
+          ],
+          focus: "Vowel reduction as a core feature of natural English rhythm",
+        },
+      ],
+    },
+    {
+      title: "Section III — Consonant Sounds",
+      icon: "🔊",
+      color: { accent: "#7c3aed", bg: "#faf5ff", badge: "#ede9fe", text: "#4c1d95", border: "#c4b5fd" },
+      units: [
+        { num: "22", id: "u22", title: "/p/ and /b/", sources: [{ level: "Basic", unitId: "unit-11", label: "Unit 11 — Pack your bags (/p/ and /b/)" }, { level: "Int", unitId: "unit-03", label: "Unit 03 — Back, pack (/b/, /p/)" }], focus: "Voicing contrast in bilabial plosives" },
+        { num: "23", id: "u23", title: "/t/ and /d/", sources: [{ level: "Basic", unitId: "unit-12", label: "Unit 12 — Twenty days (/t/ and /d/)" }, { level: "Int", unitId: "unit-05", label: "Unit 05 — Down town (/d/, /t/)" }], focus: "Voicing contrast in alveolar plosives" },
+        { num: "24", id: "u24", title: "/k/ and /g/", sources: [{ level: "Basic", unitId: "unit-13", label: "Unit 13 — Cats and dogs (/k/ and /g/)" }, { level: "Int", unitId: "unit-09", label: "Unit 09 — Gate, Kate (/g/, /k/)" }], focus: "Voicing contrast in velar plosives" },
+        { num: "25", id: "u25", title: "/f/ and /v/", sources: [{ level: "Basic", unitId: "unit-14", label: "Unit 14 — November the first (/f/ and /v/)" }, { level: "Int", unitId: "unit-08", label: "Unit 08 — Few, view (/f/, /v/)" }], focus: "Voicing contrast in labiodental fricatives" },
+        { num: "26", id: "u26", title: "/θ/ and /ð/ (th sounds)", sources: [{ level: "Basic", unitId: "unit-15", label: "Unit 15 — Both together (/θ/ and /ð/)" }, { level: "Int", unitId: "unit-17", label: "Unit 17 — Arthur's mother (/θ/, /ð/)" }], focus: "Dental fricatives; one of the most challenging contrasts for non-native speakers" },
+        { num: "27", id: "u27", title: "/s/ and /z/", sources: [{ level: "Basic", unitId: "unit-16", label: "Unit 16 — It's the wrong size, isn't it? (/s/ and /z/)" }, { level: "Int", unitId: "unit-04", label: "Unit 04 — Rice, rise (/s/, /z/)" }], focus: "Voicing contrast in alveolar fricatives; also affects -s endings" },
+        { num: "28", id: "u28", title: "/ʃ/ and /ʒ/", sources: [{ level: "Basic", unitId: "unit-17", label: "Unit 17 — Fresh fish, usually (/ʃ/ and /ʒ/)" }, { level: "Int", unitId: "unit-12", label: "Unit 12 — Sheep, jeep, cheap (/ʃ/, /dʒ/, /tʃ/)" }], focus: "Palato-alveolar fricatives; voicing contrast" },
+        { num: "29", id: "u29", title: "/tʃ/ and /dʒ/ (affricate sounds)", sources: [{ level: "Basic", unitId: "unit-18", label: "Unit 18 — Chips and juice (/tʃ/ and /dʒ/)" }, { level: "Int", unitId: "unit-12", label: "Unit 12 — Sheep, jeep, cheap (/ʃ/, /dʒ/, /tʃ/)" }], focus: "Affricate consonants; voicing contrast" },
+        { num: "30", id: "u30", title: "Nasals /m/, /n/, /ŋ/", sources: [{ level: "Basic", unitId: "unit-19", label: "Unit 19 — My hungry uncle (/m/, /n/ and /ŋ/)" }, { level: "Int", unitId: "unit-15", label: "Unit 15 — Some, sun, sung (/m/, /n/, /ŋ/)" }], focus: "Three nasal consonants; /ŋ/ especially problematic as it cannot begin a word in English" },
+        { num: "31", id: "u31", title: "/h/", sources: [{ level: "Basic", unitId: "unit-02", label: "Unit 02 — Pizza for dinner (/h/ and /s/)" }, { level: "Basic", unitId: "unit-20", label: "Unit 20 — How many hours? (/h/)" }, { level: "Int", unitId: "unit-10", label: "Unit 10 — Hear, we're, year (/h/, /w/, /j/)" }], focus: "The glottal fricative; when it is and isn't pronounced" },
+        { num: "32", id: "u32", title: "/l/", sources: [{ level: "Basic", unitId: "unit-21", label: "Unit 21 — That's life! (/l/)" }, { level: "Int", unitId: "unit-13", label: "Unit 13 — Flies, fries (/l/, /r/)" }], focus: "Lateral approximant; clear vs dark /l/; contrast with /r/" },
+        { num: "33", id: "u33", title: "/w/ and /j/", sources: [{ level: "Basic", unitId: "unit-23", label: "Unit 23 — What's the news? (/w/ and /j/)" }, { level: "Int", unitId: "unit-10", label: "Unit 10 — Hear, we're, year (/h/, /w/, /j/)" }], focus: "Approximant consonants; /j/ as linking sound" },
+        { num: "34", id: "u34", title: "/r/", sources: [{ level: "Int", unitId: "unit-13", label: "Unit 13 — Flies, fries (/l/, /r/)" }], focus: "The English /r/ (approximant, not trill); linking and intrusive /r/" },
+        { num: "35", id: "u35", title: "Syllabic Consonants", sources: [{ level: "Adv", unitId: "unit-24", label: "Unit 24 — listen, bottle, politician, etc." }], focus: "Consonants that function as syllable nuclei (/n/, /l/, /m/) replacing unstressed /ə/" },
+      ],
+    },
+    {
+      title: "Section IV — Consonant Clusters",
+      icon: "🧩",
+      color: { accent: "#b45309", bg: "#fffbeb", badge: "#fde68a", text: "#78350f", border: "#fcd34d" },
+      units: [
+        {
+          num: "36", id: "u36", title: "Consonant Clusters at the Beginning of Words",
+          sources: [
+            { level: "Basic", unitId: "unit-25", label: "Unit 25 — Train in the rain" },
+            { level: "Int",   unitId: "unit-24", label: "Unit 24 — Oh, no snow!" },
+            { level: "Adv",   unitId: "unit-07", label: "Unit 07 — play, grow, splash" },
+            { level: "Adv",   unitId: "unit-e2", label: "E2 — Consonant clusters: further practice" },
+          ],
+          focus: "Initial clusters; permissible combinations in English; common errors",
+        },
+        {
+          num: "37", id: "u37", title: "Consonant Clusters at the End of Words",
+          sources: [
+            { level: "Basic", unitId: "unit-26", label: "Unit 26 — Pink and orange" },
+            { level: "Int",   unitId: "unit-25", label: "Unit 25 — Go – goal – gold" },
+            { level: "Adv",   unitId: "unit-08", label: "Unit 08 — jump, next, glimpsed" },
+          ],
+          focus: "Final clusters; especially complex when grammatical endings are added",
+        },
+        {
+          num: "38", id: "u38", title: "Consonant Clusters in the Middle of / Across Words",
+          sources: [
+            { level: "Basic", unitId: "unit-24", label: "Unit 24 — Sunglasses or umbrella?" },
+            { level: "Basic", unitId: "unit-27", label: "Unit 27 — Last week" },
+            { level: "Adv",   unitId: "unit-09", label: "Unit 09 — abstract, next Friday" },
+          ],
+          focus: "Medial clusters; how clusters extend across word boundaries in connected speech",
+        },
+      ],
+    },
+    {
+      title: "Section V — Syllables",
+      icon: "🔡",
+      color: { accent: "#0d9488", bg: "#f0fdfa", badge: "#ccfbf1", text: "#134e4a", border: "#99f6e4" },
+      units: [
+        { num: "39", id: "u39", title: "Syllable Basics", sources: [{ level: "Basic", unitId: "unit-28", label: "Unit 28 — One house, two houses" }, { level: "Int", unitId: "unit-21", label: "Unit 21 — Eye, my, mine" }], focus: "What a syllable is; counting syllables; how grammatical endings add syllables" },
+        { num: "40", id: "u40", title: "Syllables Added by -s Endings", sources: [{ level: "Basic", unitId: "unit-42", label: "Unit 42 — It's George's birthday" }, { level: "Int", unitId: "unit-26", label: "Unit 26 — Paul's calls, Max's faxes" }], focus: "When -s adds a syllable (/ɪz/) vs when it doesn't (/s/ or /z/)" },
+        { num: "41", id: "u41", title: "Syllables Added by Past Tense -ed Endings", sources: [{ level: "Basic", unitId: "unit-43", label: "Unit 43 — I looked everywhere" }, { level: "Int", unitId: "unit-27", label: "Unit 27 — Pete played, Rita rested" }], focus: "When -ed adds a syllable (/ɪd/) vs when it doesn't (/t/ or /d/)" },
+        { num: "42", id: "u42", title: "Words That Lose a Syllable", sources: [{ level: "Adv", unitId: "unit-31", label: "Unit 31 — average, novelist, happening" }], focus: "Elision of syllables in everyday speech; syncopation in polysyllabic words" },
+      ],
+    },
+    {
+      title: "Section VI — Word Stress",
+      icon: "💡",
+      color: { accent: "#dc2626", bg: "#fef2f2", badge: "#fecaca", text: "#7f1d1d", border: "#fca5a5" },
+      units: [
+        {
+          num: "43", id: "u43", title: "Stress in Two-Syllable Words",
+          sources: [
+            { level: "Basic", unitId: "unit-30", label: "Unit 30 — Single or return?" },
+            { level: "Int",   unitId: "unit-22", label: "Unit 22 — Saturday September 13th (introducing word stress)" },
+            { level: "Int",   unitId: "unit-28", label: "Unit 28 — REcord, reCORD" },
+            { level: "Adv",   unitId: "unit-10", label: "Unit 10 — 'contro'versial and controVERsial" },
+            { level: "Adv",   unitId: "unit-e3", label: "E3 — Word stress: further practice" },
+          ],
+          focus: "Default stress patterns; stress as a distinguishing feature between nouns and verbs",
+        },
+        { num: "44", id: "u44", title: "Stress in Longer / Polysyllabic Words", sources: [{ level: "Basic", unitId: "unit-31", label: "Unit 31 — Begin at the beginning" }, { level: "Int", unitId: "unit-30", label: "Unit 30 — Unforgettable" }, { level: "Int", unitId: "unit-31", label: "Unit 31 — Public, publicity" }], focus: "Patterns in three-syllable and longer words; effects of suffixes on stress placement" },
+        { num: "45", id: "u45", title: "Suffixes and Word Stress (1) — Neutral Suffixes", sources: [{ level: "Adv", unitId: "unit-11", label: "Unit 11 — 'comfort and 'comfortable" }], focus: "Suffixes that don't shift stress; understanding which endings are 'transparent'" },
+        { num: "46", id: "u46", title: "Suffixes and Word Stress (2) — Stress-Attracting Suffixes", sources: [{ level: "Adv", unitId: "unit-12", label: "Unit 12 — ac'celerate and ac'cele'ration" }], focus: "Suffixes like -tion, -ity, -ic that pull stress to a specific syllable" },
+        { num: "47", id: "u47", title: "Suffixes and Word Stress (3) — Further Patterns", sources: [{ level: "Adv", unitId: "unit-13", label: "Unit 13 — ex'treme and ex'tremity" }], focus: "Stress alternation in word families; noun/adjective/verb relationships" },
+        { num: "48", id: "u48", title: "Prefixes and Word Stress (1)", sources: [{ level: "Adv", unitId: "unit-14", label: "Unit 14 — dis'organised and 'recon'sider" }], focus: "How prefixes interact with or do not shift underlying stress" },
+        { num: "49", id: "u49", title: "Prefixes and Word Stress (2)", sources: [{ level: "Adv", unitId: "unit-15", label: "Unit 15 — 'subway and 'super'power" }], focus: "Stress in words with more complex prefix structures" },
+        { num: "50", id: "u50", title: "Stress in Compound Nouns", sources: [{ level: "Basic", unitId: "unit-32", label: "Unit 32 — Where's my checklist?" }, { level: "Int", unitId: "unit-29", label: "Unit 29 — Second hand, bookshop" }, { level: "Adv", unitId: "unit-16", label: "Unit 16 — 'news'paper and 'absolute 'zero" }], focus: "First-element stress as the default pattern; exceptions and variable compounds" },
+        { num: "51", id: "u51", title: "Stress in Compound Adjectives and Abbreviations", sources: [{ level: "Adv", unitId: "unit-17", label: "Unit 17 — 'hair-'raising and 'hard-'working" }], focus: "Contrast with compound nouns; how abbreviations are stressed" },
+        { num: "52", id: "u52", title: "Stress in Longer Compound Nouns", sources: [{ level: "Adv", unitId: "unit-18", label: "Unit 18 — 'closed-circuit 'television and 'sell-by date" }], focus: "Multi-word compounds; patterns in technical and commercial terminology" },
+        { num: "53", id: "u53", title: "Stress in Phrasal Verbs (One-Stress)", sources: [{ level: "Adv", unitId: "unit-19", label: "Unit 19 — 'dream of and 'live for" }], focus: "Phrasal verbs where stress falls on the verb, not the particle" },
+        { num: "54", id: "u54", title: "Stress in Phrasal Verbs (Two-Stress)", sources: [{ level: "Adv", unitId: "unit-20", label: "Unit 20 — 'hang a'round and 'look 'up to" }], focus: "Phrasal verbs and prepositional verbs with two prominent syllables" },
+      ],
+    },
+    {
+      title: "Section VII — Sentence Stress and Rhythm",
+      icon: "🎵",
+      color: { accent: "#c026d3", bg: "#fdf4ff", badge: "#f5d0fe", text: "#701a75", border: "#e879f9" },
+      units: [
+        { num: "55", id: "u55", title: "Introducing Sentence Stress", sources: [{ level: "Int", unitId: "unit-23", label: "Unit 23 — Remember, he told her" }], focus: "Content words vs function words; the backbone of English rhythm" },
+        { num: "56", id: "u56", title: "Sentences with All Words Stressed", sources: [{ level: "Int", unitId: "unit-32", label: "Unit 32 — DON'T LOOK NOW!" }], focus: "Short, emphatic utterances; imperatives and exclamations" },
+        { num: "57", id: "u57", title: "Unstressed Words in Sentences", sources: [{ level: "Int", unitId: "unit-33", label: "Unit 33 — THAT could be the MAN" }], focus: "Which grammatical words routinely go unstressed in connected speech" },
+        { num: "58", id: "u58", title: "Rhythm", sources: [{ level: "Basic", unitId: "unit-36", label: "Unit 36 — Take me to the show, Jo" }], focus: "Stress-timed rhythm; the beat structure of English sentences" },
+        { num: "59", id: "u59", title: "Prominent Words in Speech Units (1)", sources: [{ level: "Adv", unitId: "unit-33", label: "Unit 33 — // it's BLUE// DARK blue//" }], focus: "How new information receives prominence; given vs new distinction" },
+        { num: "60", id: "u60", title: "Prominent Words in Speech Units (2)", sources: [{ level: "Adv", unitId: "unit-34", label: "Unit 34 — // I've always been terrified of SPIders//" }], focus: "Identifying which word in a unit carries the nucleus" },
+        { num: "61", id: "u61", title: "Fixed Phrases and Idioms in Speech Units", sources: [{ level: "Adv", unitId: "unit-35", label: "Unit 35 — // I'll beLIEVE it when I SEE it//" }], focus: "How idiomatic phrases behave as single stress units" },
+        { num: "62", id: "u62", title: "Non-Prominence on Final 'Empty' Content Words", sources: [{ level: "Adv", unitId: "unit-36", label: "Unit 36 — she's got an ESSay to write" }], focus: "When semantically light nouns and verbs are de-accented" },
+        { num: "63", id: "u63", title: "Non-Prominence on Final Vague Expressions", sources: [{ level: "Adv", unitId: "unit-37", label: "Unit 37 — I can't STAND the stuff" }], focus: "Tags like 'and stuff', 'or whatever', 'and things like that'" },
+        { num: "64", id: "u64", title: "Prominence in Reflexive and Personal Pronouns", sources: [{ level: "Adv", unitId: "unit-38", label: "Unit 38 — Just help yourSELF; Throw it to ME" }], focus: "When normally unstressed pronouns receive nuclear stress" },
+      ],
+    },
+    {
+      title: "Section VIII — Weak Forms and Function Words",
+      icon: "🔽",
+      color: { accent: "#059669", bg: "#f0fdf4", badge: "#d1fae5", text: "#065f46", border: "#bbf7d0" },
+      units: [
+        { num: "65", id: "u65", title: "Weak Forms of Function Words", sources: [{ level: "Adv", unitId: "unit-21", label: "Unit 21 — some, the, from, etc." }], focus: "The systematic reduction of articles, prepositions, conjunctions in connected speech" },
+        { num: "66", id: "u66", title: "Prominent Function Words (Strong Forms)", sources: [{ level: "Adv", unitId: "unit-22", label: "Unit 22 — Well, YOU do it then!" }], focus: "When function words are stressed for contrast, emphasis, or citation" },
+        { num: "67", id: "u67", title: "Strong and Weak Forms (1): Pronouns", sources: [{ level: "Basic", unitId: "unit-37", label: "Unit 37 — Hey, wait for me!" }], focus: "Reduced forms of he, him, her, them, etc. in unstressed positions" },
+        { num: "68", id: "u68", title: "Strong and Weak Forms (2): Possessives, Conjunctions, Prepositions", sources: [{ level: "Basic", unitId: "unit-38", label: "Unit 38 — And what's his name?" }], focus: "Reduction of his, her, your, and, but, at, for, of, to, etc." },
+        { num: "69", id: "u69", title: "Strong and Weak Forms (3): Articles, Comparatives, 'There'", sources: [{ level: "Basic", unitId: "unit-39", label: "Unit 39 — There's a spider" }], focus: "Reduction of a/an/the; than in comparatives; existential there" },
+        { num: "70", id: "u70", title: "Strong and Weak Forms (4): Auxiliary Verbs", sources: [{ level: "Basic", unitId: "unit-40", label: "Unit 40 — Who was that?" }, { level: "Int", unitId: "unit-36", label: "Unit 36 — WHAT do you THINK?" }], focus: "Reduction of be, have, do, will, would, can, could, etc. in unstressed positions" },
+        { num: "71", id: "u71", title: "Pronouns and Contractions (Sentence Level)", sources: [{ level: "Int", unitId: "unit-34", label: "Unit 34 — I'll ask her (Alaska)" }], focus: "How pronouns fuse with preceding verbs; reduced forms like /ɪm/ for him" },
+        { num: "72", id: "u72", title: "Pronouncing Short Words (a, of, or)", sources: [{ level: "Int", unitId: "unit-37", label: "Unit 37 — A piece of cheese" }], focus: "The most-reduced words in English; how they integrate into the stream of speech" },
+        { num: "73", id: "u73", title: "Pronouncing the Verb 'be'", sources: [{ level: "Int", unitId: "unit-35", label: "Unit 35 — She was FIRST" }], focus: "When is/are/was/were are reduced or stressed" },
+      ],
+    },
+    {
+      title: "Section IX — Contractions and Ellipsis",
+      icon: "✂️",
+      color: { accent: "#0369a1", bg: "#f0f9ff", badge: "#bae6fd", text: "#0c4a6e", border: "#7dd3fc" },
+      units: [
+        { num: "74", id: "u74", title: "Contracted Forms", sources: [{ level: "Basic", unitId: "unit-41", label: "Unit 41 — They're here!" }, { level: "Adv", unitId: "unit-27", label: "Unit 27 — I'll get it, These're mine" }], focus: "Standard contractions and less common ones that appear in fast speech" },
+        { num: "75", id: "u75", title: "Ellipsis and 'Near Ellipsis'", sources: [{ level: "Adv", unitId: "unit-28", label: "Unit 28 — I'm not sure, Not sure, 'm not sure" }], focus: "Omission of initial unstressed elements; informal speech reductions" },
+      ],
+    },
+    {
+      title: "Section X — Features of Connected / Fast Speech",
+      icon: "⚡",
+      color: { accent: "#b45309", bg: "#fffbeb", badge: "#fde68a", text: "#78350f", border: "#fcd34d" },
+      units: [
+        {
+          num: "76", id: "u76", title: "Linking Sounds (Liaison)",
+          sources: [
+            { level: "Basic", unitId: "unit-34", label: "Unit 34 — Speak it, write it, read it (linking words together 1)" },
+            { level: "Basic", unitId: "unit-35", label: "Unit 35 — Me and you, you and me (linking words together 2)" },
+            { level: "Int",   unitId: "unit-38", label: "Unit 38 — Pets enter, pet centre (joining words 1)" },
+            { level: "Int",   unitId: "unit-39", label: "Unit 39 — After eight, after rate (joining words 2)" },
+            { level: "Int",   unitId: "unit-40", label: "Unit 40 — Greet guests, Greek guests (joining words 3)" },
+            { level: "Adv",   unitId: "unit-26", label: "Unit 26 — one_evening, stop_now, go_away, etc." },
+          ],
+          focus: "Consonant-to-vowel linking; /j/ and /w/ intrusion; resyllabification across word boundaries",
+        },
+        { num: "77", id: "u77", title: "Pronunciation in Slow vs Fast Speech (1)", sources: [{ level: "Adv", unitId: "unit-05", label: "Unit 05 — Pronunciation in slow and fast speech (1)" }], focus: "How careful (citation) speech differs from natural connected speech" },
+        { num: "78", id: "u78", title: "Pronunciation in Slow vs Fast Speech (2)", sources: [{ level: "Adv", unitId: "unit-06", label: "Unit 06 — Pronunciation in slow and fast speech (2)" }], focus: "Further features of fast speech; implications for listening comprehension" },
+        { num: "79", id: "u79", title: "Leaving Out Consonant Sounds (1): /t/", sources: [{ level: "Adv", unitId: "unit-29", label: "Unit 29 — last night, I haven't seen her" }], focus: "T-deletion in clusters; word-final /t/ before consonants" },
+        { num: "80", id: "u80", title: "Leaving Out Consonant Sounds (2): /d/, /h/, /l/, /v/", sources: [{ level: "Adv", unitId: "unit-30", label: "Unit 30 — an old car, a bottle of water" }], focus: "D-deletion, H-dropping, and reduction of other consonants in fast speech" },
+        {
+          num: "81", id: "u81", title: "Reading Aloud (Phrasing and Pauses)",
+          sources: [
+            { level: "Basic", unitId: "unit-33", label: "Unit 33 — Phrases and pauses (reading aloud)" },
+            { level: "Int",   unitId: "unit-42", label: "Unit 42 — 'Was that the question?' he asked" },
+          ],
+          focus: "How written punctuation maps (imperfectly) onto spoken pauses and tone groups",
+        },
+      ],
+    },
+    {
+      title: "Section XI — Speech Units and Information Structure",
+      icon: "📐",
+      color: { accent: "#7c3aed", bg: "#faf5ff", badge: "#ede9fe", text: "#4c1d95", border: "#c4b5fd" },
+      units: [
+        { num: "82", id: "u82", title: "Breaking Speech into Units (Tone Groups)", sources: [{ level: "Adv", unitId: "unit-32", label: "Unit 32 — // we stuck a picture// of an elephant//" }], focus: "How continuous speech is divided into meaningful chunks; the tone group as a unit" },
+        { num: "83", id: "u83", title: "Dividing Prepared Speech into Units (1)", sources: [{ level: "Adv", unitId: "unit-54", label: "Unit 54 — Before she left school// she started her own business" }], focus: "How speakers reading or presenting chunk prepared text differently from conversation" },
+        { num: "84", id: "u84", title: "Dividing Prepared Speech into Units (2)", sources: [{ level: "Adv", unitId: "unit-55", label: "Unit 55 — One of the paintings// he left to his sister" }], focus: "Complex syntax and how it affects chunking in formal and prepared speech" },
+        { num: "85", id: "u85", title: "Pronunciation of Inserts", sources: [{ level: "Adv", unitId: "unit-56", label: "Unit 56 — Lima – as I'm sure you know – is the capital of Peru" }], focus: "Parenthetical asides; how they are set off prosodically" },
+        { num: "86", id: "u86", title: "Grouping Words (Phrasing)", sources: [{ level: "Int", unitId: "unit-43", label: "Unit 43 — A shirt and a tie / a shirt and tie" }], focus: "How grouping creates or changes meaning; ambiguity in spoken phrases" },
+      ],
+    },
+    {
+      title: "Section XII — Intonation: Tones and Functions",
+      icon: "〰️",
+      color: { accent: "#0d9488", bg: "#f0fdfa", badge: "#ccfbf1", text: "#134e4a", border: "#99f6e4" },
+      units: [
+        { num: "87",  id: "u87",  title: "Introducing Tones", sources: [{ level: "Int", unitId: "unit-54", label: "Unit 54 — Look who's talking!" }], focus: "The basic idea of falling and rising tones; how they signal different meanings" },
+        { num: "88",  id: "u88",  title: "Falling and Rising Tones", sources: [{ level: "Adv", unitId: "unit-39", label: "Unit 39 — I'm quite busy … at the moment" }], focus: "Fall = definite/complete; rise = uncertain/continuing; non-final" },
+        { num: "89",  id: "u89",  title: "Intonation in Phrases and Sentences (1)", sources: [{ level: "Basic", unitId: "unit-49", label: "Unit 49 — No, thanks, I'm just looking" }], focus: "Common conversational responses and their intonation patterns" },
+        { num: "90",  id: "u90",  title: "Intonation in Phrases and Sentences (2)", sources: [{ level: "Basic", unitId: "unit-50", label: "Unit 50 — Fine, thanks" }], focus: "Fixed phrases and formulaic expressions; how their intonation conveys attitude" },
+        { num: "91",  id: "u91",  title: "Tones in Asking and Checking", sources: [{ level: "Int", unitId: "unit-55", label: "Unit 55 — Here? Yes, here!" }], focus: "Rising tone for checking; falling tone for confirming" },
+        { num: "92",  id: "u92",  title: "Tones in Asking for Information", sources: [{ level: "Int", unitId: "unit-56", label: "Unit 56 — Where were you born?" }], focus: "Wh-questions typically fall; yes/no questions may rise or fall" },
+        { num: "93",  id: "u93",  title: "Tones in New and Old Information", sources: [{ level: "Int", unitId: "unit-57", label: "Unit 57 — We're closed tomorrow" }], focus: "New information tends to fall; repeated/given information de-accented" },
+        { num: "94",  id: "u94",  title: "Continuing or Finishing Tones", sources: [{ level: "Int", unitId: "unit-58", label: "Unit 58 — Oh, really?" }], focus: "Rise-fall and falling tones marking completion vs incompletion" },
+        { num: "95",  id: "u95",  title: "Intonation for Old and New Information", sources: [{ level: "Basic", unitId: "unit-44", label: "Unit 44 — Not half past two, half past three" }], focus: "How spoken stress and tone mark what is known vs what is being introduced" },
+        { num: "96",  id: "u96",  title: "Intonation in Storytelling", sources: [{ level: "Basic", unitId: "unit-45", label: "Unit 45 — And suddenly…" }, { level: "Int", unitId: "unit-45", label: "Unit 45 — Well, anyway…" }], focus: "How narrative structure and suspense are carried by intonation and rhythm" },
+        { num: "97",  id: "u97",  title: "Tails", sources: [{ level: "Adv", unitId: "unit-40", label: "Unit 40 — They taste great…, these biscuits" }], focus: "Post-nucleus additions that do not carry new prominence" },
+        { num: "98",  id: "u98",  title: "Question Tags", sources: [{ level: "Adv", unitId: "unit-41", label: "Unit 41 — Great film…, wasn't it?" }], focus: "How the tone on a tag signals whether the speaker seeks confirmation or is just checking" },
+        { num: "99",  id: "u99",  title: "Cleft Sentences", sources: [{ level: "Adv", unitId: "unit-42", label: "Unit 42 — What I don't understand … is how it got there" }], focus: "How cleft structures highlight new information with distinctive intonation" },
+        { num: "100", id: "u100", title: "Questions (1): Finding Out or Making Sure?", sources: [{ level: "Adv", unitId: "unit-43", label: "Unit 43 — Finding out or making sure?" }], focus: "Same syntax, different tone, different pragmatic function" },
+        { num: "101", id: "u101", title: "Questions (2): Negative and Echo Questions", sources: [{ level: "Adv", unitId: "unit-44", label: "Unit 44 — Wasn't it terrible? Are you crazy?" }], focus: "Negative questions and rhetorical questions; how tone signals attitude" },
+        { num: "102", id: "u102", title: "Repeat Questions", sources: [{ level: "Adv", unitId: "unit-45", label: "Unit 45 — 'I paid €200,000 for it.' 'How much?'" }], focus: "Clarification questions that echo part of the interlocutor's utterance; high-rising tone" },
+        { num: "103", id: "u103", title: "Comparisons and Contrasts", sources: [{ level: "Adv", unitId: "unit-46", label: "Unit 46 — Although I was tired…, I couldn't get to sleep" }], focus: "How contrastive pairs are prosodically marked; fall-rise as a contrast signal" },
+        { num: "104", id: "u104", title: "Contradictions", sources: [{ level: "Adv", unitId: "unit-47", label: "Unit 47 — 'You were asleep in the class!' 'I WASn't asleep'" }], focus: "How speakers use emphatic stress and falling tone to flatly contradict" },
+        { num: "105", id: "u105", title: "Requests and Reservation", sources: [{ level: "Adv", unitId: "unit-48", label: "Unit 48 — You couldn't carry it upSTAIRS for me?" }], focus: "How polite requests and hedged speech use particular tone patterns" },
+        { num: "106", id: "u106", title: "Attitude Words and Phrases (1)", sources: [{ level: "Adv", unitId: "unit-49", label: "Unit 49 — On the whole…, it went very well" }], focus: "Disjuncts and sentence adverbials; their prosodic separation from the main clause" },
+        { num: "107", id: "u107", title: "Attitude Words and Phrases (2)", sources: [{ level: "Adv", unitId: "unit-50", label: "Unit 50 — She just forgot, presumably?" }], focus: "Further attitudinal adverbs; how rising tone marks epistemic uncertainty" },
+        { num: "108", id: "u108", title: "Exclamations", sources: [{ level: "Adv", unitId: "unit-51", label: "Unit 51 — How embarrassing!" }], focus: "Exclamative structures; wide pitch range; fall-rise or high fall" },
+        { num: "109", id: "u109", title: "High Tones / Emphasis", sources: [{ level: "Int", unitId: "unit-60", label: "Unit 60 — It was brilliant!" }], focus: "High falling tone for enthusiastic or expressive speech; pitch range expansion" },
+        { num: "110", id: "u110", title: "Agreeing and Disagreeing Tones", sources: [{ level: "Int", unitId: "unit-59", label: "Unit 59 — It's fun, isn't it?" }], focus: "How tone on question tags signals whether the speaker expects agreement" },
+        { num: "111", id: "u111", title: "Step-Ups: Contrasts and New Topics", sources: [{ level: "Adv", unitId: "unit-57", label: "Unit 57 — We expected profits to drop, but they rose" }], focus: "Pitch reset upward to signal a new topic or contrastive information" },
+        { num: "112", id: "u112", title: "Step-Downs: Adding Information and Ending Topics", sources: [{ level: "Adv", unitId: "unit-58", label: "Unit 58 — The headteacher, Mr Lee, will be talking to parents" }], focus: "Gradual pitch lowering across a topic; final low pitch marking topic closure" },
+        { num: "113", id: "u113", title: "Tones in a Series of Similar Items", sources: [{ level: "Adv", unitId: "unit-59", label: "Unit 59 — Small, medium, and large" }], focus: "Non-final items rise; final item falls; the universal list intonation pattern" },
+        { num: "114", id: "u114", title: "Level Tone in Quoting and Building Suspense", sources: [{ level: "Adv", unitId: "unit-60", label: "Unit 60 — 'Politicians are the same all over…'" }], focus: "Flat or mid tone used when reading quotations or withholding information" },
+      ],
+    },
+    {
+      title: "Section XIII — Emphasis and Prominence",
+      icon: "❗",
+      color: { accent: "#dc2626", bg: "#fef2f2", badge: "#fecaca", text: "#7f1d1d", border: "#fca5a5" },
+      units: [
+        { num: "115", id: "u115", title: "Emphatic Stress (Introduction)", sources: [{ level: "Int", unitId: "unit-49", label: "Unit 49 — He _will_ win" }], focus: "How auxiliary verbs, normally weak, can carry contrastive nuclear stress" },
+        { num: "116", id: "u116", title: "Emphasising Added Details", sources: [{ level: "Int", unitId: "unit-50", label: "Unit 50 — Schwartz … Pedro Schwartz" }], focus: "Appositives and afterthoughts that receive their own accent" },
+        { num: "117", id: "u117", title: "Emphasising Important Words", sources: [{ level: "Int", unitId: "unit-51", label: "Unit 51 — I think you're in _my_ seat" }], focus: "Nuclear stress on normally unstressed words for contrast or surprise" },
+        { num: "118", id: "u118", title: "Emphasising Contrasting Alternatives", sources: [{ level: "Int", unitId: "unit-52", label: "Unit 52 — Chips or salad?" }], focus: "Parallel alternatives both receive accent; the 'A or B' intonation pattern" },
+        { num: "119", id: "u119", title: "Emphasising Corrections", sources: [{ level: "Int", unitId: "unit-53", label: "Unit 53 — Fifty? No, fifteen!" }], focus: "Contrastive stress on the corrected element; high onset on the correction" },
+      ],
+    },
+    {
+      title: "Section XIV — Conversation Management",
+      icon: "🗨️",
+      color: { accent: "#c026d3", bg: "#fdf4ff", badge: "#f5d0fe", text: "#701a75", border: "#e879f9" },
+      units: [
+        { num: "120", id: "u120", title: "Keeping Conversation Going (Backchannels)", sources: [{ level: "Basic", unitId: "unit-46", label: "Unit 46 — Really? That's amazing!" }, { level: "Adv", unitId: "unit-52", label: "Unit 52 — Mhm, Right, I see" }], focus: "Minimal responses that signal active listening without taking a turn" },
+        { num: "121", id: "u121", title: "Adding Information and Changing Topic", sources: [{ level: "Adv", unitId: "unit-53", label: "Unit 53 — On top of that…; Anyway…" }], focus: "Prosodic and lexical signals for topic continuation vs topic shift" },
+        { num: "122", id: "u122", title: "Important Words in Conversation (1)", sources: [{ level: "Basic", unitId: "unit-47", label: "Unit 47 — I know when it is, but not where" }], focus: "How speakers stress the contrasted or focused element in an utterance" },
+        { num: "123", id: "u123", title: "Important Words in Conversation (2)", sources: [{ level: "Basic", unitId: "unit-48", label: "Unit 48 — Finished? I've just started!" }], focus: "How repeated words are de-stressed and new/contrastive ones are highlighted" },
+        { num: "124", id: "u124", title: "Showing You Want to Continue (Hesitation)", sources: [{ level: "Int", unitId: "unit-44", label: "Unit 44 — Ehm…" }], focus: "Filled pauses and hesitation sounds; how they hold the turn" },
+        { num: "125", id: "u125", title: "Understanding Small Talk", sources: [{ level: "Int", unitId: "unit-46", label: "Unit 46 — I mean, it's sort of like…" }], focus: "Vague language and hedging in casual conversation; filler phrases" },
+        { num: "126", id: "u126", title: "Understanding Instructions", sources: [{ level: "Int", unitId: "unit-47", label: "Unit 47 — Right, OK…" }], focus: "Prosodic features of instructional discourse; sequence marking" },
+        { num: "127", id: "u127", title: "Quoting Speech", sources: [{ level: "Int", unitId: "unit-48", label: "Unit 48 — 'Like father like son' as they say" }], focus: "How quoted speech is prosodically set apart from the surrounding discourse" },
+      ],
+    },
+    {
+      title: "Section XV — Accents and Varieties",
+      icon: "🌍",
+      color: { accent: "#0369a1", bg: "#f0f9ff", badge: "#bae6fd", text: "#0c4a6e", border: "#7dd3fc" },
+      units: [
+        { num: "128", id: "u128", title: "Accents (1): Varieties of English", sources: [{ level: "Adv", unitId: "unit-01", label: "Unit 01 — Accents (1): varieties of English" }], focus: "Overview of British, American, Australian, and other major accent types" },
+        { num: "129", id: "u129", title: "Accents (2): English as an International Language", sources: [{ level: "Adv", unitId: "unit-02", label: "Unit 02 — Accents (2): English as an international language" }], focus: "World Englishes; intelligibility vs nativeness; ELF (English as a Lingua Franca) perspectives" },
+        { num: "130", id: "u130", title: "Guide for Speakers of Specific Languages", sources: [{ level: "Basic", unitId: "unit-e2", label: "E2 — Guide for speakers of specific languages" }, { level: "Int", unitId: "unit-d3", label: "D3 — Guide for speakers of specific languages" }], focus: "Targeted guidance on difficulties typically experienced by speakers of particular L1s" },
+      ],
+    },
+    {
+      title: "Section XVI — Foreign Words and Loanwords",
+      icon: "🌐",
+      color: { accent: "#059669", bg: "#f0fdf4", badge: "#d1fae5", text: "#065f46", border: "#bbf7d0" },
+      units: [
+        { num: "131", id: "u131", title: "Foreign Words in English", sources: [{ level: "Basic", unitId: "unit-25", label: "Unit 25 — déjà vu, angst, tsunami" }, { level: "Adv", unitId: "unit-25", label: "Unit 25 — déjà vu, angst, tsunami" }], focus: "How borrowed words from French, German, Japanese, etc. are adapted phonologically" },
+      ],
+    },
+    {
+      title: "Section XVII — Numbers, Geography, and Practical Reference",
+      icon: "🔢",
+      color: { accent: "#64748b", bg: "#f8fafc", badge: "#e2e8f0", text: "#1e293b", border: "#cbd5e1" },
+      units: [
+        { num: "132", id: "u132", title: "Pronouncing Numbers", sources: [{ level: "Basic", unitId: "unit-e6", label: "E6 — Pronouncing numbers" }], focus: "Ordinals, cardinals, fractions, decimals, years, phone numbers, etc." },
+        { num: "133", id: "u133", title: "Pronouncing Geographical Names", sources: [{ level: "Basic", unitId: "unit-e7", label: "E7 — Pronouncing geographical names" }], focus: "Irregular stress and sound patterns in place names; British vs American variants" },
+        { num: "134", id: "u134", title: "The Alphabet", sources: [{ level: "Basic", unitId: "unit-e5", label: "E5 — The alphabet" }], focus: "Spelling out loud; letter names and their pronunciation" },
+      ],
+    },
+    {
+      title: "Section XVIII — Finding Out About Pronunciation",
+      icon: "🔍",
+      color: { accent: "#7c3aed", bg: "#faf5ff", badge: "#ede9fe", text: "#4c1d95", border: "#c4b5fd" },
+      units: [
+        { num: "135", id: "u135", title: "Using Dictionaries for Pronunciation", sources: [{ level: "Adv", unitId: "unit-03", label: "Unit 03 — Finding out about pronunciation (1): dictionaries" }], focus: "How to read phonemic transcriptions; understanding dictionary conventions" },
+        { num: "136", id: "u136", title: "Online Pronunciation Resources", sources: [{ level: "Adv", unitId: "unit-04", label: "Unit 04 — Finding out about pronunciation (2): online resources" }], focus: "Corpora, audio tools, YouTube channels, apps; how to build a self-study habit" },
+      ],
+    },
+    {
+      title: "Section XIX — Pronunciation in Formal and Prepared Speech",
+      icon: "🎙️",
+      color: { accent: "#b45309", bg: "#fffbeb", badge: "#fde68a", text: "#78350f", border: "#fcd34d" },
+      units: [
+        { num: "137", id: "u137", title: "Pronunciation of Prepared Speech (All sub-units)", sources: [{ level: "Adv", unitId: "unit-54", label: "Units 54–60 — Full section on pronunciation in formal settings" }], focus: "Chunking, inserts, step-ups and step-downs, series, quotation; applies to presentations, lectures, and public speaking" },
+      ],
+    },
+    {
+      title: "Appendix — Diagnostic and Reference Tools",
+      icon: "📋",
+      color: { accent: "#64748b", bg: "#f8fafc", badge: "#e2e8f0", text: "#1e293b", border: "#cbd5e1" },
+      units: [
+        { num: "A1", id: "ua1", title: "Pronunciation / Diagnostic Test", sources: [{ level: "Int", unitId: "unit-d2", label: "D2 — Pronunciation test" }], focus: "Self-assessment of strengths and weaknesses across all sound categories" },
+        { num: "A2", id: "ua2", title: "Sentence Stress Phrasebook", sources: [{ level: "Int", unitId: "unit-d5", label: "D5 — Sentence stress phrasebook" }], focus: "Common phrases with marked stress; a quick-reference guide for learners" },
+        { num: "A3", id: "ua3", title: "Glossary", sources: [{ level: "Adv", unitId: "unit-e4", label: "E4 — Glossary" }], focus: "Key technical terms in phonetics and phonology defined for learners" },
+        { num: "A4", id: "ua4", title: "Further Reading", sources: [{ level: "Adv", unitId: "unit-e5", label: "E5 — Further reading" }], focus: "Recommended books and resources for deeper study of English phonology" },
+      ],
+    },
+  ],
 };
 
-export default function BookPage() {
-  const { subject, book: bookId } = useParams();
-  const [user, setUser]           = useState(null);
-  const [role, setRole]           = useState(null);
-  const [loading, setLoading]     = useState(true);
+const totalUnits = bookData.sections.reduce((acc, s) => acc + s.units.length, 0);
+
+// ── Expandable Unit Card ────────────────────────────────────────────────────────
+function UnitCard({ unit, sc, globalNum }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div style={{ borderBottom: "1px solid #f3f4f6" }}>
+      {/* Header row — always visible */}
+      <button
+        onClick={() => setOpen((p) => !p)}
+        style={{
+          width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "13px 20px", backgroundColor: open ? sc.bg : "#ffffff",
+          border: "none", cursor: "pointer", textAlign: "left",
+          transition: "background-color 0.15s",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          {/* Number badge */}
+          <div style={{
+            minWidth: "38px", height: "38px", borderRadius: "8px",
+            backgroundColor: open ? sc.badge : "#f3f4f6",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: "11px", fontWeight: 800,
+            color: open ? sc.text : "#6b7280",
+            flexShrink: 0, letterSpacing: "-0.3px", padding: "0 4px",
+          }}>
+            {unit.num}
+          </div>
+          <p style={{ fontSize: "13px", fontWeight: 600, color: "#111827", margin: 0, lineHeight: 1.4 }}>
+            {unit.title}
+          </p>
+        </div>
+        {/* Source count pill + chevron */}
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0, marginLeft: "12px" }}>
+          <span style={{ fontSize: "10px", fontWeight: 700, backgroundColor: sc.badge, color: sc.text, padding: "2px 8px", borderRadius: "999px", whiteSpace: "nowrap" }}>
+            {unit.sources.length} {unit.sources.length === 1 ? "source" : "sources"}
+          </span>
+          <span style={{ fontSize: "16px", color: "#9ca3af", transform: open ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 0.2s", display: "inline-block" }}>›</span>
+        </div>
+      </button>
+
+      {/* Expanded details */}
+      {open && (
+        <div style={{ padding: "0 20px 16px 72px", backgroundColor: sc.bg }}>
+          {/* Focus */}
+          <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "12px" }}>
+            <span style={{ fontSize: "13px", flexShrink: 0 }}>🎯</span>
+            <p style={{ fontSize: "12px", color: sc.text, margin: 0, lineHeight: 1.6, fontStyle: "italic" }}>
+              {unit.focus}
+            </p>
+          </div>
+
+          {/* Source links */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            {unit.sources.map((src, i) => {
+              const lc   = levelColors[src.level] || levelColors.Basic;
+              const path = `/english/${bookPath[src.level]}/${src.unitId}`;
+              const href = `${BASE}${path}`;
+              return (
+                <a
+                  key={i}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "flex", alignItems: "center", gap: "10px",
+                    padding: "8px 12px", backgroundColor: "#ffffff",
+                    border: `1px solid ${sc.border}`, borderRadius: "8px",
+                    textDecoration: "none", transition: "border-color 0.15s",
+                  }}
+                >
+                  {/* Level badge */}
+                  <span style={{
+                    fontSize: "10px", fontWeight: 800,
+                    backgroundColor: lc.bg, color: lc.text,
+                    padding: "2px 8px", borderRadius: "999px",
+                    whiteSpace: "nowrap", flexShrink: 0,
+                  }}>
+                    {levelLabel[src.level]}
+                  </span>
+                  {/* Label */}
+                  <span style={{ fontSize: "12px", color: "#374151", fontWeight: 500, flex: 1, lineHeight: 1.4, fontFamily: "monospace" }}>
+                    {src.label}
+                  </span>
+                  {/* Arrow */}
+                  <span style={{ fontSize: "14px", color: "#9ca3af", flexShrink: 0 }}>↗</span>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Main page ───────────────────────────────────────────────────────────────────
+export default function UnifiedPronunciationPage() {
+  const [user, setUser]     = useState(null);
+  const [role, setRole]     = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState(
+    Object.fromEntries(bookData.sections.map((_, i) => [i, i === 0]))
+  );
 
   useEffect(() => {
     setPersistence(auth, browserLocalPersistence).then(() => {
-      const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
         if (!firebaseUser) { window.location.href = "/login"; return; }
         try {
           const snap = await getDoc(doc(db, "users", firebaseUser.uid));
@@ -396,60 +555,40 @@ export default function BookPage() {
         setUser(firebaseUser);
         setLoading(false);
       });
-      return () => unsubscribe();
+      return () => unsub();
     });
   }, []);
 
-  if (loading) {
-    return (
-      <div style={{ fontFamily: "'Manrope', sans-serif", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#f9fafb" }}>
-        <div style={{ textAlign: "center" }}>
-          <div style={{ width: "44px", height: "44px", border: "3px solid #d1fae5", borderTop: "3px solid #036c48", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto 16px" }} />
-          <p style={{ fontSize: "14px", color: "#9ca3af", fontFamily: "'Manrope', sans-serif" }}>Loading...</p>
-        </div>
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+  const toggleSec = (i) => setExpanded((p) => ({ ...p, [i]: !p[i] }));
+  const expandAll  = () => setExpanded(Object.fromEntries(bookData.sections.map((_, i) => [i, true])));
+  const collapseAll = () => setExpanded(Object.fromEntries(bookData.sections.map((_, i) => [i, false])));
+
+  if (loading) return (
+    <div style={{ fontFamily: "'Manrope', sans-serif", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#f9fafb" }}>
+      <div style={{ textAlign: "center" }}>
+        <div style={{ width: "44px", height: "44px", border: "3px solid #d1fae5", borderTop: "3px solid #036c48", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto 16px" }} />
+        <p style={{ fontSize: "14px", color: "#9ca3af" }}>Loading...</p>
       </div>
-    );
-  }
-
-  const bookData = bookRegistry[bookId];
-  const isLearner = role === "learner" || role === "admin" || role === "owner";
-
-  // Count total free units (first 3 across all sections)
-  let unitCount = 0;
-
-  if (!bookData) {
-    return (
-      <div style={{ fontFamily: "'Manrope', sans-serif", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#f9fafb" }}>
-        <div style={{ textAlign: "center" }}>
-          <p style={{ fontSize: "48px", marginBottom: "16px" }}>📚</p>
-          <h2 style={{ fontSize: "20px", fontWeight: 700, color: "#111827", marginBottom: "8px" }}>Book not found</h2>
-          <p style={{ fontSize: "14px", color: "#9ca3af", marginBottom: "24px" }}>This book has not been added yet.</p>
-          <Link href={`/english`} style={{ backgroundColor: "#036c48", color: "#ffffff", padding: "10px 24px", borderRadius: "8px", textDecoration: "none", fontSize: "14px", fontWeight: 700 }}>
-            Back to General English
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  const lc = bookData.level ? (levelColor[bookData.level] || { bg: "#f3f4f6", color: "#6b7280" }) : null;
-  const totalUnits = bookData.sections.reduce((acc, s) => acc + s.units.length, 0);
+      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+    </div>
+  );
 
   return (
     <div style={{ fontFamily: "'Manrope', sans-serif", backgroundColor: "#f9fafb", minHeight: "100vh" }}>
 
       {/* NAV */}
-      <nav style={{ backgroundColor: "rgba(255,255,255,0.95)", borderBottom: "1px solid #f0fdf4", position: "fixed", top: 0, width: "100%", zIndex: 50, backdropFilter: "blur(12px)" }}>
+      <nav style={{ backgroundColor: "rgba(255,255,255,0.96)", borderBottom: "1px solid #f0fdf4", position: "fixed", top: 0, width: "100%", zIndex: 50, backdropFilter: "blur(12px)" }}>
         <div style={{ padding: "0 32px", height: "68px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "13px", flexWrap: "wrap" }}>
-            <Link href="/" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", flexWrap: "wrap" }}>
+            <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
               <img src="/logo.png" alt="Chashma Learn" style={{ width: "30px", height: "30px", objectFit: "contain" }} />
             </Link>
             <span style={{ color: "#d1d5db" }}>›</span>
             <Link href="/english" style={{ color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>General English</Link>
             <span style={{ color: "#d1d5db" }}>›</span>
-            <span style={{ color: "#111827", fontWeight: 600 }}>{bookData.title}</span>
+            <Link href="/english/pronunciation" style={{ color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>Pronunciation</Link>
+            <span style={{ color: "#d1d5db" }}>›</span>
+            <span style={{ color: "#064e3b", fontWeight: 700 }}>Unified Book</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <Link href="/dashboard" style={{ fontSize: "13px", color: "#6b7280", textDecoration: "none" }}>Dashboard</Link>
@@ -460,124 +599,99 @@ export default function BookPage() {
         </div>
       </nav>
 
-      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "100px 32px 64px" }}>
+      <div style={{ maxWidth: "860px", margin: "0 auto", padding: "96px 24px 80px" }}>
 
-        {/* Book header */}
-        <div style={{ display: "grid", gridTemplateColumns: "160px 1fr", gap: "32px", alignItems: "start", marginBottom: "48px" }}>
-
-          {/* Cover */}
-          <div style={{ width: "160px", aspectRatio: "3/4", backgroundColor: "#f3f4f6", borderRadius: "10px", overflow: "hidden", border: bookData.unified ? "2px solid #bbf7d0" : "1px solid #e5e7eb", flexShrink: 0 }}>
-            <img
-              src={bookData.cover}
-              alt={bookData.title}
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              onError={(e) => { e.target.style.display = "none"; e.target.nextSibling.style.display = "flex"; }}
-            />
-            <div style={{ display: "none", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "6px" }}>
-              <span style={{ fontSize: "36px" }}>📚</span>
-              <span style={{ fontSize: "10px", color: "#9ca3af", textAlign: "center", padding: "0 8px" }}>Cover coming soon</span>
+        {/* BOOK HEADER */}
+        <div style={{ display: "grid", gridTemplateColumns: "140px 1fr", gap: "28px", alignItems: "start", marginBottom: "32px" }}>
+          <div style={{ width: "140px", aspectRatio: "3/4", backgroundColor: "#e5e7eb", borderRadius: "10px", overflow: "hidden", border: "2px solid #bbf7d0", flexShrink: 0 }}>
+            <img src={bookData.cover} alt={bookData.title} style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              onError={(e) => { e.target.style.display = "none"; e.target.nextSibling.style.display = "flex"; }} />
+            <div style={{ display: "none", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "6px", backgroundColor: "#f3f4f6" }}>
+              <span style={{ fontSize: "32px" }}>📗</span>
+              <span style={{ fontSize: "10px", color: "#9ca3af", textAlign: "center", padding: "0 8px", lineHeight: 1.4 }}>Cover coming soon</span>
             </div>
           </div>
-
-          {/* Info */}
           <div>
-            {bookData.unified && (
-              <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", color: "#036c48", fontSize: "11px", fontWeight: 700, padding: "4px 12px", borderRadius: "999px", marginBottom: "12px", textTransform: "uppercase", letterSpacing: "0.3px" }}>
-                ✓ Prepared by Akrom Nabi
-              </div>
-            )}
-            {lc && (
-              <span style={{ display: "inline-block", fontSize: "11px", fontWeight: 700, backgroundColor: lc.bg, color: lc.color, padding: "3px 10px", borderRadius: "999px", marginBottom: "10px" }}>
-                {bookData.level}
-              </span>
-            )}
-            <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#064e3b", letterSpacing: "-0.5px", lineHeight: 1.2, marginBottom: "8px" }}>
-              {bookData.title}
-            </h1>
-            <p style={{ fontSize: "14px", color: "#6b7280", marginBottom: "20px" }}>{bookData.authors}</p>
-            <div style={{ display: "flex", gap: "20px" }}>
-              <div>
-                <p style={{ fontSize: "22px", fontWeight: 800, color: "#064e3b" }}>{bookData.sections.length}</p>
-                <p style={{ fontSize: "12px", color: "#9ca3af" }}>Sections</p>
-              </div>
-              <div>
-                <p style={{ fontSize: "22px", fontWeight: 800, color: "#064e3b" }}>{totalUnits}</p>
-                <p style={{ fontSize: "12px", color: "#9ca3af" }}>Units</p>
-              </div>
-              <div>
-                <p style={{ fontSize: "22px", fontWeight: 800, color: "#036c48" }}>3</p>
-                <p style={{ fontSize: "12px", color: "#9ca3af" }}>Free units</p>
-              </div>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", color: "#036c48", fontSize: "11px", fontWeight: 700, padding: "4px 12px", borderRadius: "999px", marginBottom: "10px" }}>
+              ✓ Prepared by Akrom Nabi
+            </div>
+            <h1 style={{ fontSize: "26px", fontWeight: 800, color: "#064e3b", letterSpacing: "-0.4px", lineHeight: 1.2, marginBottom: "6px" }}>{bookData.title}</h1>
+            <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "16px", fontWeight: 500 }}>Integrates Elementary · Intermediate · Advanced</p>
+
+            {/* Level legend */}
+            <div style={{ display: "flex", gap: "10px", marginBottom: "20px", flexWrap: "wrap" }}>
+              {[
+                { key: "Basic", label: "Elementary" },
+                { key: "Int",   label: "Intermediate" },
+                { key: "Adv",   label: "Advanced" },
+              ].map(({ key, label }) => {
+                const lc = levelColors[key];
+                return (
+                  <div key={key} style={{ display: "flex", alignItems: "center", gap: "6px", backgroundColor: lc.bg, padding: "4px 10px", borderRadius: "999px" }}>
+                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: lc.dot }} />
+                    <span style={{ fontSize: "11px", fontWeight: 700, color: lc.text }}>{label}</span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div style={{ display: "flex", gap: "24px" }}>
+              {[
+                { val: bookData.sections.length, label: "Sections" },
+                { val: totalUnits,               label: "Units" },
+              ].map(({ val, label }) => (
+                <div key={label}>
+                  <p style={{ fontSize: "22px", fontWeight: 800, color: "#064e3b", lineHeight: 1 }}>{val}</p>
+                  <p style={{ fontSize: "11px", color: "#9ca3af", marginTop: "2px" }}>{label}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Viewer banner */}
-        {!isLearner && (
-          <div style={{ backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderRadius: "10px", padding: "12px 20px", marginBottom: "32px", display: "flex", alignItems: "center", gap: "12px" }}>
-            <span style={{ fontSize: "18px" }}>🔒</span>
-            <p style={{ fontSize: "13px", color: "#92400e", fontWeight: 500 }}>
-              Units 1–3 are free. <Link href="/dashboard" style={{ color: "#036c48", fontWeight: 700, textDecoration: "none" }}>Upgrade to Learner</Link> to unlock all {totalUnits} units.
-            </p>
-          </div>
-        )}
-
-        {/* Sections & Units */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
-          {bookData.sections.map((section, si) => (
-            <div key={si}>
-              <h2 style={{ fontSize: "15px", fontWeight: 700, color: "#374151", marginBottom: "12px", paddingBottom: "8px", borderBottom: "1px solid #f3f4f6" }}>
-                {section.title}
-              </h2>
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                {section.units.map((unit) => {
-                  unitCount++;
-                  const isFree   = unitCount <= 3;
-                  const locked   = !isLearner && !isFree;
-                  const unitNum  = unitCount;
-                  return (
-                    <Link
-                      key={unit.id}
-                      href={locked ? "#" : `/english/${subject}/${bookId}/${unit.id}`}
-                      style={{
-                        display: "flex", alignItems: "center", justifyContent: "space-between",
-                        padding: "14px 18px", backgroundColor: "#ffffff",
-                        border: `1px solid ${locked ? "#f3f4f6" : "#e5e7eb"}`,
-                        borderRadius: "10px", textDecoration: "none",
-                        opacity: locked ? 0.6 : 1,
-                        cursor: locked ? "not-allowed" : "pointer",
-                      }}
-                    >
-                      <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                        <div style={{ width: "36px", height: "36px", borderRadius: "8px", backgroundColor: locked ? "#f3f4f6" : "#f0fdf4", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", fontWeight: 800, color: locked ? "#9ca3af" : "#036c48", flexShrink: 0 }}>
-                          {unitNum}
-                        </div>
-                        <div>
-                          <p style={{ fontSize: "14px", fontWeight: 600, color: locked ? "#9ca3af" : "#111827" }}>{unit.title}</p>
-                          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px" }}>
-                            <span style={{ fontSize: "11px", color: "#9ca3af" }}>Topic · Practice</span>
-                            {isFree && (
-                              <span style={{ fontSize: "10px", fontWeight: 700, backgroundColor: "#d1fae5", color: "#036c48", padding: "1px 6px", borderRadius: "999px" }}>FREE</span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      <div style={{ flexShrink: 0 }}>
-                        {locked ? (
-                          <span style={{ fontSize: "16px" }}>🔒</span>
-                        ) : (
-                          <span style={{ fontSize: "18px", color: "#d1d5db" }}>›</span>
-                        )}
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+        {/* EXPAND / COLLAPSE ALL */}
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: "8px", marginBottom: "16px" }}>
+          <button onClick={expandAll}   style={{ fontSize: "12px", fontWeight: 600, color: "#059669", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", padding: "5px 14px", borderRadius: "6px", cursor: "pointer" }}>Expand all</button>
+          <button onClick={collapseAll} style={{ fontSize: "12px", fontWeight: 600, color: "#6b7280", backgroundColor: "#f9fafb", border: "1px solid #e5e7eb", padding: "5px 14px", borderRadius: "6px", cursor: "pointer" }}>Collapse all</button>
         </div>
 
+        {/* SECTIONS */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+          {bookData.sections.map((section, si) => {
+            const sc     = section.color;
+            const isOpen = expanded[si];
+            return (
+              <div key={si} style={{ backgroundColor: "#ffffff", border: `1px solid ${isOpen ? sc.border : "#e5e7eb"}`, borderRadius: "12px", overflow: "hidden", transition: "border-color 0.2s" }}>
+                {/* Section header */}
+                <button
+                  onClick={() => toggleSec(si)}
+                  style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", backgroundColor: isOpen ? sc.bg : "#ffffff", border: "none", cursor: "pointer", transition: "background-color 0.2s", textAlign: "left" }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <span style={{ fontSize: "20px" }}>{section.icon}</span>
+                    <div>
+                      <p style={{ fontSize: "14px", fontWeight: 700, color: sc.text, margin: 0 }}>{section.title}</p>
+                      <p style={{ fontSize: "11px", color: "#9ca3af", margin: "2px 0 0", fontWeight: 500 }}>{section.units.length} units — click a unit to see sources & focus</p>
+                    </div>
+                  </div>
+                  <span style={{ fontSize: "18px", color: "#9ca3af", transform: isOpen ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 0.2s", display: "inline-block" }}>›</span>
+                </button>
+
+                {/* Unit cards */}
+                {isOpen && (
+                  <div style={{ borderTop: `1px solid ${sc.border}` }}>
+                    {section.units.map((unit) => (
+                      <UnitCard key={unit.id} unit={unit} sc={sc} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
+
+      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
     </div>
   );
 }
