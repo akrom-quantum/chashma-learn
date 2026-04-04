@@ -1,150 +1,237 @@
 "use client";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { initializeApp, getApps } from "firebase/app";
 import { getAuth, onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
+import Link from "next/link";
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyBD65CTP7Tx84l-qL-KT9pj3uMUOsLOCI4",
+  authDomain:        "chashma-learn.firebaseapp.com",
+  projectId:         "chashma-learn",
+  storageBucket:     "chashma-learn.firebasestorage.app",
+  messagingSenderId: "1059701555295",
+  appId:             "1:1059701955295:web:104a64e41d60252a28dbea",
+};
+
+const app  = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const auth = getAuth(app);
+
+const modes = [
+  {
+    href:     "/english",
+    icon:     "📖",
+    badge:    "Free Samples",
+    badgeBg:  "#d1fae5",
+    badgeColor: "#036c48",
+    title:    "General English",
+    subtitle: "Foundational Track",
+    desc:     "Build a strong foundation with grammar, vocabulary, pronunciation, idioms, collocations, phrasal verbs and writing — from beginner to advanced.",
+    features: [
+      "Oxford Word Skills series",
+      "Grammar from A1 to C1",
+      "Vocabulary by topic",
+      "Pronunciation training",
+      "Collocations & Phrasal Verbs",
+      "Idioms & Writing skills",
+    ],
+    btn:      "Begin Track",
+    featured: false,
+  },
+  {
+    href:     "/ielts",
+    icon:     "🎯",
+    badge:    "Most Popular",
+    badgeBg:  "#036c48",
+    badgeColor: "#ffffff",
+    title:    "IELTS Academic",
+    subtitle: "Premium Track",
+    desc:     "Complete preparation for all four IELTS skills with tips, topics, structured practice, and Band 9 model answers for every question type.",
+    features: [
+      "Listening — Parts 1 to 4",
+      "Reading — all question types",
+      "Speaking — Parts 1, 2 & 3",
+      "Writing — Task 1 & Task 2",
+      "Prediction tests — full mock",
+      "Band 9 model answers",
+    ],
+    btn:      "Enroll in IELTS",
+    featured: true,
+  },
+  {
+    href:     "/sat",
+    icon:     "✏️",
+    badge:    "New",
+    badgeBg:  "#fef9c3",
+    badgeColor: "#854d0e",
+    title:    "SAT Preparation",
+    subtitle: "Premium Track",
+    desc:     "Strategic mastery for the Digital SAT with unit-based English, structured vocabulary, and comprehensive math preparation.",
+    features: [
+      "English — 8 question types",
+      "Vocabulary — topic & structure",
+      "Math — algebra to geometry",
+      "Easy, Medium & Hard sets",
+      "Full module practice tests",
+      "Digital SAT format training",
+    ],
+    btn:      "Start SAT Prep",
+    featured: false,
+  },
+];
 
 export default function CoursesPage() {
-  const modes = [
-    {
-      href: "/english",
-      icon: "language",
-      badge: "Foundational",
-      title: "General English",
-      desc: "Grammar, vocabulary, writing, pronunciation, idioms, and collocations — from foundations to fluency.",
-      features: ["Oxford Word Skills", "Grammar & Vocabulary", "Writing & Pronunciation", "Idioms & Phrasal Verbs"],
-      btnText: "Begin Track",
-      featured: false,
-    },
-    {
-      href: "/ielts",
-      icon: "school",
-      badge: "Most Popular",
-      title: "IELTS Academic",
-      desc: "Complete preparation for all four IELTS skills with tips, topics, practice, and prediction tests.",
-      features: ["Listening & Reading", "Speaking & Writing", "Practice Tests", "Prediction Tests"],
-      btnText: "Enroll in IELTS",
-      featured: true,
-    },
-    {
-      href: "/sat",
-      icon: "menu_book",
-      badge: "New",
-      title: "SAT Preparation",
-      desc: "Strategic mastery for the Digital SAT — English, vocabulary, and math with unit-based structure.",
-      features: ["English Units & Practice", "Topic & Structure Vocab", "Math Units & Practice", "Digital SAT Format"],
-      btnText: "Start SAT Prep",
-      featured: false,
-    },
-  ];
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    setPersistence(auth, browserLocalPersistence).then(() => {
+      const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+        setUser(firebaseUser || null);
+      });
+      return () => unsubscribe();
+    });
+  }, []);
 
   return (
-    <div style={{ fontFamily: "'Manrope', sans-serif", backgroundColor: "#f9f9f8", minHeight: "100vh" }}>
+    <div style={{ fontFamily: "'Manrope', sans-serif", backgroundColor: "#ffffff", minHeight: "100vh" }}>
 
       {/* NAV */}
-      <nav style={{ backgroundColor: "rgba(255,255,255,0.95)", borderBottom: "1px solid #e5e7eb", position: "fixed", top: 0, width: "100%", zIndex: 50, backdropFilter: "blur(12px)" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 32px", height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Link href="/" style={{ fontSize: "20px", fontWeight: 800, color: "#064e3b", textDecoration: "none", letterSpacing: "-0.5px" }}>
-            Chashma Learn
+      <nav style={{ position: "fixed", top: 0, width: "100%", zIndex: 50, backgroundColor: "rgba(255,255,255,0.95)", backdropFilter: "blur(12px)", borderBottom: "1px solid #f0fdf4" }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 32px", height: "68px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
+            <img src="/logo.png" alt="Chashma Learn" style={{ width: "36px", height: "36px", objectFit: "contain" }} />
+            <span style={{ fontSize: "18px", fontWeight: 800, color: "#064e3b", letterSpacing: "-0.5px" }}>Chashma Learn</span>
           </Link>
-          <div style={{ display: "flex", alignItems: "center", gap: "32px" }}>
-            <Link href="/courses" style={{ fontSize: "14px", color: "#036c48", textDecoration: "none", fontWeight: 700, borderBottom: "2px solid #036c48", paddingBottom: "2px" }}>Courses</Link>
-            <Link href="/resources" style={{ fontSize: "14px", color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>Resources</Link>
-            <Link href="/login" style={{ fontSize: "14px", fontWeight: 700, color: "#ffffff", backgroundColor: "#036c48", padding: "8px 20px", borderRadius: "8px", textDecoration: "none" }}>
-              Sign In
-            </Link>
+          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+            <Link href="/" style={{ fontSize: "14px", color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>Home</Link>
+            {user ? (
+              <Link href="/dashboard" style={{ backgroundColor: "#036c48", color: "#ffffff", padding: "9px 22px", borderRadius: "8px", fontSize: "14px", fontWeight: 700, textDecoration: "none" }}>
+                Dashboard
+              </Link>
+            ) : (
+              <Link href="/login" style={{ backgroundColor: "#036c48", color: "#ffffff", padding: "9px 22px", borderRadius: "8px", fontSize: "14px", fontWeight: 700, textDecoration: "none" }}>
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       </nav>
 
       {/* HEADER */}
-      <div style={{ paddingTop: "100px", paddingBottom: "48px", paddingLeft: "32px", paddingRight: "32px", maxWidth: "1200px", margin: "0 auto" }}>
-        <div style={{ display: "inline-block", backgroundColor: "#d1fae5", color: "#036c48", fontSize: "11px", fontWeight: 700, padding: "4px 12px", borderRadius: "999px", letterSpacing: "1px", textTransform: "uppercase", marginBottom: "20px" }}>
-          Course Selection
+      <div style={{ paddingTop: "120px", paddingBottom: "60px", paddingLeft: "32px", paddingRight: "32px", maxWidth: "1100px", margin: "0 auto", textAlign: "center" }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", color: "#036c48", fontSize: "12px", fontWeight: 700, padding: "6px 14px", borderRadius: "999px", letterSpacing: "0.5px", textTransform: "uppercase", marginBottom: "24px" }}>
+          <span style={{ width: "6px", height: "6px", backgroundColor: "#036c48", borderRadius: "999px", display: "inline-block" }} />
+          Three Learning Tracks
         </div>
-        <h1 style={{ fontSize: "48px", fontWeight: 800, color: "#111827", letterSpacing: "-1.5px", lineHeight: 1.1, marginBottom: "16px" }}>
-          Choose Your Path
+        <h1 style={{ fontSize: "48px", fontWeight: 800, color: "#064e3b", letterSpacing: "-1.5px", lineHeight: 1.05, marginBottom: "16px" }}>
+          Choose your path
         </h1>
-        <p style={{ fontSize: "17px", color: "#6b7280", maxWidth: "520px", lineHeight: 1.7, fontWeight: 300 }}>
-          Three specialized tracks built by an experienced teacher. Each designed for measurable, real-world results.
+        <p style={{ fontSize: "17px", color: "#6b7280", maxWidth: "500px", margin: "0 auto", lineHeight: 1.7 }}>
+          Every track is carefully structured from foundations to exam level — built by an experienced teacher.
         </p>
       </div>
 
       {/* CARDS */}
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 32px 80px", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px" }}>
+      <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 32px 80px", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", alignItems: "start" }}>
         {modes.map((mode) => (
           <div
             key={mode.href}
             style={{
-              backgroundColor: mode.featured ? "#036c48" : "#ffffff",
+              backgroundColor: mode.featured ? "#064e3b" : "#ffffff",
               borderRadius: "16px",
               border: mode.featured ? "none" : "1px solid #e5e7eb",
               overflow: "hidden",
               display: "flex",
               flexDirection: "column",
               position: "relative",
+              boxShadow: mode.featured ? "0 20px 60px rgba(3,108,72,0.2)" : "none",
             }}
           >
-            {/* Top bar */}
-            <div style={{ backgroundColor: mode.featured ? "#064e3b" : "#f3f4f6", padding: "20px 28px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <span className="material-symbols-outlined" style={{ color: mode.featured ? "#6ee7b7" : "#036c48", fontSize: "22px" }}>{mode.icon}</span>
-                <span style={{ fontSize: "11px", fontWeight: 700, color: mode.featured ? "#6ee7b7" : "#036c48", textTransform: "uppercase", letterSpacing: "1px" }}>{mode.badge}</span>
+            {/* Popular pill */}
+            {mode.featured && (
+              <div style={{ position: "absolute", top: "-13px", left: "50%", transform: "translateX(-50%)", backgroundColor: "#036c48", border: "2px solid #064e3b", color: "#6ee7b7", fontSize: "10px", fontWeight: 800, padding: "4px 16px", borderRadius: "999px", letterSpacing: "0.5px", textTransform: "uppercase", whiteSpace: "nowrap", zIndex: 1 }}>
+                Most Popular
               </div>
-              {mode.featured && (
-                <span style={{ fontSize: "10px", fontWeight: 800, color: "#064e3b", backgroundColor: "#6ee7b7", padding: "3px 10px", borderRadius: "999px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                  Popular
-                </span>
-              )}
+            )}
+
+            {/* Top bar */}
+            <div style={{ padding: "28px 28px 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <span style={{ fontSize: "36px" }}>{mode.icon}</span>
+              <span style={{ fontSize: "10px", fontWeight: 700, backgroundColor: mode.badgeBg, color: mode.badgeColor, padding: "3px 10px", borderRadius: "999px", textTransform: "uppercase", letterSpacing: "0.3px" }}>
+                {mode.badge}
+              </span>
             </div>
 
-            {/* Body */}
-            <div style={{ padding: "28px", flex: 1, display: "flex", flexDirection: "column", gap: "16px" }}>
+            {/* Content */}
+            <div style={{ padding: "20px 28px 28px", flex: 1, display: "flex", flexDirection: "column", gap: "16px" }}>
               <div>
-                <h3 style={{ fontSize: "22px", fontWeight: 800, color: mode.featured ? "#ffffff" : "#111827", letterSpacing: "-0.5px", marginBottom: "10px" }}>
+                <p style={{ fontSize: "11px", fontWeight: 700, color: mode.featured ? "#6ee7b7" : "#036c48", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "6px" }}>
+                  {mode.subtitle}
+                </p>
+                <h3 style={{ fontSize: "24px", fontWeight: 800, color: mode.featured ? "#ffffff" : "#111827", letterSpacing: "-0.5px", marginBottom: "10px" }}>
                   {mode.title}
                 </h3>
-                <p style={{ fontSize: "14px", color: mode.featured ? "#a7f3d0" : "#6b7280", lineHeight: 1.6, fontWeight: 300 }}>
+                <p style={{ fontSize: "14px", color: mode.featured ? "#a7f3d0" : "#6b7280", lineHeight: 1.6 }}>
                   {mode.desc}
                 </p>
               </div>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              {/* Feature list */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                 {mode.features.map((f) => (
                   <div key={f} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                    <span className="material-symbols-outlined" style={{ color: mode.featured ? "#6ee7b7" : "#036c48", fontSize: "18px" }}>check_circle</span>
-                    <span style={{ fontSize: "13px", fontWeight: 500, color: mode.featured ? "#d1fae5" : "#374151" }}>{f}</span>
+                    <div style={{ width: "18px", height: "18px", borderRadius: "999px", backgroundColor: mode.featured ? "rgba(255,255,255,0.15)" : "#d1fae5", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <span style={{ fontSize: "10px", color: mode.featured ? "#6ee7b7" : "#036c48" }}>✓</span>
+                    </div>
+                    <span style={{ fontSize: "13px", color: mode.featured ? "#d1fae5" : "#374151", fontWeight: 500 }}>{f}</span>
                   </div>
                 ))}
               </div>
 
+              {/* Divider */}
+              <div style={{ height: "1px", backgroundColor: mode.featured ? "rgba(255,255,255,0.1)" : "#f3f4f6" }} />
+
+              {/* CTA */}
               <Link
-                href={mode.href}
+                href={user ? mode.href : "/login"}
                 style={{
-                  marginTop: "auto",
-                  display: "block",
-                  textAlign: "center",
-                  padding: "13px",
-                  borderRadius: "8px",
-                  fontWeight: 700,
-                  fontSize: "14px",
-                  textDecoration: "none",
+                  display: "block", textAlign: "center", padding: "13px", borderRadius: "10px",
+                  fontWeight: 700, fontSize: "14px", textDecoration: "none", letterSpacing: "-0.2px",
                   backgroundColor: mode.featured ? "#ffffff" : "#036c48",
                   color: mode.featured ? "#036c48" : "#ffffff",
                 }}
               >
-                {mode.btnText}
+                {user ? mode.btn : "Sign In to Start"}
               </Link>
             </div>
           </div>
         ))}
       </div>
 
+      {/* BOTTOM TRUST ROW */}
+      <div style={{ backgroundColor: "#f9fafb", borderTop: "1px solid #f3f4f6", padding: "40px 32px" }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center", gap: "48px", flexWrap: "wrap" }}>
+          {[
+            { icon: "✓", text: "Hand-crafted by an experienced teacher"         },
+            { icon: "🔒", text: "Private progress — no comparisons"              },
+            { icon: "📋", text: "Structured from beginner to advanced"           },
+            { icon: "🎯", text: "Built around real IELTS and SAT exam formats"   },
+          ].map((item) => (
+            <div key={item.text} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <span style={{ fontSize: "16px" }}>{item.icon}</span>
+              <span style={{ fontSize: "13px", color: "#6b7280", fontWeight: 500 }}>{item.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* FOOTER */}
-      <footer style={{ borderTop: "1px solid #e5e7eb", padding: "32px", backgroundColor: "#f9f9f8" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontSize: "16px", fontWeight: 800, color: "#064e3b" }}>Chashma Learn</span>
-          <span style={{ fontSize: "12px", color: "#9ca3af" }}>© 2025 Chashma Learn. All rights reserved.</span>
+      <footer style={{ backgroundColor: "#ffffff", borderTop: "1px solid #f3f4f6", padding: "32px" }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <img src="/logo.png" alt="Chashma Learn" style={{ width: "28px", height: "28px", objectFit: "contain" }} />
+            <span style={{ fontSize: "15px", fontWeight: 800, color: "#064e3b" }}>Chashma Learn</span>
+          </div>
+          <p style={{ fontSize: "12px", color: "#d1d5db" }}>© 2025 Chashma Learn. All rights reserved.</p>
         </div>
       </footer>
 
