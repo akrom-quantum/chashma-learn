@@ -425,8 +425,8 @@ export default function BookPage() {
           <p style={{ fontSize: "48px", marginBottom: "16px" }}>📚</p>
           <h2 style={{ fontSize: "20px", fontWeight: 700, color: "#111827", marginBottom: "8px" }}>Book not found</h2>
           <p style={{ fontSize: "14px", color: "#9ca3af", marginBottom: "24px" }}>This book has not been added yet.</p>
-          <Link href={`/english/oxford-word-skills`} style={{ backgroundColor: "#036c48", color: "#ffffff", padding: "10px 24px", borderRadius: "8px", textDecoration: "none", fontSize: "14px", fontWeight: 700 }}>
-            Back to Oxford Word Skills
+          <Link href={`/english`} style={{ backgroundColor: "#036c48", color: "#ffffff", padding: "10px 24px", borderRadius: "8px", textDecoration: "none", fontSize: "14px", fontWeight: 700 }}>
+            Back to General English
           </Link>
         </div>
       </div>
