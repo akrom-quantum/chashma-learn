@@ -11,148 +11,144 @@ const firebaseConfig = {
   projectId:         "chashma-learn",
   storageBucket:     "chashma-learn.firebasestorage.app",
   messagingSenderId: "1059701555295",
-  appId:             "1:1059701555295:web:104a64e41d60252a28dbea",
+  appId:             "1:1059701955295:web:104a64e41d60252a28dbea",
 };
 
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const app  = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const auth = getAuth(app);
 const db   = getFirestore(app, "chashma-learn");
 
-const tabs = [
+const subjects = [
   {
-    id: "oxford",
-    icon: "menu_book",
-    label: "Oxford Word Skills",
-    free: true,
-    desc: "Build vocabulary systematically using the Oxford Word Skills series — from basic to advanced.",
-    units: [
-      { title: "Unit 1 — Basic Nouns",        level: "A1", time: "15 mins" },
-      { title: "Unit 2 — Common Adjectives",  level: "A1", time: "15 mins" },
-      { title: "Unit 3 — Everyday Verbs",     level: "A2", time: "20 mins" },
-      { title: "Unit 4 — Describing People",  level: "A2", time: "20 mins" },
-    ],
-  },
-  {
-    id: "grammar",
-    icon: "spellcheck",
-    label: "Grammar",
-    free: true,
-    desc: "Master English grammar from the fundamentals to advanced structures used in academic writing.",
-    units: [
-      { title: "Unit 1 — Simple Present",       level: "A1", time: "12 mins" },
-      { title: "Unit 2 — Past Simple",          level: "A2", time: "15 mins" },
-      { title: "Unit 3 — Present Perfect",      level: "B1", time: "12 mins" },
-      { title: "Unit 4 — Conditionals",         level: "B2", time: "20 mins" },
-    ],
-  },
-  {
-    id: "vocabulary",
-    icon: "translate",
-    label: "Vocabulary",
-    free: false,
-    desc: "Expand your vocabulary with topic-based word lists, collocations, and contextual usage.",
-    units: [
-      { title: "Unit 1 — Academic Vocabulary", level: "B1", time: "18 mins" },
-      { title: "Unit 2 — Business English",    level: "B2", time: "20 mins" },
-      { title: "Unit 3 — Formal vs Informal",  level: "B1", time: "15 mins" },
-      { title: "Unit 4 — Word Families",       level: "B2", time: "18 mins" },
-    ],
-  },
-  {
-    id: "pronunciation",
-    icon: "record_voice_over",
+    id:    "pronunciation",
     label: "Pronunciation",
-    free: false,
-    desc: "Improve your spoken English with phonetics, stress patterns, and intonation practice.",
-    units: [
-      { title: "Unit 1 — Vowel Sounds",        level: "A2", time: "15 mins" },
-      { title: "Unit 2 — Consonant Clusters",  level: "B1", time: "15 mins" },
-      { title: "Unit 3 — Word Stress",         level: "B1", time: "12 mins" },
-      { title: "Unit 4 — Sentence Intonation", level: "B2", time: "18 mins" },
+    icon:  "🎙️",
+    books: [
+      { id: "piu-elementary",   title: "Pronunciation in Use",  level: "Elementary",              authors: "Jonathan Marks",                    cover: "/books/piu-elementary.jpg"   },
+      { id: "piu-intermediate", title: "Pronunciation in Use",  level: "Intermediate",            authors: "Mark Hancock",                      cover: "/books/piu-intermediate.jpg" },
+      { id: "piu-advanced",     title: "Pronunciation in Use",  level: "Advanced",                authors: "Martin Hewings",                    cover: "/books/piu-advanced.jpg"     },
+      { id: "unified-pronunciation", title: "Unified Pronunciation Book", level: null,           authors: "Prepared by Akrom Nabi",            cover: "/books/unified-pronunciation.jpg", unified: true },
     ],
   },
   {
-    id: "collocations",
-    icon: "link",
+    id:    "oxford-word-skills",
+    label: "Oxford Word Skills",
+    icon:  "📘",
+    books: [
+      { id: "ows-elementary",   title: "Oxford Word Skills",    level: "Elementary",              authors: "Ruth Gairns, Stuart Redman",         cover: "/books/ows-elementary.jpg"   },
+      { id: "ows-intermediate", title: "Oxford Word Skills",    level: "Intermediate",            authors: "Ruth Gairns, Stuart Redman",         cover: "/books/ows-intermediate.jpg" },
+      { id: "ows-upper",        title: "Oxford Word Skills",    level: "Upper-Intermediate & Advanced", authors: "Ruth Gairns, Stuart Redman",   cover: "/books/ows-upper.jpg"        },
+      { id: "unified-word-skills", title: "Unified Word Skills Book", level: null,               authors: "Prepared by Akrom Nabi",            cover: "/books/unified-word-skills.jpg", unified: true },
+    ],
+  },
+  {
+    id:    "vocabulary",
+    label: "Vocabulary",
+    icon:  "📚",
+    books: [
+      { id: "viu-elementary",       title: "Vocabulary in Use", level: "Elementary",              authors: "Michael McCarthy, Felicity O'Dell",  cover: "/books/viu-elementary.jpg"       },
+      { id: "viu-pre-intermediate", title: "Vocabulary in Use", level: "Pre-Intermediate & Intermediate", authors: "Stuart Redman",            cover: "/books/viu-pre-intermediate.jpg" },
+      { id: "viu-upper",            title: "Vocabulary in Use", level: "Upper-Intermediate",      authors: "Michael McCarthy, Felicity O'Dell",  cover: "/books/viu-upper.jpg"            },
+      { id: "viu-advanced",         title: "Vocabulary in Use", level: "Advanced",                authors: "Michael McCarthy, Felicity O'Dell",  cover: "/books/viu-advanced.jpg"         },
+      { id: "unified-vocabulary",   title: "Unified Vocabulary Book", level: null,               authors: "Prepared by Akrom Nabi",            cover: "/books/unified-vocabulary.jpg", unified: true },
+    ],
+  },
+  {
+    id:    "grammar",
+    label: "Grammar",
+    icon:  "✏️",
+    books: [
+      { id: "oegc-basic",        title: "Oxford English Grammar Course", level: "Basic",          authors: "Michael Swan, Catherine Walter",     cover: "/books/oegc-basic.jpg"        },
+      { id: "oegc-intermediate", title: "Oxford English Grammar Course", level: "Intermediate",   authors: "Michael Swan, Catherine Walter",     cover: "/books/oegc-intermediate.jpg" },
+      { id: "oegc-advanced",     title: "Oxford English Grammar Course", level: "Advanced",       authors: "Michael Swan, Catherine Walter",     cover: "/books/oegc-advanced.jpg"     },
+      { id: "unified-grammar",   title: "Unified English Grammar Course", level: null,            authors: "Prepared by Akrom Nabi",            cover: "/books/unified-grammar.jpg", unified: true },
+    ],
+  },
+  {
+    id:    "collocations",
     label: "Collocations",
-    free: false,
-    desc: "Learn natural word combinations that make your English sound fluent and native-like.",
-    units: [
-      { title: "Unit 1 — Verb + Noun",         level: "B1", time: "15 mins" },
-      { title: "Unit 2 — Adjective + Noun",    level: "B1", time: "15 mins" },
-      { title: "Unit 3 — Academic Collocations", level: "B2", time: "18 mins" },
-      { title: "Unit 4 — Business Collocations", level: "B2", time: "18 mins" },
+    icon:  "🔗",
+    books: [
+      { id: "ciu-intermediate", title: "Collocations in Use",          level: "Intermediate",    authors: "Michael McCarthy, Felicity O'Dell",  cover: "/books/ciu-intermediate.jpg" },
+      { id: "ciu-advanced",     title: "Collocations in Use",          level: "Advanced",        authors: "Michael McCarthy, Felicity O'Dell",  cover: "/books/ciu-advanced.jpg"     },
+      { id: "unified-collocations", title: "Unified Collocations Book", level: null,             authors: "Prepared by Akrom Nabi",            cover: "/books/unified-collocations.jpg", unified: true },
     ],
   },
   {
-    id: "phrasal-verbs",
-    icon: "format_list_bulleted",
+    id:    "phrasal-verbs",
     label: "Phrasal Verbs",
-    free: false,
-    desc: "Master the most common and useful phrasal verbs in everyday and professional contexts.",
-    units: [
-      { title: "Unit 1 — Separable Phrasal Verbs",    level: "B1", time: "18 mins" },
-      { title: "Unit 2 — Inseparable Phrasal Verbs",  level: "B1", time: "18 mins" },
-      { title: "Unit 3 — Phrasal Verbs in Context",   level: "B2", time: "20 mins" },
-      { title: "Unit 4 — Advanced Usage",             level: "C1", time: "20 mins" },
+    icon:  "🔀",
+    books: [
+      { id: "pviu-intermediate", title: "Phrasal Verbs in Use",        level: "Intermediate",    authors: "Michael McCarthy, Felicity O'Dell",  cover: "/books/pviu-intermediate.jpg" },
+      { id: "pviu-advanced",     title: "Phrasal Verbs in Use",        level: "Advanced",        authors: "Michael McCarthy, Felicity O'Dell",  cover: "/books/pviu-advanced.jpg"     },
+      { id: "unified-phrasal",   title: "Unified Phrasal Verbs Book",  level: null,              authors: "Prepared by Akrom Nabi",            cover: "/books/unified-phrasal.jpg", unified: true },
     ],
   },
   {
-    id: "idioms",
-    icon: "auto_stories",
+    id:    "idioms",
     label: "Idioms",
-    free: false,
-    desc: "Understand and use English idioms naturally in conversation and writing.",
-    units: [
-      { title: "Unit 1 — Common Idioms",        level: "B1", time: "15 mins" },
-      { title: "Unit 2 — Body Idioms",          level: "B1", time: "15 mins" },
-      { title: "Unit 3 — Time Idioms",          level: "B2", time: "18 mins" },
-      { title: "Unit 4 — Idioms in Writing",    level: "B2", time: "18 mins" },
+    icon:  "💬",
+    books: [
+      { id: "iiu-intermediate", title: "Idioms in Use",                level: "Intermediate",    authors: "Michael McCarthy, Felicity O'Dell",  cover: "/books/iiu-intermediate.jpg" },
+      { id: "iiu-advanced",     title: "Idioms in Use",                level: "Advanced",        authors: "Michael McCarthy, Felicity O'Dell",  cover: "/books/iiu-advanced.jpg"     },
     ],
   },
   {
-    id: "writing",
-    icon: "edit_note",
+    id:    "speaking",
+    label: "Speaking",
+    icon:  "🗣️",
+    books: [
+      { id: "social-expressions",    title: "Social Expressions",                    level: null, authors: "Betty Kirkpatrick",                  cover: "/books/social-expressions.jpg"    },
+      { id: "everyday-idioms",       title: "Everyday Idioms",                       level: null, authors: "Betty Kirkpatrick",                  cover: "/books/everyday-idioms.jpg"       },
+      { id: "advanced-everyday",     title: "Advanced Everyday English",             level: null, authors: "Steven Collins",                     cover: "/books/advanced-everyday.jpg"     },
+      { id: "practical-everyday",    title: "Practical Everyday English",            level: null, authors: "Steven Collins",                     cover: "/books/practical-everyday.jpg"    },
+      { id: "illustrated-stories-1", title: "Illustrated Everyday Expressions with Stories 1", level: null, authors: "Casey Malarcher",        cover: "/books/illustrated-stories-1.jpg" },
+      { id: "illustrated-stories-2", title: "Illustrated Everyday Expressions with Stories 2", level: null, authors: "Casey Malarcher",        cover: "/books/illustrated-stories-2.jpg" },
+    ],
+  },
+  {
+    id:    "writing",
     label: "Writing",
-    free: false,
-    desc: "Develop your writing skills from paragraphs to full essays with structured guidance.",
-    units: [
-      { title: "Unit 1 — Paragraph Structure",  level: "B1", time: "20 mins" },
-      { title: "Unit 2 — Essay Introduction",   level: "B1", time: "20 mins" },
-      { title: "Unit 3 — Argument Development", level: "B2", time: "25 mins" },
-      { title: "Unit 4 — Academic Style",       level: "B2", time: "25 mins" },
+    icon:  "📝",
+    books: [
+      { id: "writing-academic-english",  title: "Writing Academic English",                    level: null, authors: "Alice Oshima, Ann Hogue",               cover: "/books/writing-academic-english.jpg"  },
+      { id: "cambridge-study-writing",   title: "Cambridge Study Writing",                     level: null, authors: "Liz Hamp-Lyons",                        cover: "/books/cambridge-study-writing.jpg"   },
+      { id: "inside-writing-4",          title: "Inside Writing 4",                            level: null, authors: "Nigel A. Caplan, Jennifer Bixby",       cover: "/books/inside-writing-4.jpg"          },
+      { id: "longman-writing-4",         title: "Longman Academic Writing Series 4",           level: "Essays",                                               authors: "Alice Oshima, Ann Hogue",           cover: "/books/longman-writing-4.jpg"         },
+      { id: "longman-writing-5",         title: "Longman Academic Writing Series 5",           level: "Essays to Research Papers",                            authors: "Alice Oshima, Ann Hogue",           cover: "/books/longman-writing-5.jpg"         },
+      { id: "50-steps-writing",          title: "50 Steps to Improving Your Academic Writing", level: null, authors: "Chris Sowton",                          cover: "/books/50-steps-writing.jpg"          },
+      { id: "unified-writing",           title: "Unified Writing Book",                        level: null, authors: "Prepared by Akrom Nabi",                cover: "/books/unified-writing.jpg", unified: true },
     ],
   },
 ];
 
 const levelColor = {
-  A1: { bg: "#f0fdf4", color: "#166534" },
-  A2: { bg: "#dcfce7", color: "#15803d" },
-  B1: { bg: "#d1fae5", color: "#036c48" },
-  B2: { bg: "#a7f3d0", color: "#065f46" },
-  C1: { bg: "#6ee7b7", color: "#064e3b" },
+  "Elementary":                    { bg: "#dcfce7", color: "#15803d" },
+  "Pre-Intermediate & Intermediate":{ bg: "#d1fae5", color: "#036c48" },
+  "Intermediate":                  { bg: "#d1fae5", color: "#036c48" },
+  "Upper-Intermediate":            { bg: "#a7f3d0", color: "#065f46" },
+  "Upper-Intermediate & Advanced": { bg: "#a7f3d0", color: "#065f46" },
+  "Advanced":                      { bg: "#6ee7b7", color: "#064e3b" },
+  "Basic":                         { bg: "#dcfce7", color: "#15803d" },
+  "Essays":                        { bg: "#dbeafe", color: "#1d4ed8" },
+  "Essays to Research Papers":     { bg: "#ede9fe", color: "#6d28d9" },
 };
 
 export default function EnglishPage() {
-  const [user, setUser]         = useState(null);
-  const [role, setRole]         = useState(null);
-  const [loading, setLoading]   = useState(true);
-  const [activeTab, setActiveTab] = useState("oxford");
+  const [user, setUser]             = useState(null);
+  const [role, setRole]             = useState(null);
+  const [loading, setLoading]       = useState(true);
+  const [activeSubject, setActiveSubject] = useState("pronunciation");
+  const [sidebarOpen, setSidebarOpen]     = useState(true);
 
   useEffect(() => {
     setPersistence(auth, browserLocalPersistence).then(() => {
       const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-        if (!firebaseUser) {
-          window.location.href = "/login";
-          return;
-        }
+        if (!firebaseUser) { window.location.href = "/login"; return; }
         try {
-          const ref  = doc(db, "users", firebaseUser.uid);
-          const snap = await getDoc(ref);
+          const snap = await getDoc(doc(db, "users", firebaseUser.uid));
           setRole(snap.exists() ? snap.data().role : "viewer");
-        } catch {
-          setRole("viewer");
-        }
+        } catch { setRole("viewer"); }
         setUser(firebaseUser);
         setLoading(false);
       });
@@ -162,181 +158,173 @@ export default function EnglishPage() {
 
   if (loading) {
     return (
-      <div style={{ fontFamily: "'Manrope', sans-serif", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#f9f9f8" }}>
+      <div style={{ fontFamily: "'Manrope', sans-serif", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#f9fafb" }}>
         <div style={{ textAlign: "center" }}>
-          <div style={{ width: "40px", height: "40px", border: "3px solid #d1fae5", borderTop: "3px solid #036c48", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto 16px" }} />
-          <p style={{ fontSize: "14px", color: "#6b7280" }}>Loading...</p>
+          <div style={{ width: "44px", height: "44px", border: "3px solid #d1fae5", borderTop: "3px solid #036c48", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto 16px" }} />
+          <p style={{ fontSize: "14px", color: "#9ca3af", fontFamily: "'Manrope', sans-serif" }}>Loading...</p>
         </div>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
 
-  const isLearner = role === "learner" || role === "admin" || role === "owner";
-  const currentTab = tabs.find((t) => t.id === activeTab);
-  const tabLocked = !currentTab.free && !isLearner;
+  const isLearner   = role === "learner" || role === "admin" || role === "owner";
+  const currentSubject = subjects.find((s) => s.id === activeSubject);
+  const sidebarWidth   = sidebarOpen ? "240px" : "60px";
 
   return (
-    <div style={{ fontFamily: "'Manrope', sans-serif", backgroundColor: "#f9f9f8", minHeight: "100vh" }}>
+    <div style={{ fontFamily: "'Manrope', sans-serif", backgroundColor: "#f9fafb", minHeight: "100vh" }}>
 
       {/* NAV */}
-      <nav style={{ backgroundColor: "rgba(255,255,255,0.95)", borderBottom: "1px solid #e5e7eb", position: "fixed", top: 0, width: "100%", zIndex: 50 }}>
-        <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 32px", height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <nav style={{ backgroundColor: "rgba(255,255,255,0.95)", borderBottom: "1px solid #f0fdf4", position: "fixed", top: 0, width: "100%", zIndex: 50, backdropFilter: "blur(12px)" }}>
+        <div style={{ maxWidth: "100%", padding: "0 32px", height: "68px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <Link href="/" style={{ fontSize: "20px", fontWeight: 800, color: "#064e3b", textDecoration: "none" }}>
-              Chashma Learn
+            <Link href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
+              <img src="/logo.png" alt="Chashma Learn" style={{ width: "34px", height: "34px", objectFit: "contain" }} />
+              <span style={{ fontSize: "17px", fontWeight: 800, color: "#064e3b", letterSpacing: "-0.5px" }}>Chashma Learn</span>
             </Link>
             <span style={{ color: "#d1d5db" }}>›</span>
             <span style={{ fontSize: "14px", fontWeight: 600, color: "#111827" }}>General English</span>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <Link href="/dashboard" style={{ fontSize: "14px", color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>Dashboard</Link>
-            <span style={{
-              fontSize: "12px", fontWeight: 700, padding: "3px 10px", borderRadius: "999px", textTransform: "uppercase",
-              backgroundColor: role === "owner" ? "#fef3c7" : role === "admin" ? "#dbeafe" : role === "learner" ? "#d1fae5" : "#f3f4f6",
-              color: role === "owner" ? "#92400e" : role === "admin" ? "#1d4ed8" : role === "learner" ? "#036c48" : "#6b7280",
-            }}>
-              {role}
-            </span>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <Link href="/dashboard" style={{ fontSize: "13px", color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>Dashboard</Link>
+            <Link href="/courses" style={{ fontSize: "13px", color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>All Courses</Link>
+            <div style={{ width: "32px", height: "32px", borderRadius: "999px", backgroundColor: "#d1fae5", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", fontWeight: 700, color: "#036c48" }}>
+              {(user?.displayName || user?.email || "?")[0].toUpperCase()}
+            </div>
           </div>
         </div>
       </nav>
 
-      <div style={{ display: "flex", paddingTop: "64px" }}>
+      <div style={{ display: "flex", paddingTop: "68px" }}>
 
         {/* SIDEBAR */}
-        <aside style={{ width: "240px", height: "calc(100vh - 64px)", position: "fixed", left: 0, top: "64px", backgroundColor: "#ffffff", borderRight: "1px solid #e5e7eb", display: "flex", flexDirection: "column" }}>
-          <div style={{ padding: "20px 16px", borderBottom: "1px solid #f3f4f6" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <div style={{ width: "36px", height: "36px", borderRadius: "8px", backgroundColor: "#d1fae5", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <span className="material-symbols-outlined" style={{ color: "#036c48", fontSize: "20px" }}>language</span>
-              </div>
-              <div>
-                <p style={{ fontSize: "13px", fontWeight: 700, color: "#111827" }}>General English</p>
-                <p style={{ fontSize: "10px", color: "#9ca3af", textTransform: "uppercase", letterSpacing: "0.5px" }}>8 Topics</p>
-              </div>
-            </div>
+        <aside style={{ width: sidebarWidth, minHeight: "calc(100vh - 68px)", position: "fixed", left: 0, top: "68px", backgroundColor: "#ffffff", borderRight: "1px solid #e5e7eb", display: "flex", flexDirection: "column", transition: "width 0.25s ease", overflow: "hidden", zIndex: 40 }}>
+
+          {/* Toggle button */}
+          <div style={{ padding: "12px", borderBottom: "1px solid #f3f4f6", display: "flex", justifyContent: sidebarOpen ? "space-between" : "center", alignItems: "center" }}>
+            {sidebarOpen && (
+              <span style={{ fontSize: "11px", fontWeight: 700, color: "#9ca3af", textTransform: "uppercase", letterSpacing: "0.5px" }}>Topics</span>
+            )}
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              style={{ width: "28px", height: "28px", borderRadius: "6px", border: "1px solid #e5e7eb", backgroundColor: "#f9fafb", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
+            >
+              <span style={{ fontSize: "14px", color: "#6b7280" }}>{sidebarOpen ? "←" : "→"}</span>
+            </button>
           </div>
 
-          <nav style={{ flex: 1, padding: "8px", overflowY: "auto" }}>
-            {tabs.map((tab) => {
-              const locked = !tab.free && !isLearner;
-              const active = tab.id === activeTab;
+          {/* Nav items */}
+          <nav style={{ flex: 1, padding: "8px", overflowY: "auto", overflowX: "hidden" }}>
+            {subjects.map((subject) => {
+              const active = subject.id === activeSubject;
               return (
                 <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  key={subject.id}
+                  onClick={() => setActiveSubject(subject.id)}
+                  title={!sidebarOpen ? subject.label : ""}
                   style={{
-                    width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between",
-                    gap: "10px", padding: "10px 12px", borderRadius: "8px", marginBottom: "2px",
-                    border: "none", cursor: locked ? "not-allowed" : "pointer", textAlign: "left",
-                    backgroundColor: active ? "#d1fae5" : "transparent",
-                    color: locked ? "#d1d5db" : active ? "#036c48" : "#6b7280",
+                    width: "100%", display: "flex", alignItems: "center", gap: "10px",
+                    padding: sidebarOpen ? "10px 12px" : "10px 0", justifyContent: sidebarOpen ? "flex-start" : "center",
+                    borderRadius: "8px", marginBottom: "2px", border: "none", cursor: "pointer",
+                    textAlign: "left", fontFamily: "'Manrope', sans-serif",
+                    backgroundColor: active ? "#f0fdf4" : "transparent",
+                    color: active ? "#036c48" : "#6b7280",
                     fontWeight: active ? 700 : 500, fontSize: "13px",
-                    fontFamily: "'Manrope', sans-serif",
+                    borderLeft: active ? "3px solid #036c48" : "3px solid transparent",
+                    transition: "all 0.15s",
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    <span className="material-symbols-outlined" style={{ fontSize: "18px" }}>{tab.icon}</span>
-                    {tab.label}
-                  </div>
-                  {locked && <span className="material-symbols-outlined" style={{ fontSize: "14px" }}>lock</span>}
-                  {tab.free && !locked && <span style={{ fontSize: "9px", fontWeight: 700, backgroundColor: "#d1fae5", color: "#036c48", padding: "1px 6px", borderRadius: "999px" }}>FREE</span>}
+                  <span style={{ fontSize: "18px", flexShrink: 0 }}>{subject.icon}</span>
+                  {sidebarOpen && <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{subject.label}</span>}
                 </button>
               );
             })}
           </nav>
 
-          <div style={{ padding: "16px", borderTop: "1px solid #f3f4f6" }}>
-            <Link href="/courses" style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "12px", color: "#9ca3af", textDecoration: "none" }}>
-              <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>arrow_back</span>
-              All Modes
-            </Link>
-          </div>
+          {/* Back link */}
+          {sidebarOpen && (
+            <div style={{ padding: "12px 16px", borderTop: "1px solid #f3f4f6" }}>
+              <Link href="/courses" style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "#9ca3af", textDecoration: "none" }}>
+                ← All Courses
+              </Link>
+            </div>
+          )}
         </aside>
 
-        {/* MAIN */}
-        <main style={{ marginLeft: "240px", flex: 1, padding: "40px 48px" }}>
+        {/* MAIN CONTENT */}
+        <main style={{ marginLeft: sidebarWidth, flex: 1, padding: "36px 40px", transition: "margin-left 0.25s ease", minWidth: 0 }}>
 
           {/* Viewer banner */}
           {!isLearner && (
-            <div style={{ backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderRadius: "8px", padding: "12px 16px", marginBottom: "24px", display: "flex", alignItems: "center", gap: "10px" }}>
-              <span className="material-symbols-outlined" style={{ color: "#d97706", fontSize: "18px" }}>info</span>
+            <div style={{ backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderRadius: "10px", padding: "12px 20px", marginBottom: "28px", display: "flex", alignItems: "center", gap: "12px" }}>
+              <span style={{ fontSize: "18px" }}>🔒</span>
               <p style={{ fontSize: "13px", color: "#92400e", fontWeight: 500 }}>
-                You have free access to Oxford Word Skills and Grammar only.{" "}
-                <Link href="/dashboard" style={{ color: "#036c48", fontWeight: 700 }}>Upgrade to Learner</Link> to unlock all 8 topics.
+                You can access all books and the first 3 units free.{" "}
+                <Link href="/dashboard" style={{ color: "#036c48", fontWeight: 700, textDecoration: "none" }}>Upgrade to Learner</Link>
+                {" "}to unlock all units.
               </p>
             </div>
           )}
 
-          {/* Tab header */}
-          <div style={{ marginBottom: "32px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
-              <div style={{ width: "44px", height: "44px", borderRadius: "10px", backgroundColor: "#d1fae5", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <span className="material-symbols-outlined" style={{ color: "#036c48", fontSize: "22px" }}>{currentTab.icon}</span>
-              </div>
-              <div>
-                <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#111827", letterSpacing: "-0.5px" }}>
-                  {currentTab.label}
-                </h1>
-                <p style={{ fontSize: "13px", color: "#9ca3af" }}>General English — {currentTab.units.length} units</p>
-              </div>
+          {/* Section header */}
+          <div style={{ marginBottom: "28px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "6px" }}>
+              <span style={{ fontSize: "28px" }}>{currentSubject.icon}</span>
+              <h1 style={{ fontSize: "26px", fontWeight: 800, color: "#064e3b", letterSpacing: "-0.5px" }}>
+                {currentSubject.label}
+              </h1>
             </div>
-            <p style={{ fontSize: "15px", color: "#6b7280", lineHeight: 1.6, maxWidth: "600px" }}>
-              {currentTab.desc}
+            <p style={{ fontSize: "13px", color: "#9ca3af", marginLeft: "40px" }}>
+              {currentSubject.books.length} books available
             </p>
           </div>
 
-          {/* Locked state */}
-          {tabLocked ? (
-            <div style={{ textAlign: "center", padding: "80px 40px", backgroundColor: "#ffffff", borderRadius: "16px", border: "1px solid #e5e7eb" }}>
-              <div style={{ width: "64px", height: "64px", borderRadius: "999px", backgroundColor: "#f3f4f6", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
-                <span className="material-symbols-outlined" style={{ fontSize: "32px", color: "#9ca3af" }}>lock</span>
-              </div>
-              <h2 style={{ fontSize: "20px", fontWeight: 800, color: "#111827", marginBottom: "10px" }}>
-                {currentTab.label} is locked
-              </h2>
-              <p style={{ fontSize: "14px", color: "#6b7280", maxWidth: "360px", margin: "0 auto 24px", lineHeight: 1.6 }}>
-                This topic is available for Learners only. Contact the admin to upgrade your account.
-              </p>
-              <Link href="/dashboard" style={{ backgroundColor: "#036c48", color: "#ffffff", padding: "12px 28px", borderRadius: "8px", fontWeight: 700, fontSize: "14px", textDecoration: "none" }}>
-                Back to Dashboard
-              </Link>
-            </div>
-          ) : (
-            /* Units grid */
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "16px" }}>
-              {currentTab.units.map((unit, i) => {
-                const lc = levelColor[unit.level] || levelColor.B1;
-                return (
-                  <Link
-                    key={i}
-                    href={`/english/${currentTab.id}/unit-${i + 1}`}
-                    style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb", borderRadius: "12px", padding: "24px", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px" }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                      <div style={{ width: "40px", height: "40px", borderRadius: "10px", backgroundColor: "#f3f4f6", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", fontWeight: 800, color: "#036c48", flexShrink: 0 }}>
-                        {i + 1}
-                      </div>
-                      <div>
-                        <p style={{ fontSize: "14px", fontWeight: 700, color: "#111827", marginBottom: "6px" }}>{unit.title}</p>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                          <span style={{ fontSize: "11px", fontWeight: 700, backgroundColor: lc.bg, color: lc.color, padding: "2px 8px", borderRadius: "999px" }}>
-                            {unit.level}
-                          </span>
-                          <span style={{ fontSize: "11px", color: "#9ca3af", display: "flex", alignItems: "center", gap: "4px" }}>
-                            <span className="material-symbols-outlined" style={{ fontSize: "13px" }}>schedule</span>
-                            {unit.time}
-                          </span>
-                        </div>
-                      </div>
+          {/* Book cards grid */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "20px" }}>
+            {currentSubject.books.map((book) => {
+              const lc = book.level ? (levelColor[book.level] || { bg: "#f3f4f6", color: "#6b7280" }) : null;
+              return (
+                <Link
+                  key={book.id}
+                  href={`/english/${currentSubject.id}/${book.id}`}
+                  style={{ backgroundColor: "#ffffff", border: book.unified ? "2px solid #bbf7d0" : "1px solid #e5e7eb", borderRadius: "14px", overflow: "hidden", textDecoration: "none", display: "flex", flexDirection: "column", transition: "box-shadow 0.15s" }}
+                >
+                  {/* Book cover */}
+                  <div style={{ width: "100%", aspectRatio: "3/4", backgroundColor: book.unified ? "#f0fdf4" : "#f9fafb", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+                    <img
+                      src={book.cover}
+                      alt={book.title}
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      onError={(e) => { e.target.style.display = "none"; e.target.nextSibling.style.display = "flex"; }}
+                    />
+                    {/* Placeholder shown when image fails */}
+                    <div style={{ display: "none", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "8px", backgroundColor: book.unified ? "#f0fdf4" : "#f9fafb" }}>
+                      <span style={{ fontSize: "40px" }}>{currentSubject.icon}</span>
+                      <span style={{ fontSize: "10px", color: "#9ca3af", fontWeight: 600, textAlign: "center", padding: "0 12px" }}>Cover coming soon</span>
                     </div>
-                    <span className="material-symbols-outlined" style={{ fontSize: "20px", color: "#d1d5db" }}>chevron_right</span>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
+                    {/* Unified badge */}
+                    {book.unified && (
+                      <div style={{ position: "absolute", top: "8px", right: "8px", backgroundColor: "#036c48", color: "#ffffff", fontSize: "9px", fontWeight: 800, padding: "3px 8px", borderRadius: "999px", textTransform: "uppercase", letterSpacing: "0.3px" }}>
+                        By Akrom Nabi
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Book info */}
+                  <div style={{ padding: "14px 16px", flex: 1, display: "flex", flexDirection: "column", gap: "6px" }}>
+                    <p style={{ fontSize: "13px", fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{book.title}</p>
+                    {book.level && lc && (
+                      <span style={{ fontSize: "10px", fontWeight: 700, backgroundColor: lc.bg, color: lc.color, padding: "2px 8px", borderRadius: "999px", display: "inline-block", width: "fit-content" }}>
+                        {book.level}
+                      </span>
+                    )}
+                    <p style={{ fontSize: "11px", color: "#9ca3af", lineHeight: 1.4, marginTop: "2px" }}>{book.authors}</p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
 
         </main>
       </div>
