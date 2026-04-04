@@ -91,6 +91,7 @@ const subjects = [
     books: [
       { id: "iiu-intermediate", title: "Idioms in Use",                level: "Intermediate",    authors: "Michael McCarthy, Felicity O'Dell",  cover: "/books/iiu-intermediate.jpg" },
       { id: "iiu-advanced",     title: "Idioms in Use",                level: "Advanced",        authors: "Michael McCarthy, Felicity O'Dell",  cover: "/books/iiu-advanced.jpg"     },
+      { id: "unified-phrasal",   title: "Unified Phrasal Verbs Book",  level: null,              authors: "Prepared by Akrom Nabi",            cover: "/books/unified-phrasal.jpg", unified: true },
     ],
   },
   {
