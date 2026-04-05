@@ -49,7 +49,7 @@ const sections = [
     units: [
       {
         id: "u01", num: "01", title: "be: Forms and Uses",
-        path: "/english/grammar/unified/unit-01",
+        path: "/english/grammar/unified-grammar/unit-01",
         modelTopic: "Traditional vs Modern Education — identifying every use of be as main verb, auxiliary, or linking verb.",
         grammarFocus: [
           "Contracted forms in speech vs full forms in writing",
@@ -64,7 +64,7 @@ const sections = [
       },
       {
         id: "u02", num: "02", title: "there is / there are",
-        path: "/english/grammar/unified/unit-02",
+        path: "/english/grammar/unified-grammar/unit-02",
         modelTopic: "Urban Development — The Affordable Housing Shortage; rich in there is/are/has been constructions.",
         grammarFocus: [
           "Agreement: there is + singular / there are + plural",
@@ -79,7 +79,7 @@ const sections = [
       },
       {
         id: "u03", num: "03", title: "have: Main Verb and Auxiliary",
-        path: "/english/grammar/unified/unit-03",
+        path: "/english/grammar/unified-grammar/unit-03",
         modelTopic: "Health and Wellbeing — Mental Health Services; what communities have and what people have been having difficulty accessing.",
         grammarFocus: [
           "have got (British) vs have (American/neutral): register and context",
@@ -104,7 +104,7 @@ const sections = [
     units: [
       {
         id: "u04", num: "04", title: "Present Simple: Forms and Use",
-        path: "/english/grammar/unified/unit-04",
+        path: "/english/grammar/unified-grammar/unit-04",
         modelTopic: "Work and Employment — Remote Work: Benefits and Drawbacks; how remote workers structure their day.",
         grammarFocus: [
           "Third person -s: spelling rules (watches, tries, goes)",
@@ -119,7 +119,7 @@ const sections = [
       },
       {
         id: "u05", num: "05", title: "Present Continuous: Forms and Use",
-        path: "/english/grammar/unified/unit-05",
+        path: "/english/grammar/unified-grammar/unit-05",
         modelTopic: "Environment and Sustainability — Climate Change; temperatures are rising, ice caps are melting.",
         grammarFocus: [
           "Spelling: -ing endings (doubling: running; dropping -e: driving)",
@@ -134,7 +134,7 @@ const sections = [
       },
       {
         id: "u06", num: "06", title: "Present Simple vs Present Continuous",
-        path: "/english/grammar/unified/unit-06",
+        path: "/english/grammar/unified-grammar/unit-06",
         modelTopic: "Technology and Society — Social Media; contrasting what it does (permanent) vs what it is currently doing (ongoing).",
         grammarFocus: [
           "Stative verbs: know, believe, love, want, understand, seem, own — not usually continuous",
@@ -159,7 +159,7 @@ const sections = [
     units: [
       {
         id: "u07", num: "07", title: "going to and Present Continuous for Future",
-        path: "/english/grammar/unified/unit-07",
+        path: "/english/grammar/unified-grammar/unit-07",
         modelTopic: "Science and Research — Space Exploration; upcoming missions, what agencies are going to launch.",
         grammarFocus: [
           "going to + present evidence: Look at those clouds — it's going to rain",
@@ -174,7 +174,7 @@ const sections = [
       },
       {
         id: "u08", num: "08", title: "will: Predictions, Decisions, Promises",
-        path: "/english/grammar/unified/unit-08",
+        path: "/english/grammar/unified-grammar/unit-08",
         modelTopic: "Government and Politics — International Relations; what world leaders will do, spontaneous policy announcements.",
         grammarFocus: [
           "Spontaneous decision (I'll get the door) vs planned intention (I'm going to get a new job)",
@@ -189,7 +189,7 @@ const sections = [
       },
       {
         id: "u09", num: "09", title: "Future Perfect, Continuous and Other Future Forms",
-        path: "/english/grammar/unified/unit-09",
+        path: "/english/grammar/unified-grammar/unit-09",
         modelTopic: "Transport and Travel — Aviation; what aviation will have produced in emissions by 2050.",
         grammarFocus: [
           "Future continuous: action in progress at a future point (This time tomorrow, I'll be flying)",
@@ -214,7 +214,7 @@ const sections = [
     units: [
       {
         id: "u10", num: "10", title: "Past Simple: Forms and Use",
-        path: "/english/grammar/unified/unit-10",
+        path: "/english/grammar/unified-grammar/unit-10",
         modelTopic: "Society and Culture — Globalisation and Cultural Identity; how globalisation transformed local industries.",
         grammarFocus: [
           "Irregular verb patterns grouped by vowel change (sing/sang, drive/drove, bring/brought)",
@@ -229,7 +229,7 @@ const sections = [
       },
       {
         id: "u11", num: "11", title: "Past Continuous: Forms and Use",
-        path: "/english/grammar/unified/unit-11",
+        path: "/english/grammar/unified-grammar/unit-11",
         modelTopic: "Crime, Law and Punishment — witnesses describe what people were doing when an incident occurred.",
         grammarFocus: [
           "when + past simple (interruption) vs while + past continuous (background)",
@@ -254,7 +254,7 @@ const sections = [
     units: [
       {
         id: "u12", num: "12", title: "Present Perfect: Introduction",
-        path: "/english/grammar/unified/unit-12",
+        path: "/english/grammar/unified-grammar/unit-12",
         modelTopic: "Health and Wellbeing — Vaccination and Public Health; campaigns have eliminated diseases.",
         grammarFocus: [
           "since (point in time) vs for (duration)",
@@ -269,7 +269,7 @@ const sections = [
       },
       {
         id: "u13", num: "13", title: "Present Perfect vs Past Simple",
-        path: "/english/grammar/unified/unit-13",
+        path: "/english/grammar/unified-grammar/unit-13",
         modelTopic: "Arts and Culture — Museums and Arts Funding; what a museum has achieved (PP) vs what it did during renovation (PS).",
         grammarFocus: [
           "Definite time words (yesterday, last year, in 2010) → always past simple",
@@ -284,7 +284,7 @@ const sections = [
       },
       {
         id: "u14", num: "14", title: "Present Perfect Continuous",
-        path: "/english/grammar/unified/unit-14",
+        path: "/english/grammar/unified-grammar/unit-14",
         modelTopic: "Environment — Pollution; factories have been releasing pollutants for decades.",
         grammarFocus: [
           "Emphasis on duration → continuous (I've been waiting for an hour)",
@@ -299,7 +299,7 @@ const sections = [
       },
       {
         id: "u15", num: "15", title: "Past Perfect: Simple and Continuous",
-        path: "/english/grammar/unified/unit-15",
+        path: "/english/grammar/unified-grammar/unit-15",
         modelTopic: "Society and Culture — Immigration; what had happened before migrants decided to leave.",
         grammarFocus: [
           "Past perfect only needed when sequence is unclear from context",
@@ -324,7 +324,7 @@ const sections = [
     units: [
       {
         id: "u16", num: "16", title: "must and have to: Obligation and Deduction",
-        path: "/english/grammar/unified/unit-16",
+        path: "/english/grammar/unified-grammar/unit-16",
         modelTopic: "Government and Politics — Taxation; what citizens must pay, what businesses have to report.",
         grammarFocus: [
           "must (internal/speaker's authority) vs have to (external rule)",
@@ -339,7 +339,7 @@ const sections = [
       },
       {
         id: "u17", num: "17", title: "can, could, may, might: Ability and Possibility",
-        path: "/english/grammar/unified/unit-17",
+        path: "/english/grammar/unified-grammar/unit-17",
         modelTopic: "Science and Research — Medical Research; what new treatments can do, what researchers might discover.",
         grammarFocus: [
           "can (ability now) vs could (past ability, or polite possibility)",
@@ -354,7 +354,7 @@ const sections = [
       },
       {
         id: "u18", num: "18", title: "should, ought to, had better, would, used to",
-        path: "/english/grammar/unified/unit-18",
+        path: "/english/grammar/unified-grammar/unit-18",
         modelTopic: "Personal Development — Lifelong Learning; what adult learners should prioritise, what professionals used to do.",
         grammarFocus: [
           "should have done — past criticism or regret (You should have called)",
@@ -379,7 +379,7 @@ const sections = [
     units: [
       {
         id: "u19", num: "19", title: "Passive: Forms Across Tenses",
-        path: "/english/grammar/unified/unit-19",
+        path: "/english/grammar/unified-grammar/unit-19",
         modelTopic: "Arts and Culture — Museums; artworks are stored, restored, have been donated, and were acquired.",
         grammarFocus: [
           "Formation: be (in any tense) + past participle",
@@ -394,7 +394,7 @@ const sections = [
       },
       {
         id: "u20", num: "20", title: "Passive: Advanced Structures",
-        path: "/english/grammar/unified/unit-20",
+        path: "/english/grammar/unified-grammar/unit-20",
         modelTopic: "Government and Politics — Transparency; It is believed that…, The policy is reported to have…",
         grammarFocus: [
           "Two passive options: Susan was given a prize vs A prize was given to Susan",
@@ -418,7 +418,7 @@ const sections = [
     units: [
       {
         id: "u21", num: "21", title: "Question Formation",
-        path: "/english/grammar/unified/unit-21",
+        path: "/english/grammar/unified-grammar/unit-21",
         modelTopic: "Media and Communication — Fake News and Information Trust; question types embedded in analytical text.",
         grammarFocus: [
           "Subject questions: Who wrote this? (no auxiliary) vs Who did you call? (with auxiliary)",
@@ -433,7 +433,7 @@ const sections = [
       },
       {
         id: "u22", num: "22", title: "Negatives",
-        path: "/english/grammar/unified/unit-22",
+        path: "/english/grammar/unified-grammar/unit-22",
         modelTopic: "Society and Culture — Income Inequality; It is not the case that…, No government has fully addressed…",
         grammarFocus: [
           "not (with verb) vs no (with noun): It's not a problem / It's no problem",
@@ -458,7 +458,7 @@ const sections = [
     units: [
       {
         id: "u23", num: "23", title: "Infinitive: Uses and Patterns",
-        path: "/english/grammar/unified/unit-23",
+        path: "/english/grammar/unified-grammar/unit-23",
         modelTopic: "Work and Employment — Internships; what companies expect interns to do, what interns hope to gain.",
         grammarFocus: [
           "Bare infinitive after modal verbs and make/let/help",
@@ -474,7 +474,7 @@ const sections = [
       },
       {
         id: "u24", num: "24", title: "-ing Form: Uses and Patterns",
-        path: "/english/grammar/unified/unit-24",
+        path: "/english/grammar/unified-grammar/unit-24",
         modelTopic: "Health and Wellbeing — Diet and Lifestyle; benefits of eating well, exercising regularly.",
         grammarFocus: [
           "Gerund as subject: Smoking is harmful — singular verb",
@@ -489,7 +489,7 @@ const sections = [
       },
       {
         id: "u25", num: "25", title: "Infinitive vs -ing Form: The Core Problem",
-        path: "/english/grammar/unified/unit-25",
+        path: "/english/grammar/unified-grammar/unit-25",
         modelTopic: "Education — Rote Learning vs Critical Thinking; teachers try introducing vs try to introduce.",
         grammarFocus: [
           "stop + -ing (end the activity) vs stop + to infinitive (pause in order to do something else)",
@@ -516,7 +516,7 @@ const sections = [
     units: [
       {
         id: "u26", num: "26", title: "Phrasal Verbs and Verbs with Prepositions",
-        path: "/english/grammar/unified/unit-26",
+        path: "/english/grammar/unified-grammar/unit-26",
         modelTopic: "Technology and Society — Smartphones; users put off updating, look into settings, come across new apps.",
         grammarFocus: [
           "Separable phrasal verbs: turn the TV off / turn it off (pronoun must go between)",
@@ -531,7 +531,7 @@ const sections = [
       },
       {
         id: "u27", num: "27", title: "Verbs with Two Objects and Causative Structures",
-        path: "/english/grammar/unified/unit-27",
+        path: "/english/grammar/unified-grammar/unit-27",
         modelTopic: "Urban Development — Green Spaces; councils have had parks redesigned, gave residents better access.",
         grammarFocus: [
           "Pattern 1: She gave me the book vs Pattern 2: She gave the book to me",
@@ -556,7 +556,7 @@ const sections = [
     units: [
       {
         id: "u28", num: "28", title: "a/an: Uses and Patterns",
-        path: "/english/grammar/unified/unit-28",
+        path: "/english/grammar/unified-grammar/unit-28",
         modelTopic: "Health and Wellbeing — Healthcare Systems; introducing a doctor, a nurse, a clinic as first mentions.",
         grammarFocus: [
           "a/an = one, any one of (not specific) — first mention or non-specific reference",
@@ -571,7 +571,7 @@ const sections = [
       },
       {
         id: "u29", num: "29", title: "the: Uses and Special Cases",
-        path: "/english/grammar/unified/unit-29",
+        path: "/english/grammar/unified-grammar/unit-29",
         modelTopic: "Society and Culture — Preserving Traditional Cultures; mixing generic and specific reference.",
         grammarFocus: [
           "the = both speaker and listener know which one is meant",
@@ -596,7 +596,7 @@ const sections = [
     units: [
       {
         id: "u30", num: "30", title: "some, any, much, many, a lot of",
-        path: "/english/grammar/unified/unit-30",
+        path: "/english/grammar/unified-grammar/unit-30",
         modelTopic: "Environment — Sustainable Living; how much waste is generated, whether any recycling programmes are effective.",
         grammarFocus: [
           "some (affirmative) vs any (negative/question) — but some in offers (Would you like some?)",
@@ -611,7 +611,7 @@ const sections = [
       },
       {
         id: "u31", num: "31", title: "all, every, each, both, either, neither",
-        path: "/english/grammar/unified/unit-31",
+        path: "/english/grammar/unified-grammar/unit-31",
         modelTopic: "Work and Employment — The Gender Pay Gap; both men and women, every employee, each department.",
         grammarFocus: [
           "all + plural noun (no of needed unless with pronoun: all of us)",
@@ -637,7 +637,7 @@ const sections = [
     units: [
       {
         id: "u32", num: "32", title: "Personal Pronouns and Possessives",
-        path: "/english/grammar/unified/unit-32",
+        path: "/english/grammar/unified-grammar/unit-32",
         modelTopic: "Society and Culture — Family Structures; how one defines family, how they (institutions) shape structure.",
         grammarFocus: [
           "myself/yourself for emphasis (I did it myself) vs reflexive (She hurt herself)",
@@ -662,7 +662,7 @@ const sections = [
     units: [
       {
         id: "u33", num: "33", title: "Countable and Uncountable Nouns",
-        path: "/english/grammar/unified/unit-33",
+        path: "/english/grammar/unified-grammar/unit-33",
         modelTopic: "Food and Agriculture — Food Waste; natural countable (meals, ingredients) and uncountable (food, waste, energy) contrast.",
         grammarFocus: [
           "Uncountable nouns: never a/an, never plural -s: advice, information, furniture, luggage",
@@ -677,7 +677,7 @@ const sections = [
       },
       {
         id: "u34", num: "34", title: "Noun Forms: Plurals, Possessives, Noun + Noun",
-        path: "/english/grammar/unified/unit-34",
+        path: "/english/grammar/unified-grammar/unit-34",
         modelTopic: "Urban Development — Smart Cities; traffic management, city council, the city's infrastructure.",
         grammarFocus: [
           "'s for people/animals (the teacher's explanation); of for things (the cost of living)",
@@ -702,7 +702,7 @@ const sections = [
     units: [
       {
         id: "u35", num: "35", title: "Adjectives: Position and Order",
-        path: "/english/grammar/unified/unit-35",
+        path: "/english/grammar/unified-grammar/unit-35",
         modelTopic: "Arts and Culture — Contemporary vs Traditional Art; a striking modern sculpture, an elegant ancient vase.",
         grammarFocus: [
           "Standard order: Opinion → Size → Age → Shape → Colour → Origin → Material → Purpose + Noun",
@@ -717,7 +717,7 @@ const sections = [
       },
       {
         id: "u36", num: "36", title: "Adverbs: Types, Position, and Use",
-        path: "/english/grammar/unified/unit-36",
+        path: "/english/grammar/unified-grammar/unit-36",
         modelTopic: "Media and Communication — Advertising and False Claims; clearly misleading, highly exaggerated, barely regulated.",
         grammarFocus: [
           "Position rules: manner (quickly) → end; frequency (often) → mid; degree (very) → before adjective",
@@ -742,7 +742,7 @@ const sections = [
     units: [
       {
         id: "u37", num: "37", title: "Comparative and Superlative Forms",
-        path: "/english/grammar/unified/unit-37",
+        path: "/english/grammar/unified-grammar/unit-37",
         modelTopic: "Sports and Leisure — Athletes' Salaries; far higher than, the most watched, increasingly competitive.",
         grammarFocus: [
           "One/two-syllable adjectives: generally -er/-est; some exceptions (more bored, not boreder)",
@@ -768,7 +768,7 @@ const sections = [
     units: [
       {
         id: "u38", num: "38", title: "Coordinating and Subordinating Conjunctions",
-        path: "/english/grammar/unified/unit-38",
+        path: "/english/grammar/unified-grammar/unit-38",
         modelTopic: "Environment — Individual vs Government Responsibility; arguing using although, because, unless, not only…but also.",
         grammarFocus: [
           "Subordinating conjunctions can begin a sentence: Although it rained, the event continued",
@@ -793,7 +793,7 @@ const sections = [
     units: [
       {
         id: "u39", num: "39", title: "Zero and First Conditional",
-        path: "/english/grammar/unified/unit-39",
+        path: "/english/grammar/unified-grammar/unit-39",
         modelTopic: "Environment — Climate Policy; If governments act now, temperatures will stabilise.",
         grammarFocus: [
           "Zero: If + present simple, present simple (general truth/scientific fact)",
@@ -809,7 +809,7 @@ const sections = [
       },
       {
         id: "u40", num: "40", title: "Second and Third Conditional",
-        path: "/english/grammar/unified/unit-40",
+        path: "/english/grammar/unified-grammar/unit-40",
         modelTopic: "Government and Politics — Voting Systems; If voting were compulsory, turnout would be higher.",
         grammarFocus: [
           "Second: If + past simple, would + infinitive (NOT would in the if clause)",
@@ -826,7 +826,7 @@ const sections = [
       },
       {
         id: "u41", num: "41", title: "wish, if only, it's time, I'd rather",
-        path: "/english/grammar/unified/unit-41",
+        path: "/english/grammar/unified-grammar/unit-41",
         modelTopic: "Work and Employment — Career Regrets; I wish I had chosen a different career. It's time I made a real decision.",
         grammarFocus: [
           "wish + past simple (present regret: I wish I knew)",
@@ -852,7 +852,7 @@ const sections = [
     units: [
       {
         id: "u42", num: "42", title: "Defining Relative Clauses",
-        path: "/english/grammar/unified/unit-42",
+        path: "/english/grammar/unified-grammar/unit-42",
         modelTopic: "Technology and Society — Artificial Intelligence; AI is a technology that is transforming industries.",
         grammarFocus: [
           "who (people), which (things), that (people or things in defining clauses)",
@@ -868,7 +868,7 @@ const sections = [
       },
       {
         id: "u43", num: "43", title: "Non-Defining Relative Clauses and Reduced Relatives",
-        path: "/english/grammar/unified/unit-43",
+        path: "/english/grammar/unified-grammar/unit-43",
         modelTopic: "Arts and Culture — Government Funding for the Arts; The arts sector, which employs thousands, receives limited funding.",
         grammarFocus: [
           "Non-defining: always use commas; never use that; cannot omit the pronoun",
@@ -892,7 +892,7 @@ const sections = [
     units: [
       {
         id: "u44", num: "44", title: "Reported Statements and Questions",
-        path: "/english/grammar/unified/unit-44",
+        path: "/english/grammar/unified-grammar/unit-44",
         modelTopic: "Media and Communication — Fake News; what politicians said they were doing, what experts warned would occur.",
         grammarFocus: [
           "Tense backshift: present → past, past → past perfect, will → would",
@@ -908,7 +908,7 @@ const sections = [
       },
       {
         id: "u45", num: "45", title: "Reporting Verbs",
-        path: "/english/grammar/unified/unit-45",
+        path: "/english/grammar/unified-grammar/unit-45",
         modelTopic: "Science and Research — Open Access Publishing; researchers argue, claim, demonstrate, acknowledge, warn, and recommend.",
         grammarFocus: [
           "Pattern 1 — verb + that clause: argue, claim, explain, confirm, suggest",
@@ -934,7 +934,7 @@ const sections = [
     units: [
       {
         id: "u46", num: "46", title: "Prepositions of Time and Place",
-        path: "/english/grammar/unified/unit-46",
+        path: "/english/grammar/unified-grammar/unit-46",
         modelTopic: "Transport and Travel — Urban Commuting; in cities, at stations, by train, on time vs in time.",
         grammarFocus: [
           "Time: at (precise time), in (months, years, seasons, parts of day), on (days, dates)",
@@ -950,7 +950,7 @@ const sections = [
       },
       {
         id: "u47", num: "47", title: "Verb, Adjective, and Noun + Preposition Collocations",
-        path: "/english/grammar/unified/unit-47",
+        path: "/english/grammar/unified-grammar/unit-47",
         modelTopic: "Work and Employment — Workplace Stress; what employees cope with, what organisations are responsible for.",
         grammarFocus: [
           "Verb + preposition: agree with, apologise for, belong to, consist of, depend on, insist on, refer to",
@@ -976,7 +976,7 @@ const sections = [
     units: [
       {
         id: "u48", num: "48", title: "Question Tags and Short Answers",
-        path: "/english/grammar/unified/unit-48",
+        path: "/english/grammar/unified-grammar/unit-48",
         modelTopic: "Society and Culture — The Generation Gap; dialogue rich in question tags (Things have changed, haven't they?).",
         grammarFocus: [
           "Formation: positive statement → negative tag; negative statement → positive tag",
@@ -992,7 +992,7 @@ const sections = [
       },
       {
         id: "u49", num: "49", title: "Ellipsis, so/neither, and Spoken Sentence Structure",
-        path: "/english/grammar/unified/unit-49",
+        path: "/english/grammar/unified-grammar/unit-49",
         modelTopic: "Media and Communication — Decline of Face-to-Face Communication; natural ellipsis (Going out tonight? — Might do.).",
         grammarFocus: [
           "Ellipsis after auxiliaries: 'Are you coming?' 'I am.' (not repeating the main verb)",
@@ -1016,7 +1016,7 @@ const totalUnits    = sections.reduce((a, s) => a + s.units.length, 0);
 const FREE_UNITS    = 3;
 
 /* ─── Component ──────────────────────────────────────────── */
-export default function UnifiedGrammarPage() {
+export default function unified-grammarGrammarPage() {
   const [user, setUser]       = useState(null);
   const [role, setRole]       = useState(null);
   const [loading, setLoading] = useState(true);
@@ -1083,7 +1083,7 @@ export default function UnifiedGrammarPage() {
             <span style={{ color: "#d1d5db" }}>›</span>
             <Link href="/english/grammar" style={{ color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>Grammar</Link>
             <span style={{ color: "#d1d5db" }}>›</span>
-            <span style={{ color: "#064e3b", fontWeight: 700 }}>Unified Grammar</span>
+            <span style={{ color: "#064e3b", fontWeight: 700 }}>unified-grammar Grammar</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <Link href="/dashboard" style={{ fontSize: "13px", color: "#6b7280", textDecoration: "none" }}>Dashboard</Link>
@@ -1112,7 +1112,7 @@ export default function UnifiedGrammarPage() {
             </div>
             <div style={{ width: "60px", height: "1px", backgroundColor: "rgba(255,255,255,0.2)" }} />
             <p style={{ fontSize: "9px", fontWeight: 800, color: "rgba(255,255,255,0.8)", textAlign: "center", letterSpacing: "1px", lineHeight: 1.6 }}>
-              UNIFIED<br />GRAMMAR<br />PROGRAMME
+              unified-grammar<br />GRAMMAR<br />PROGRAMME
             </p>
           </div>
 
@@ -1122,7 +1122,7 @@ export default function UnifiedGrammarPage() {
               3-LEVEL SPIRAL CURRICULUM
             </span>
             <h1 style={{ fontSize: "24px", fontWeight: 800, color: "#064e3b", letterSpacing: "-0.4px", lineHeight: 1.2, marginBottom: "6px" }}>
-              Oxford English Grammar Course — Unified
+              Oxford English Grammar Course — unified-grammar
             </h1>
             <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "16px", fontWeight: 500 }}>
               Michael Swan & Catherine Walter · Basic → Intermediate → Advanced
