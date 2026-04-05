@@ -19,11 +19,11 @@ const auth = getAuth(app);
 const db   = getFirestore(app, "chashma-learn");
 
 const bookData = {
-  id:      "iiu-advanced",
+  id:      "iiu-intermediate",
   title:   "English Idioms in Use",
-  level:   "Advanced",
+  level:   "Intermediate",
   authors: "Michael McCarthy & Felicity O'Dell",
-  cover:   "/books/iiu-advanced.jpg",
+  cover:   "/books/iiu-intermediate.jpg",
   subject: "idioms",
   sections: [
     {
@@ -144,7 +144,7 @@ const sectionColors = [
   { accent: "#9333ea", bg: "#fdf4ff", badge: "#e9d5ff", text: "#581c87" },  // 6  Keywords
 ];
 
-export default function IIUAdvancedPage() {
+export default function IIUIntermediatePage() {
   const [user, setUser]                 = useState(null);
   const [role, setRole]                 = useState(null);
   const [loading, setLoading]           = useState(true);
@@ -201,7 +201,7 @@ export default function IIUAdvancedPage() {
             <span style={{ color: "#d1d5db" }}>›</span>
             <Link href="/english/idioms" style={{ color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>Idioms</Link>
             <span style={{ color: "#d1d5db" }}>›</span>
-            <span style={{ color: "#064e3b", fontWeight: 700 }}>IIU Advanced</span>
+            <span style={{ color: "#064e3b", fontWeight: 700 }}>IIU Intermediate</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <Link href="/dashboard" style={{ fontSize: "13px", color: "#6b7280", textDecoration: "none" }}>Dashboard</Link>
@@ -311,7 +311,7 @@ export default function IIUAdvancedPage() {
                       return (
                         <Link
                           key={unit.id}
-                          href={locked ? "#" : `/english/idioms/iiu-advanced/${unit.id}`}
+                          href={locked ? "#" : `/english/idioms/iiu-intermediate/${unit.id}`}
                           style={{
                             display: "flex", alignItems: "center", justifyContent: "space-between",
                             padding: "13px 20px", textDecoration: "none",
