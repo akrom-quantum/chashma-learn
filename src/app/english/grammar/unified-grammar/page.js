@@ -49,7 +49,7 @@ const sections = [
     units: [
       {
         id: "u01", num: "01", title: "be: Forms and Uses",
-        path: "/english/grammar/unified-grammar/unit-01",
+        path: "/english/grammar/unified-grammar/unit-1",
         modelTopic: "Traditional vs Modern Education — identifying every use of be as main verb, auxiliary, or linking verb.",
         grammarFocus: [
           "Contracted forms in speech vs full forms in writing",
@@ -64,7 +64,7 @@ const sections = [
       },
       {
         id: "u02", num: "02", title: "there is / there are",
-        path: "/english/grammar/unified-grammar/unit-02",
+        path: "/english/grammar/unified-grammar/unit-2",
         modelTopic: "Urban Development — The Affordable Housing Shortage; rich in there is/are/has been constructions.",
         grammarFocus: [
           "Agreement: there is + singular / there are + plural",
@@ -79,7 +79,7 @@ const sections = [
       },
       {
         id: "u03", num: "03", title: "have: Main Verb and Auxiliary",
-        path: "/english/grammar/unified-grammar/unit-03",
+        path: "/english/grammar/unified-grammar/unit-3",
         modelTopic: "Health and Wellbeing — Mental Health Services; what communities have and what people have been having difficulty accessing.",
         grammarFocus: [
           "have got (British) vs have (American/neutral): register and context",
@@ -104,7 +104,7 @@ const sections = [
     units: [
       {
         id: "u04", num: "04", title: "Present Simple: Forms and Use",
-        path: "/english/grammar/unified-grammar/unit-04",
+        path: "/english/grammar/unified-grammar/unit-4",
         modelTopic: "Work and Employment — Remote Work: Benefits and Drawbacks; how remote workers structure their day.",
         grammarFocus: [
           "Third person -s: spelling rules (watches, tries, goes)",
@@ -119,7 +119,7 @@ const sections = [
       },
       {
         id: "u05", num: "05", title: "Present Continuous: Forms and Use",
-        path: "/english/grammar/unified-grammar/unit-05",
+        path: "/english/grammar/unified-grammar/unit-5",
         modelTopic: "Environment and Sustainability — Climate Change; temperatures are rising, ice caps are melting.",
         grammarFocus: [
           "Spelling: -ing endings (doubling: running; dropping -e: driving)",
@@ -134,7 +134,7 @@ const sections = [
       },
       {
         id: "u06", num: "06", title: "Present Simple vs Present Continuous",
-        path: "/english/grammar/unified-grammar/unit-06",
+        path: "/english/grammar/unified-grammar/unit-6",
         modelTopic: "Technology and Society — Social Media; contrasting what it does (permanent) vs what it is currently doing (ongoing).",
         grammarFocus: [
           "Stative verbs: know, believe, love, want, understand, seem, own — not usually continuous",
@@ -159,7 +159,7 @@ const sections = [
     units: [
       {
         id: "u07", num: "07", title: "going to and Present Continuous for Future",
-        path: "/english/grammar/unified-grammar/unit-07",
+        path: "/english/grammar/unified-grammar/unit-7",
         modelTopic: "Science and Research — Space Exploration; upcoming missions, what agencies are going to launch.",
         grammarFocus: [
           "going to + present evidence: Look at those clouds — it's going to rain",
@@ -174,7 +174,7 @@ const sections = [
       },
       {
         id: "u08", num: "08", title: "will: Predictions, Decisions, Promises",
-        path: "/english/grammar/unified-grammar/unit-08",
+        path: "/english/grammar/unified-grammar/unit-8",
         modelTopic: "Government and Politics — International Relations; what world leaders will do, spontaneous policy announcements.",
         grammarFocus: [
           "Spontaneous decision (I'll get the door) vs planned intention (I'm going to get a new job)",
@@ -189,7 +189,7 @@ const sections = [
       },
       {
         id: "u09", num: "09", title: "Future Perfect, Continuous and Other Future Forms",
-        path: "/english/grammar/unified-grammar/unit-09",
+        path: "/english/grammar/unified-grammar/unit-9",
         modelTopic: "Transport and Travel — Aviation; what aviation will have produced in emissions by 2050.",
         grammarFocus: [
           "Future continuous: action in progress at a future point (This time tomorrow, I'll be flying)",
