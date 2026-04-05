@@ -237,7 +237,7 @@ export default function IIUIntermediatePage() {
           {/* Info */}
           <div>
             <span style={{ display: "inline-block", fontSize: "11px", fontWeight: 700, backgroundColor: "#fce7f3", color: "#9d174d", padding: "3px 10px", borderRadius: "999px", marginBottom: "10px", letterSpacing: "0.3px" }}>
-              ADVANCED
+              Intermediate
             </span>
             <h1 style={{ fontSize: "26px", fontWeight: 800, color: "#064e3b", letterSpacing: "-0.4px", lineHeight: 1.2, marginBottom: "6px" }}>
               {bookData.title}
