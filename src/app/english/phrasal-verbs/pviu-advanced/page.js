@@ -394,7 +394,7 @@ export default function PVIUIntermediatePage() {
                       href={
                         locked
                           ? "#"
-                          : `/english/phrasal-verbs/pviu-intermediate/${unit.id}`
+                          : `/english/phrasal-verbs/pviu-advanced/${unit.id}`
                       }
                       style={{
                         display: "flex",
