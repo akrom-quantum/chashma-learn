@@ -1016,7 +1016,7 @@ const totalUnits    = sections.reduce((a, s) => a + s.units.length, 0);
 const FREE_UNITS    = 3;
 
 /* ─── Component ──────────────────────────────────────────── */
-export default function unified-grammarGrammarPage() {
+export default function unifiedGrammarPage() {
   const [user, setUser]       = useState(null);
   const [role, setRole]       = useState(null);
   const [loading, setLoading] = useState(true);
