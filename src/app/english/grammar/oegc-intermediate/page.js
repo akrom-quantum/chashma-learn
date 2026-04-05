@@ -1,10 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
 import { initializeApp, getApps } from "firebase/app";
-import { getAuth, onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
+import {
+  getAuth, onAuthStateChanged,
+  browserLocalPersistence, setPersistence,
+} from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
 
+/* ─── Firebase ─────────────────────────────────────────── */
 const firebaseConfig = {
   apiKey:            "AIzaSyBD65CTP7Tx84l-qL-KT9pj3uMUOsLOCI4",
   authDomain:        "chashma-learn.firebaseapp.com",
@@ -13,11 +17,11 @@ const firebaseConfig = {
   messagingSenderId: "1059701555295",
   appId:             "1:1059701955295:web:104a64e41d60252a28dbea",
 };
-
 const app  = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 const auth = getAuth(app);
 const db   = getFirestore(app, "chashma-learn");
 
+/* ─── Book data — Intermediate ─────────────────────────── */
 const bookData = {
   id:      "oegc-intermediate",
   title:   "Oxford English Grammar Course",
@@ -26,549 +30,717 @@ const bookData = {
   cover:   "/books/oegc-intermediate.jpg",
   sections: [
     {
-      title: "Section 1 — be and have",
+      id: "section-01", num: "01", title: "be and have", icon: "🔤",
       subsections: [
-        { label: "Basics",  unitIds: ["unit-01","unit-02","unit-03","unit-04","unit-05","unit-06"] },
-        { label: "Review",  unitIds: ["unit-07","unit-08"] },
-      ],
-      units: [
-        { id: "unit-01", num: "01", title: "Revise the basics: be and have",                         subtitle: null },
-        { id: "unit-02", num: "02", title: "Revise the basics: there is/was etc",                    subtitle: null },
-        { id: "unit-03", num: "03", title: "There seems to be a delay.",                             subtitle: "More about there is" },
-        { id: "unit-04", num: "04", title: "We haven't got / don't have time.",                      subtitle: "have with got and do" },
-        { id: "unit-05", num: "05", title: "Do you often have colds?",                               subtitle: "Habitual and repeated actions" },
-        { id: "unit-06", num: "06", title: "I'm going to have a swim.",                              subtitle: "have for actions" },
-        { id: "unit-07", num: "07", title: "be and have: more practice",                             subtitle: null },
-        { id: "unit-08", num: "08", title: "be and have: revision test",                             subtitle: null },
+        { title: "Basics", units: [
+          { num: "1", label: "Revise the basics: be and have" },
+          { num: "2", label: "Revise the basics: there is/was etc" },
+          { num: "3", label: "More about there is — There seems to be a delay." },
+          { num: "4", label: "have with got and do — We haven't got / don't have time." },
+          { num: "5", label: "Habitual and repeated actions — Do you often have colds?" },
+          { num: "6", label: "have for actions — I'm going to have a swim." },
+        ]},
+        { title: "Review", units: [
+          { num: "7", label: "be and have: more practice" },
+          { num: "8", label: "be and have: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 2 — Present Tenses",
+      id: "section-02", num: "02", title: "Present Tenses", icon: "🕐",
       subsections: [
-        { label: "Basics & Forms", unitIds: ["unit-09","unit-10","unit-11","unit-12","unit-13"] },
-        { label: "Review",         unitIds: ["unit-14","unit-15"] },
-      ],
-      units: [
-        { id: "unit-09", num: "09", title: "Revise the basics: which present tense?",                subtitle: null },
-        { id: "unit-10", num: "10", title: "Revise the basics: spelling",                            subtitle: null },
-        { id: "unit-11", num: "11", title: "Prices are going up.",                                   subtitle: "Present progressive for changes" },
-        { id: "unit-12", num: "12", title: "You take the first left",                                subtitle: "Simple present: instructions etc" },
-        { id: "unit-13", num: "13", title: "I remember his face.",                                   subtitle: "Non-progressive verbs" },
-        { id: "unit-14", num: "14", title: "Present tenses: more practice",                          subtitle: null },
-        { id: "unit-15", num: "15", title: "Present tenses: revision test",                          subtitle: null },
+        { title: "Basics & Forms", units: [
+          { num: "1", label: "Revise the basics: which present tense?" },
+          { num: "2", label: "Revise the basics: spelling" },
+          { num: "3", label: "Present progressive for changes — Prices are going up." },
+          { num: "4", label: "Simple present: instructions etc — You take the first left" },
+          { num: "5", label: "Non-progressive verbs — I remember his face." },
+        ]},
+        { title: "Review", units: [
+          { num: "6", label: "Present tenses: more practice" },
+          { num: "7", label: "Present tenses: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 3 — Talking About the Future",
+      id: "section-03", num: "03", title: "Talking About the Future", icon: "🔮",
       subsections: [
-        { label: "Core Future Forms", unitIds: ["unit-16","unit-17","unit-18","unit-19","unit-20","unit-21","unit-22","unit-23","unit-24","unit-25"] },
-        { label: "Review",            unitIds: ["unit-26","unit-27"] },
-      ],
-      units: [
-        { id: "unit-16", num: "16", title: "Revise the basics: going to",                            subtitle: null },
-        { id: "unit-17", num: "17", title: "Revise the basics: present progressive for future",      subtitle: null },
-        { id: "unit-18", num: "18", title: "Revise the basics: will-future",                         subtitle: null },
-        { id: "unit-19", num: "19", title: "OK, I'll go.",                                           subtitle: "will in decisions, promises etc" },
-        { id: "unit-20", num: "20", title: "Which future? will, going to or present progressive?",   subtitle: null },
-        { id: "unit-21", num: "21", title: "My credit card expires at midnight.",                    subtitle: "Simple present for future" },
-        { id: "unit-22", num: "22", title: "This time tomorrow I'll be skiing.",                     subtitle: "Future progressive" },
-        { id: "unit-23", num: "23", title: "You're to do your homework.",                            subtitle: "be + infinitive" },
-        { id: "unit-24", num: "24", title: "I was going to ring you yesterday.",                     subtitle: "Future in the past" },
-        { id: "unit-25", num: "25", title: "He'll have finished the roof by Saturday.",              subtitle: "Future perfect" },
-        { id: "unit-26", num: "26", title: "Talking about the future: more practice",                subtitle: null },
-        { id: "unit-27", num: "27", title: "Talking about the future: revision test",                subtitle: null },
+        { title: "Core Future Forms", units: [
+          { num: "1",  label: "Revise the basics: going to" },
+          { num: "2",  label: "Revise the basics: present progressive for future" },
+          { num: "3",  label: "Revise the basics: will-future" },
+          { num: "4",  label: "will in decisions, promises etc — OK, I'll go." },
+          { num: "5",  label: "Which future? will, going to or present progressive?" },
+          { num: "6",  label: "Simple present — My credit card expires at midnight." },
+          { num: "7",  label: "Future progressive — This time tomorrow I'll be skiing." },
+          { num: "8",  label: "be + infinitive — You're to do your homework." },
+          { num: "9",  label: "Future in the past — I was going to ring you yesterday." },
+          { num: "10", label: "Future perfect — He'll have finished the roof by Saturday." },
+        ]},
+        { title: "Review", units: [
+          { num: "11", label: "Talking about the future: more practice" },
+          { num: "12", label: "Talking about the future: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 4 — Past Tenses",
+      id: "section-04", num: "04", title: "Past Tenses", icon: "⏪",
       subsections: [
-        { label: "Basics & Forms", unitIds: ["unit-28","unit-29","unit-30","unit-31"] },
-        { label: "Review",         unitIds: ["unit-32","unit-33"] },
-      ],
-      units: [
-        { id: "unit-28", num: "28", title: "Revise the basics: simple past forms",                   subtitle: null },
-        { id: "unit-29", num: "29", title: "Revise the basics: which past tense?",                   subtitle: null },
-        { id: "unit-30", num: "30", title: "More about past tenses",                                 subtitle: null },
-        { id: "unit-31", num: "31", title: "I wondered if you were free.",                           subtitle: "Past tenses in requests etc" },
-        { id: "unit-32", num: "32", title: "Past tenses: more practice",                             subtitle: null },
-        { id: "unit-33", num: "33", title: "Past tenses: revision test",                             subtitle: null },
+        { title: "Basics & Forms", units: [
+          { num: "1", label: "Revise the basics: simple past forms" },
+          { num: "2", label: "Revise the basics: which past tense?" },
+          { num: "3", label: "More about past tenses" },
+          { num: "4", label: "Past tenses in requests etc — I wondered if you were free." },
+        ]},
+        { title: "Review", units: [
+          { num: "5", label: "Past tenses: more practice" },
+          { num: "6", label: "Past tenses: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 5 — Perfect Tenses",
+      id: "section-05", num: "05", title: "Perfect Tenses", icon: "✅",
       subsections: [
-        { label: "Present Perfect", unitIds: ["unit-34","unit-35","unit-36","unit-37","unit-38","unit-39","unit-40","unit-41","unit-42","unit-43"] },
-        { label: "Past Perfect",    unitIds: ["unit-44","unit-45","unit-46","unit-47"] },
-        { label: "Review",          unitIds: ["unit-48","unit-49","unit-50"] },
-      ],
-      units: [
-        { id: "unit-34", num: "34", title: "Revise the basics: present perfect forms and use",       subtitle: null },
-        { id: "unit-35", num: "35", title: "Revise the basics: present perfect or simple past?",     subtitle: null },
-        { id: "unit-36", num: "36", title: "Revise the basics: tenses with time words",              subtitle: null },
-        { id: "unit-37", num: "37", title: "Revise the basics: already, yet and just",               subtitle: null },
-        { id: "unit-38", num: "38", title: "Finished time or up to now?",                            subtitle: "this morning; at school" },
-        { id: "unit-39", num: "39", title: "We've found oil in the garden!",                         subtitle: "News" },
-        { id: "unit-40", num: "40", title: "A plane has crashed. It came down …",                    subtitle: "News and details" },
-        { id: "unit-41", num: "41", title: "Revise the basics: present perfect progressive; since, for", subtitle: null },
-        { id: "unit-42", num: "42", title: "Present perfect or present perfect progressive?",        subtitle: null },
-        { id: "unit-43", num: "43", title: "Simple past and present perfect: summary",               subtitle: null },
-        { id: "unit-44", num: "44", title: "Revise the basics: past perfect",                        subtitle: null },
-        { id: "unit-45", num: "45", title: "after I had finished",                                   subtitle: "More about the past perfect" },
-        { id: "unit-46", num: "46", title: "she had been working too hard",                          subtitle: "Past perfect progressive" },
-        { id: "unit-47", num: "47", title: "This is the first time etc",                             subtitle: null },
-        { id: "unit-48", num: "48", title: "Perfect tenses: more practice",                          subtitle: null },
-        { id: "unit-49", num: "49", title: "Perfect tenses: revision test",                          subtitle: null },
-        { id: "unit-50", num: "50", title: "All past and perfect tenses: revision test",             subtitle: null },
+        { title: "Present Perfect", units: [
+          { num: "1",  label: "Revise the basics: present perfect forms and use" },
+          { num: "2",  label: "Revise the basics: present perfect or simple past?" },
+          { num: "3",  label: "Revise the basics: tenses with time words" },
+          { num: "4",  label: "Revise the basics: already, yet and just" },
+          { num: "5",  label: "Finished time or up to now? — this morning; at school" },
+          { num: "6",  label: "News — We've found oil in the garden!" },
+          { num: "7",  label: "News and details — A plane has crashed. It came down …" },
+          { num: "8",  label: "Revise the basics: present perfect progressive; since, for" },
+          { num: "9",  label: "Present perfect or present perfect progressive?" },
+          { num: "10", label: "Simple past and present perfect: summary" },
+        ]},
+        { title: "Past Perfect", units: [
+          { num: "11", label: "Revise the basics: past perfect" },
+          { num: "12", label: "More about the past perfect — after I had finished" },
+          { num: "13", label: "Past perfect progressive — she had been working too hard" },
+          { num: "14", label: "This is the first time etc" },
+        ]},
+        { title: "Review", units: [
+          { num: "15", label: "Perfect tenses: more practice" },
+          { num: "16", label: "Perfect tenses: revision test" },
+          { num: "17", label: "All past and perfect tenses: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 6 — Modal Verbs",
+      id: "section-06", num: "06", title: "Modal Verbs", icon: "🎛️",
       subsections: [
-        { label: "Core Modals", unitIds: ["unit-51","unit-52","unit-53","unit-54","unit-55","unit-56","unit-57","unit-58","unit-59","unit-60","unit-61","unit-62","unit-63","unit-64","unit-65","unit-66"] },
-        { label: "Review",      unitIds: ["unit-67","unit-68"] },
-      ],
-      units: [
-        { id: "unit-51", num: "51", title: "Revise the basics: the grammar of modals",               subtitle: null },
-        { id: "unit-52", num: "52", title: "Revise the basics: must, should and ought to",           subtitle: null },
-        { id: "unit-53", num: "53", title: "have to and must",                                       subtitle: null },
-        { id: "unit-54", num: "54", title: "must not; do not have to; do not need to / needn't",     subtitle: null },
-        { id: "unit-55", num: "55", title: "You'd better take your umbrella.",                       subtitle: "had better" },
-        { id: "unit-56", num: "56", title: "You're supposed to start work at 8.30.",                 subtitle: "supposed to" },
-        { id: "unit-57", num: "57", title: "She must be in. He can't be hungry.",                    subtitle: "must/can't: certainty" },
-        { id: "unit-58", num: "58", title: "It may rain. It might even snow.",                       subtitle: "may and might" },
-        { id: "unit-59", num: "59", title: "Revise the basics: permission, requests etc",            subtitle: null },
-        { id: "unit-60", num: "60", title: "What shall we do?",                                      subtitle: "shall in questions" },
-        { id: "unit-61", num: "61", title: "can and could (ability): past and future",               subtitle: null },
-        { id: "unit-62", num: "62", title: "Revise the basics: used to",                             subtitle: null },
-        { id: "unit-63", num: "63", title: "She will talk to herself.",                              subtitle: "will and would: typical behaviour" },
-        { id: "unit-64", num: "64", title: "should have …",                                          subtitle: "Perfect modal verbs" },
-        { id: "unit-65", num: "65", title: "may have …; must have …",                                subtitle: "Perfect modal verbs" },
-        { id: "unit-66", num: "66", title: "could have …; needn't have …",                           subtitle: "Perfect modal verbs" },
-        { id: "unit-67", num: "67", title: "Modal verbs: more practice",                             subtitle: null },
-        { id: "unit-68", num: "68", title: "Modal verbs: revision test",                             subtitle: null },
+        { title: "Core Modals", units: [
+          { num: "1",  label: "Revise the basics: the grammar of modals" },
+          { num: "2",  label: "Revise the basics: must, should and ought to" },
+          { num: "3",  label: "have to and must" },
+          { num: "4",  label: "must not; do not have to; do not need to / needn't" },
+          { num: "5",  label: "had better — You'd better take your umbrella." },
+          { num: "6",  label: "supposed to — You're supposed to start work at 8.30." },
+          { num: "7",  label: "must/can't: certainty — She must be in. He can't be hungry." },
+          { num: "8",  label: "may and might — It may rain. It might even snow." },
+          { num: "9",  label: "Revise the basics: permission, requests etc" },
+          { num: "10", label: "shall in questions — What shall we do?" },
+          { num: "11", label: "can and could (ability): past and future" },
+          { num: "12", label: "Revise the basics: used to" },
+          { num: "13", label: "will and would: typical behaviour — She will talk to herself." },
+          { num: "14", label: "Perfect modal verbs: should have …" },
+          { num: "15", label: "Perfect modal verbs: may have …; must have …" },
+          { num: "16", label: "Perfect modal verbs: could have …; needn't have …" },
+        ]},
+        { title: "Review", units: [
+          { num: "17", label: "Modal verbs: more practice" },
+          { num: "18", label: "Modal verbs: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 7 — Passives",
+      id: "section-07", num: "07", title: "Passives", icon: "🔄",
       subsections: [
-        { label: "Forms & Uses", unitIds: ["unit-69","unit-70","unit-71","unit-72","unit-73"] },
-        { label: "Review",       unitIds: ["unit-74","unit-75"] },
-      ],
-      units: [
-        { id: "unit-69", num: "69", title: "Revise the basics: active and passive",                  subtitle: null },
-        { id: "unit-70", num: "70", title: "to be seen; being seen",                                 subtitle: "Passive infinitives and -ing forms" },
-        { id: "unit-71", num: "71", title: "Susan was given a prize.",                               subtitle: "Passives: verbs with two objects" },
-        { id: "unit-72", num: "72", title: "Ted likes being read to.",                               subtitle: "Prepositions with passives" },
-        { id: "unit-73", num: "73", title: "Reasons for using passives",                             subtitle: null },
-        { id: "unit-74", num: "74", title: "Passives: more practice",                               subtitle: null },
-        { id: "unit-75", num: "75", title: "Passives: revision test",                               subtitle: null },
+        { title: "Forms & Uses", units: [
+          { num: "1", label: "Revise the basics: active and passive" },
+          { num: "2", label: "Passive infinitives and -ing forms — to be seen; being seen" },
+          { num: "3", label: "Passives: verbs with two objects — Susan was given a prize." },
+          { num: "4", label: "Prepositions with passives — Ted likes being read to." },
+          { num: "5", label: "Reasons for using passives" },
+        ]},
+        { title: "Review", units: [
+          { num: "6", label: "Passives: more practice" },
+          { num: "7", label: "Passives: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 8 — Questions and Negatives",
+      id: "section-08", num: "08", title: "Questions and Negatives", icon: "❓",
       subsections: [
-        { label: "Questions", unitIds: ["unit-76","unit-77","unit-78","unit-79","unit-80"] },
-        { label: "Review",    unitIds: ["unit-81","unit-82"] },
-      ],
-      units: [
-        { id: "unit-76", num: "76", title: "Revise the basics: questions",                           subtitle: null },
-        { id: "unit-77", num: "77", title: "Who won? What happened?",                                subtitle: "Question-word subjects" },
-        { id: "unit-78", num: "78", title: "What are you thinking about?",                           subtitle: "Prepositions in questions" },
-        { id: "unit-79", num: "79", title: "Revise the basics: negatives",                           subtitle: null },
-        { id: "unit-80", num: "80", title: "Aren't you well?",                                       subtitle: "Negative questions" },
-        { id: "unit-81", num: "81", title: "Questions and negatives: more practice",                 subtitle: null },
-        { id: "unit-82", num: "82", title: "Questions and negatives: revision test",                 subtitle: null },
+        { title: "Questions", units: [
+          { num: "1", label: "Revise the basics: questions" },
+          { num: "2", label: "Question-word subjects — Who won? What happened?" },
+          { num: "3", label: "Prepositions in questions — What are you thinking about?" },
+          { num: "4", label: "Revise the basics: negatives" },
+          { num: "5", label: "Negative questions — Aren't you well?" },
+        ]},
+        { title: "Review", units: [
+          { num: "6", label: "Questions and negatives: more practice" },
+          { num: "7", label: "Questions and negatives: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 9 — Infinitives and -ing Forms",
+      id: "section-09", num: "09", title: "Infinitives and -ing Forms", icon: "∞",
       subsections: [
-        { label: "Infinitives",  unitIds: ["unit-83","unit-84","unit-85","unit-86","unit-87","unit-88","unit-89"] },
-        { label: "-ing Forms",   unitIds: ["unit-90","unit-91","unit-92","unit-93","unit-94","unit-95","unit-96","unit-97","unit-98","unit-99","unit-100","unit-101"] },
-        { label: "Review",       unitIds: ["unit-102","unit-103"] },
-      ],
-      units: [
-        { id: "unit-83",  num: "83",  title: "Revise the basics: infinitive with and without to",    subtitle: null },
-        { id: "unit-84",  num: "84",  title: "Revise the basics: infinitive of purpose",             subtitle: null },
-        { id: "unit-85",  num: "85",  title: "Revise the basics: verb + infinitive or -ing form",    subtitle: null },
-        { id: "unit-86",  num: "86",  title: "Revise the basics: preposition + -ing form",           subtitle: null },
-        { id: "unit-87",  num: "87",  title: "to sit, to be sitting, …",                             subtitle: "More about infinitives" },
-        { id: "unit-88",  num: "88",  title: "to have gone etc",                                     subtitle: "Perfect infinitives" },
-        { id: "unit-89",  num: "89",  title: "I'd like to. I don't want to.",                        subtitle: "to for whole infinitive" },
-        { id: "unit-90",  num: "90",  title: "Smoking is bad for you",                               subtitle: "-ing forms as subjects, objects etc" },
-        { id: "unit-91",  num: "91",  title: "More about verb + infinitive or -ing form",            subtitle: null },
-        { id: "unit-92",  num: "92",  title: "She's gone shopping.",                                 subtitle: "go …ing" },
-        { id: "unit-93",  num: "93",  title: "-ing form and infinitive both possible",               subtitle: null },
-        { id: "unit-94",  num: "94",  title: "He wants me to wash his socks.",                       subtitle: "Verb + object + infinitive" },
-        { id: "unit-95",  num: "95",  title: "pleased to see etc",                                   subtitle: "Adjective + infinitive or -ing form" },
-        { id: "unit-96",  num: "96",  title: "time to go; fear of flying",                           subtitle: "Noun + infinitive or -ing form" },
-        { id: "unit-97",  num: "97",  title: "nothing to wear",                                      subtitle: "More about noun/pronoun + infinitive" },
-        { id: "unit-98",  num: "98",  title: "It's time for the postman to come.",                   subtitle: "for … to …" },
-        { id: "unit-99",  num: "99",  title: "easy to please etc",                                   subtitle: "More about adjective + infinitive" },
-        { id: "unit-100", num: "100", title: "before, after, since, by and for + -ing",              subtitle: null },
-        { id: "unit-101", num: "101", title: "I look forward to seeing you.",                        subtitle: "to …ing" },
-        { id: "unit-102", num: "102", title: "Infinitives and -ing forms: more practice",            subtitle: null },
-        { id: "unit-103", num: "103", title: "Infinitives and -ing forms: revision test",            subtitle: null },
+        { title: "Infinitives", units: [
+          { num: "1", label: "Revise the basics: infinitive with and without to" },
+          { num: "2", label: "Revise the basics: infinitive of purpose" },
+          { num: "3", label: "Revise the basics: verb + infinitive or -ing form" },
+          { num: "4", label: "Revise the basics: preposition + -ing form" },
+          { num: "5", label: "More about infinitives: to sit, to be sitting, …" },
+          { num: "6", label: "Perfect infinitives: to have gone etc" },
+          { num: "7", label: "to for whole infinitive — I'd like to. I don't want to." },
+        ]},
+        { title: "-ing Forms", units: [
+          { num: "8",  label: "-ing forms as subjects, objects etc — Smoking is bad for you" },
+          { num: "9",  label: "More about verb + infinitive or -ing form" },
+          { num: "10", label: "go …ing — She's gone shopping." },
+          { num: "11", label: "-ing form and infinitive both possible" },
+          { num: "12", label: "Verb + object + infinitive — He wants me to wash his socks." },
+          { num: "13", label: "Adjective + infinitive or -ing form — pleased to see etc" },
+          { num: "14", label: "Noun + infinitive or -ing form — time to go; fear of flying" },
+          { num: "15", label: "More about noun/pronoun + infinitive — nothing to wear" },
+          { num: "16", label: "for … to … — It's time for the postman to come." },
+          { num: "17", label: "More about adjective + infinitive — easy to please etc" },
+          { num: "18", label: "before, after, since, by and for + -ing" },
+          { num: "19", label: "to …ing — I look forward to seeing you." },
+        ]},
+        { title: "Review", units: [
+          { num: "20", label: "Infinitives and -ing forms: more practice" },
+          { num: "21", label: "Infinitives and -ing forms: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 10 — Various Structures with Verbs",
+      id: "section-10", num: "10", title: "Various Structures with Verbs", icon: "⚙️",
       subsections: [
-        { label: "Structures", unitIds: ["unit-104","unit-105","unit-106","unit-107","unit-108","unit-109","unit-110","unit-111"] },
-        { label: "Review",     unitIds: ["unit-112","unit-113"] },
-      ],
-      units: [
-        { id: "unit-104", num: "104", title: "Revise the basics: imperatives; let's",                subtitle: null },
-        { id: "unit-105", num: "105", title: "Revise the basics: verbs with two objects",            subtitle: null },
-        { id: "unit-106", num: "106", title: "Revise the basics: causative have and get",            subtitle: null },
-        { id: "unit-107", num: "107", title: "How beautiful! What a surprise!",                      subtitle: "Exclamations" },
-        { id: "unit-108", num: "108", title: "You do look nice.",                                    subtitle: "do: emphatic auxiliary" },
-        { id: "unit-109", num: "109", title: "It's nice to talk to you.",                            subtitle: "it: preparatory subject" },
-        { id: "unit-110", num: "110", title: "It's not tea that I want.",                            subtitle: "Emphasis with it and what" },
-        { id: "unit-111", num: "111", title: "Look out! I'll think it over.",                        subtitle: "Phrasal verbs" },
-        { id: "unit-112", num: "112", title: "Various structures with verbs: more practice",         subtitle: null },
-        { id: "unit-113", num: "113", title: "Various structures with verbs: revision test",         subtitle: null },
+        { title: "Structures", units: [
+          { num: "1", label: "Revise the basics: imperatives; let's" },
+          { num: "2", label: "Revise the basics: verbs with two objects" },
+          { num: "3", label: "Revise the basics: causative have and get" },
+          { num: "4", label: "Exclamations — How beautiful! What a surprise!" },
+          { num: "5", label: "do: emphatic auxiliary — You do look nice." },
+          { num: "6", label: "it: preparatory subject — It's nice to talk to you." },
+          { num: "7", label: "Emphasis with it and what — It's not tea that I want." },
+          { num: "8", label: "Phrasal verbs — Look out! I'll think it over." },
+        ]},
+        { title: "Review", units: [
+          { num: "9",  label: "Various structures with verbs: more practice" },
+          { num: "10", label: "Various structures with verbs: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 11 — Articles: a/an and the",
+      id: "section-11", num: "11", title: "Articles: a/an and the", icon: "📝",
       subsections: [
-        { label: "a/an",   unitIds: ["unit-114","unit-115","unit-116"] },
-        { label: "the",    unitIds: ["unit-117","unit-118","unit-119","unit-120","unit-121"] },
-        { label: "Review", unitIds: ["unit-122","unit-123"] },
-      ],
-      units: [
-        { id: "unit-114", num: "114", title: "Revise the basics: a/an and one",                      subtitle: null },
-        { id: "unit-115", num: "115", title: "She's a farmer. He's got a long nose.",                subtitle: "Revise the basics: a/an" },
-        { id: "unit-116", num: "116", title: "A spider has eight legs. A man called.",               subtitle: "Revise the basics: a/an" },
-        { id: "unit-117", num: "117", title: "Please close the door.",                               subtitle: "Revise the basics: the" },
-        { id: "unit-118", num: "118", title: "I like music.",                                        subtitle: "Revise the basics: generalisations without the" },
-        { id: "unit-119", num: "119", title: "Who invented the telescope?",                          subtitle: "the in generalisations" },
-        { id: "unit-120", num: "120", title: "Lake Superior; the Atlantic",                          subtitle: "Place names" },
-        { id: "unit-121", num: "121", title: "in prison; She became Queen.",                         subtitle: "Other special cases" },
-        { id: "unit-122", num: "122", title: "Articles: more practice",                              subtitle: null },
-        { id: "unit-123", num: "123", title: "Articles: revision test",                              subtitle: null },
+        { title: "a/an", units: [
+          { num: "1", label: "Revise the basics: a/an and one" },
+          { num: "2", label: "Revise the basics: a/an — She's a farmer. He's got a long nose." },
+          { num: "3", label: "Revise the basics: a/an — A spider has eight legs. A man called." },
+        ]},
+        { title: "the", units: [
+          { num: "4", label: "Revise the basics: the — Please close the door." },
+          { num: "5", label: "Revise the basics: generalisations without the — I like music." },
+          { num: "6", label: "the in generalisations — Who invented the telescope?" },
+          { num: "7", label: "Place names — Lake Superior; the Atlantic" },
+          { num: "8", label: "Other special cases — in prison; She became Queen." },
+        ]},
+        { title: "Review", units: [
+          { num: "9",  label: "Articles: more practice" },
+          { num: "10", label: "Articles: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 12 — Determiners",
+      id: "section-12", num: "12", title: "Determiners", icon: "🗂️",
       subsections: [
-        { label: "Core Determiners", unitIds: ["unit-124","unit-125","unit-126","unit-127","unit-128","unit-129","unit-130","unit-131","unit-132","unit-133","unit-134","unit-135","unit-136","unit-137","unit-138","unit-139"] },
-        { label: "Review",           unitIds: ["unit-140","unit-141"] },
-      ],
-      units: [
-        { id: "unit-124", num: "124", title: "Revise the basics: this, that, these, those",          subtitle: null },
-        { id: "unit-125", num: "125", title: "Revise the basics: some and any",                      subtitle: null },
-        { id: "unit-126", num: "126", title: "Have some toast. I don't like toast.",                 subtitle: "some/any or no article" },
-        { id: "unit-127", num: "127", title: "any, not any, no and none",                            subtitle: null },
-        { id: "unit-128", num: "128", title: "any = 'one or the other – it's not important which'",  subtitle: null },
-        { id: "unit-129", num: "129", title: "Revise the basics: much, many, a lot of",              subtitle: null },
-        { id: "unit-130", num: "130", title: "Revise the basics: enough, too and too much",          subtitle: null },
-        { id: "unit-131", num: "131", title: "Revise the basics: (a) little, (a) few",              subtitle: null },
-        { id: "unit-132", num: "132", title: "less and least, fewer and fewest",                     subtitle: null },
-        { id: "unit-133", num: "133", title: "Revise the basics: all",                              subtitle: null },
-        { id: "unit-134", num: "134", title: "Revise the basics: all, every, everybody, everything", subtitle: null },
-        { id: "unit-135", num: "135", title: "every and each; every one",                           subtitle: null },
-        { id: "unit-136", num: "136", title: "both, either and neither",                             subtitle: null },
-        { id: "unit-137", num: "137", title: "which? and what?",                                    subtitle: null },
-        { id: "unit-138", num: "138", title: "other(s) and another",                                subtitle: null },
-        { id: "unit-139", num: "139", title: "most people; most of us",                             subtitle: "Determiners and of" },
-        { id: "unit-140", num: "140", title: "Determiners: more practice",                           subtitle: null },
-        { id: "unit-141", num: "141", title: "Determiners: revision test",                           subtitle: null },
+        { title: "Core Determiners", units: [
+          { num: "1",  label: "Revise the basics: this, that, these, those" },
+          { num: "2",  label: "Revise the basics: some and any" },
+          { num: "3",  label: "some/any or no article — Have some toast. I don't like toast." },
+          { num: "4",  label: "any, not any, no and none" },
+          { num: "5",  label: "any = 'one or the other – it's not important which'" },
+          { num: "6",  label: "Revise the basics: much, many, a lot of" },
+          { num: "7",  label: "Revise the basics: enough, too and too much" },
+          { num: "8",  label: "Revise the basics: (a) little, (a) few" },
+          { num: "9",  label: "less and least, fewer and fewest" },
+          { num: "10", label: "Revise the basics: all" },
+          { num: "11", label: "Revise the basics: all, every, everybody, everything" },
+          { num: "12", label: "every and each; every one" },
+          { num: "13", label: "both, either and neither" },
+          { num: "14", label: "which? and what?" },
+          { num: "15", label: "other(s) and another" },
+          { num: "16", label: "Determiners and of — most people; most of us" },
+        ]},
+        { title: "Review", units: [
+          { num: "17", label: "Determiners: more practice" },
+          { num: "18", label: "Determiners: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 13 — Personal Pronouns and Possessives",
+      id: "section-13", num: "13", title: "Personal Pronouns and Possessives", icon: "👤",
       subsections: [
-        { label: "Pronouns & Possessives", unitIds: ["unit-142","unit-143","unit-144","unit-145","unit-146"] },
-        { label: "Review",                 unitIds: ["unit-147","unit-148"] },
-      ],
-      units: [
-        { id: "unit-142", num: "142", title: "Revise the basics: I, me, my, mine etc",              subtitle: null },
-        { id: "unit-143", num: "143", title: "a friend of mine / Anne broke her arm.",               subtitle: "Possessives" },
-        { id: "unit-144", num: "144", title: "'Who's that?' 'It's me.'",                             subtitle: "Personal pronouns" },
-        { id: "unit-145", num: "145", title: "She taught herself to play the guitar.",               subtitle: "Reflexives" },
-        { id: "unit-146", num: "146", title: "You can't learn French in a month.",                   subtitle: "you, one and they" },
-        { id: "unit-147", num: "147", title: "Personal pronouns and possessives: more practice",     subtitle: null },
-        { id: "unit-148", num: "148", title: "Personal pronouns and possessives: revision test",     subtitle: null },
+        { title: "Pronouns & Possessives", units: [
+          { num: "1", label: "Revise the basics: I, me, my, mine etc" },
+          { num: "2", label: "Possessives — a friend of mine / Anne broke her arm." },
+          { num: "3", label: "Personal pronouns — 'Who's that?' 'It's me.'" },
+          { num: "4", label: "Reflexives — She taught herself to play the guitar." },
+          { num: "5", label: "you, one and they — You can't learn French in a month." },
+        ]},
+        { title: "Review", units: [
+          { num: "6", label: "Personal pronouns and possessives: more practice" },
+          { num: "7", label: "Personal pronouns and possessives: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 14 — Nouns",
+      id: "section-14", num: "14", title: "Nouns", icon: "🏷️",
       subsections: [
-        { label: "Noun Forms & Uses", unitIds: ["unit-149","unit-150","unit-151","unit-152","unit-153","unit-154","unit-155","unit-156","unit-157","unit-158"] },
-        { label: "Review",            unitIds: ["unit-159","unit-160"] },
-      ],
-      units: [
-        { id: "unit-149", num: "149", title: "Revise the basics: countable and uncountable nouns",   subtitle: null },
-        { id: "unit-150", num: "150", title: "More about countable and uncountable nouns",           subtitle: null },
-        { id: "unit-151", num: "151", title: "Revise the basics: how to spell plurals",              subtitle: null },
-        { id: "unit-152", num: "152", title: "aircraft, sheep, arms",                                subtitle: "Plurals of nouns: special cases" },
-        { id: "unit-153", num: "153", title: "My family are angry with me.",                         subtitle: "Mixed singular and plural" },
-        { id: "unit-154", num: "154", title: "Revise the basics: possessive 's",                     subtitle: null },
-        { id: "unit-155", num: "155", title: "my father's name; the name of the book",              subtitle: "Possessive 's or of …" },
-        { id: "unit-156", num: "156", title: "Revise the basics: noun + noun",                       subtitle: null },
-        { id: "unit-157", num: "157", title: "road signs; signs of anger",                          subtitle: "Noun + noun or preposition" },
-        { id: "unit-158", num: "158", title: "a big one with cream",                                 subtitle: "one(s)" },
-        { id: "unit-159", num: "159", title: "Nouns: more practice",                                subtitle: null },
-        { id: "unit-160", num: "160", title: "Nouns: revision test",                                subtitle: null },
+        { title: "Noun Forms & Uses", units: [
+          { num: "1",  label: "Revise the basics: countable and uncountable nouns" },
+          { num: "2",  label: "More about countable and uncountable nouns" },
+          { num: "3",  label: "Revise the basics: how to spell plurals" },
+          { num: "4",  label: "Plurals of nouns: special cases — aircraft, sheep, arms" },
+          { num: "5",  label: "Mixed singular and plural — My family are angry with me." },
+          { num: "6",  label: "Revise the basics: possessive 's" },
+          { num: "7",  label: "Possessive 's or of … — my father's name; the name of the book" },
+          { num: "8",  label: "Revise the basics: noun + noun" },
+          { num: "9",  label: "Noun + noun or preposition — road signs; signs of anger" },
+          { num: "10", label: "one(s) — a big one with cream" },
+        ]},
+        { title: "Review", units: [
+          { num: "11", label: "Nouns: more practice" },
+          { num: "12", label: "Nouns: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 15 — Adjectives and Adverbs",
+      id: "section-15", num: "15", title: "Adjectives and Adverbs", icon: "✨",
       subsections: [
-        { label: "Adjectives", unitIds: ["unit-161","unit-162","unit-163","unit-164"] },
-        { label: "Adverbs",    unitIds: ["unit-165","unit-166","unit-167"] },
-        { label: "Review",     unitIds: ["unit-168","unit-169"] },
-      ],
-      units: [
-        { id: "unit-161", num: "161", title: "Revise the basics: adjectives, adverbs of manner",     subtitle: null },
-        { id: "unit-162", num: "162", title: "interested and interesting etc",                        subtitle: null },
-        { id: "unit-163", num: "163", title: "in the country of the blind",                          subtitle: "Adjectives without nouns" },
-        { id: "unit-164", num: "164", title: "a terrible little boy; old and grey",                  subtitle: "Order of adjectives" },
-        { id: "unit-165", num: "165", title: "I can never wake up in time.",                         subtitle: "Adverbs with the verb" },
-        { id: "unit-166", num: "166", title: "even and only; end-position adverbs",                  subtitle: null },
-        { id: "unit-167", num: "167", title: "fast, hard, late, …",                                  subtitle: "Confusing adjectives and adverbs" },
-        { id: "unit-168", num: "168", title: "Adjectives and adverbs: more practice",               subtitle: null },
-        { id: "unit-169", num: "169", title: "Adjectives and adverbs: revision test",               subtitle: null },
+        { title: "Adjectives", units: [
+          { num: "1", label: "Revise the basics: adjectives, adverbs of manner" },
+          { num: "2", label: "interested and interesting etc" },
+          { num: "3", label: "Adjectives without nouns — in the country of the blind" },
+          { num: "4", label: "Order of adjectives — a terrible little boy; old and grey" },
+        ]},
+        { title: "Adverbs", units: [
+          { num: "5", label: "Adverbs with the verb — I can never wake up in time." },
+          { num: "6", label: "even and only; end-position adverbs" },
+          { num: "7", label: "Confusing adjectives and adverbs: fast, hard, late, …" },
+        ]},
+        { title: "Review", units: [
+          { num: "8", label: "Adjectives and adverbs: more practice" },
+          { num: "9", label: "Adjectives and adverbs: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 16 — Comparison",
+      id: "section-16", num: "16", title: "Comparison", icon: "⚖️",
       subsections: [
-        { label: "Comparatives & Superlatives", unitIds: ["unit-170","unit-171","unit-172","unit-173","unit-174","unit-175"] },
-        { label: "Review",                      unitIds: ["unit-176","unit-177"] },
-      ],
-      units: [
-        { id: "unit-170", num: "170", title: "Revise the basics: comparative and superlative adjectives", subtitle: null },
-        { id: "unit-171", num: "171", title: "Revise the basics: comparative and superlative adverbs",    subtitle: null },
-        { id: "unit-172", num: "172", title: "as many people as possible",                           subtitle: "as … as" },
-        { id: "unit-173", num: "173", title: "taller and taller; the more the better",               subtitle: "More on comparatives" },
-        { id: "unit-174", num: "174", title: "the best player of us all",                            subtitle: "More about superlatives" },
-        { id: "unit-175", num: "175", title: "like and as; so and such",                             subtitle: null },
-        { id: "unit-176", num: "176", title: "Comparison: more practice",                           subtitle: null },
-        { id: "unit-177", num: "177", title: "Comparison: revision test",                           subtitle: null },
+        { title: "Comparatives & Superlatives", units: [
+          { num: "1", label: "Revise the basics: comparative and superlative adjectives" },
+          { num: "2", label: "Revise the basics: comparative and superlative adverbs" },
+          { num: "3", label: "as … as — as many people as possible" },
+          { num: "4", label: "More on comparatives — taller and taller; the more the better" },
+          { num: "5", label: "More about superlatives — the best player of us all" },
+          { num: "6", label: "like and as; so and such" },
+        ]},
+        { title: "Review", units: [
+          { num: "7", label: "Comparison: more practice" },
+          { num: "8", label: "Comparison: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 17 — Conjunctions",
+      id: "section-17", num: "17", title: "Conjunctions", icon: "🔗",
       subsections: [
-        { label: "Core Conjunctions", unitIds: ["unit-178","unit-179","unit-180","unit-181","unit-182","unit-183","unit-184","unit-185","unit-186"] },
-        { label: "Review",            unitIds: ["unit-187","unit-188"] },
-      ],
-      units: [
-        { id: "unit-178", num: "178", title: "Revise the basics: use and position of conjunctions",  subtitle: null },
-        { id: "unit-179", num: "179", title: "I'll tell you when I know.",                           subtitle: "Revise the basics: present for future" },
-        { id: "unit-180", num: "180", title: "so that, as long as, until etc",                       subtitle: "Using certain conjunctions" },
-        { id: "unit-181", num: "181", title: "She knew I was right.",                                subtitle: "Leaving out that" },
-        { id: "unit-182", num: "182", title: "both … and; (n)either … (n)or",                        subtitle: null },
-        { id: "unit-183", num: "183", title: "when I've finished",                                   subtitle: "Perfect for completion" },
-        { id: "unit-184", num: "184", title: "… since we were students",                             subtitle: "Tenses with since and for" },
-        { id: "unit-185", num: "185", title: "after talking to you; until cooked",                   subtitle: "Conjunction + -ing or -ed" },
-        { id: "unit-186", num: "186", title: "Putting down my book …",                               subtitle: "Clauses without conjunctions" },
-        { id: "unit-187", num: "187", title: "Conjunctions: more practice",                         subtitle: null },
-        { id: "unit-188", num: "188", title: "Conjunctions: revision test",                         subtitle: null },
+        { title: "Core Conjunctions", units: [
+          { num: "1", label: "Revise the basics: use and position of conjunctions" },
+          { num: "2", label: "Revise the basics: present for future — I'll tell you when I know." },
+          { num: "3", label: "Using certain conjunctions: so that, as long as, until etc" },
+          { num: "4", label: "Leaving out that — She knew I was right." },
+          { num: "5", label: "both …and; (n)either … (n)or" },
+          { num: "6", label: "Perfect for completion — when I've finished" },
+          { num: "7", label: "Tenses with since and for — … since we were students" },
+          { num: "8", label: "Conjunction + -ing or -ed — after talking to you; until cooked" },
+          { num: "9", label: "Clauses without conjunctions — Putting down my book …" },
+        ]},
+        { title: "Review", units: [
+          { num: "10", label: "Conjunctions: more practice" },
+          { num: "11", label: "Conjunctions: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 18 — if etc",
+      id: "section-18", num: "18", title: "if etc", icon: "🔀",
       subsections: [
-        { label: "Conditionals", unitIds: ["unit-189","unit-190","unit-191","unit-192","unit-193","unit-194","unit-195","unit-196","unit-197"] },
-        { label: "Review",       unitIds: ["unit-198","unit-199"] },
-      ],
-      units: [
-        { id: "unit-189", num: "189", title: "Revise the basics: ordinary tense use",                subtitle: null },
-        { id: "unit-190", num: "190", title: "Revise the basics: If I had a million dollars, …",     subtitle: null },
-        { id: "unit-191", num: "191", title: "Revise the basics: if I go and if I went",             subtitle: null },
-        { id: "unit-192", num: "192", title: "We could go cycling if …",                             subtitle: "could = 'would be able to'" },
-        { id: "unit-193", num: "193", title: "If Jane hadn't helped me, …",                          subtitle: "Unreal past situations" },
-        { id: "unit-194", num: "194", title: "Come tonight unless I phone.",                         subtitle: "unless" },
-        { id: "unit-195", num: "195", title: "If only I knew …",                                    subtitle: "if only and I wish: tenses" },
-        { id: "unit-196", num: "196", title: "I'm taking my umbrella in case it rains.",             subtitle: "in case" },
-        { id: "unit-197", num: "197", title: "It's time you had a haircut.",                         subtitle: "it's time and I'd rather: tenses" },
-        { id: "unit-198", num: "198", title: "if etc: more practice",                               subtitle: null },
-        { id: "unit-199", num: "199", title: "if etc: revision test",                               subtitle: null },
+        { title: "Conditionals", units: [
+          { num: "1",  label: "Revise the basics: ordinary tense use" },
+          { num: "2",  label: "Revise the basics: If I had a million dollars, …" },
+          { num: "3",  label: "Revise the basics: if I go and if I went" },
+          { num: "4",  label: "could = 'would be able to' — We could go cycling if …" },
+          { num: "5",  label: "Unreal past situations — If Jane hadn't helped me, …" },
+          { num: "6",  label: "unless — Come tonight unless I phone." },
+          { num: "7",  label: "if only and I wish: tenses — If only I knew …" },
+          { num: "8",  label: "in case — I'm taking my umbrella in case it rains." },
+          { num: "9",  label: "it's time and I'd rather: tenses — It's time you had a haircut." },
+        ]},
+        { title: "Review", units: [
+          { num: "10", label: "if etc: more practice" },
+          { num: "11", label: "if etc: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 19 — Relatives",
+      id: "section-19", num: "19", title: "Relatives", icon: "🔁",
       subsections: [
-        { label: "Relative Clauses", unitIds: ["unit-200","unit-201","unit-202","unit-203","unit-204","unit-205","unit-206","unit-207"] },
-        { label: "Review",           unitIds: ["unit-208","unit-209"] },
-      ],
-      units: [
-        { id: "unit-200", num: "200", title: "Revise the basics: who(m), which and that",            subtitle: null },
-        { id: "unit-201", num: "201", title: "Revise the basics: leaving out relative pronouns",     subtitle: null },
-        { id: "unit-202", num: "202", title: "Take what you like.",                                  subtitle: "what = 'the thing(s) that'" },
-        { id: "unit-203", num: "203", title: "a girl whose beauty …",                                subtitle: "whose" },
-        { id: "unit-204", num: "204", title: "the girl I was talking about",                         subtitle: "Prepositions in relative clauses" },
-        { id: "unit-205", num: "205", title: "luggage left unattended",                              subtitle: "Reduced relative clauses" },
-        { id: "unit-206", num: "206", title: "Kelly, who does my hair, …",                           subtitle: "Non-identifying relative clauses" },
-        { id: "unit-207", num: "207", title: "Reading sentences with relative clauses",              subtitle: null },
-        { id: "unit-208", num: "208", title: "Relatives: more practice",                             subtitle: null },
-        { id: "unit-209", num: "209", title: "Relatives: revision test",                             subtitle: null },
+        { title: "Relative Clauses", units: [
+          { num: "1", label: "Revise the basics: who(m), which and that" },
+          { num: "2", label: "Revise the basics: leaving out relative pronouns" },
+          { num: "3", label: "what = 'the thing(s) that' — Take what you like." },
+          { num: "4", label: "whose — a girl whose beauty …" },
+          { num: "5", label: "Prepositions in relative clauses — the girl I was talking about" },
+          { num: "6", label: "Reduced relative clauses — luggage left unattended" },
+          { num: "7", label: "Non-identifying relative clauses — Kelly, who does my hair, …" },
+          { num: "8", label: "Reading sentences with relative clauses" },
+        ]},
+        { title: "Review", units: [
+          { num: "9",  label: "Relatives: more practice" },
+          { num: "10", label: "Relatives: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 20 — Indirect Speech",
+      id: "section-20", num: "20", title: "Indirect Speech", icon: "💬",
       subsections: [
-        { label: "Reported Speech", unitIds: ["unit-210","unit-211","unit-212","unit-213","unit-214","unit-215","unit-216"] },
-        { label: "Review",          unitIds: ["unit-217","unit-218"] },
-      ],
-      units: [
-        { id: "unit-210", num: "210", title: "Revise the basics: why things change",                 subtitle: null },
-        { id: "unit-211", num: "211", title: "Revise the basics: 'here' and 'now' words",            subtitle: null },
-        { id: "unit-212", num: "212", title: "Revise the basics: tenses",                            subtitle: null },
-        { id: "unit-213", num: "213", title: "He proved that the earth is/was round.",               subtitle: "Present situations" },
-        { id: "unit-214", num: "214", title: "Revise the basics: indirect questions",                subtitle: null },
-        { id: "unit-215", num: "215", title: "He promised to write.",                                subtitle: "Revise the basics: infinitives" },
-        { id: "unit-216", num: "216", title: "He said I'd better go.",                               subtitle: "Indirect speech: special cases" },
-        { id: "unit-217", num: "217", title: "Indirect speech: more practice",                       subtitle: null },
-        { id: "unit-218", num: "218", title: "Indirect speech: revision test",                       subtitle: null },
+        { title: "Reported Speech", units: [
+          { num: "1", label: "Revise the basics: why things change" },
+          { num: "2", label: "Revise the basics: 'here' and 'now' words" },
+          { num: "3", label: "Revise the basics: tenses" },
+          { num: "4", label: "Present situations — He proved that the earth is/was round." },
+          { num: "5", label: "Revise the basics: indirect questions" },
+          { num: "6", label: "Revise the basics: infinitives — He promised to write." },
+          { num: "7", label: "Indirect speech: special cases — He said I'd better go." },
+        ]},
+        { title: "Review", units: [
+          { num: "8", label: "Indirect speech: more practice" },
+          { num: "9", label: "Indirect speech: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 21 — Prepositions",
+      id: "section-21", num: "21", title: "Prepositions", icon: "📍",
       subsections: [
-        { label: "Preposition Types", unitIds: ["unit-219","unit-220","unit-221","unit-222","unit-223","unit-224","unit-225"] },
-        { label: "Review",            unitIds: ["unit-226","unit-227"] },
-      ],
-      units: [
-        { id: "unit-219", num: "219", title: "Revise the basics: time",                              subtitle: null },
-        { id: "unit-220", num: "220", title: "Revise the basics: place and movement",                subtitle: null },
-        { id: "unit-221", num: "221", title: "Some preposition choices",                             subtitle: null },
-        { id: "unit-222", num: "222", title: "Look at her.",                                         subtitle: "Verbs with prepositions" },
-        { id: "unit-223", num: "223", title: "lack of sleep",                                        subtitle: "Nouns with prepositions" },
-        { id: "unit-224", num: "224", title: "full of water",                                        subtitle: "Adjectives with prepositions" },
-        { id: "unit-225", num: "225", title: "at a party",                                           subtitle: "Expressions beginning with prepositions" },
-        { id: "unit-226", num: "226", title: "Prepositions: more practice",                          subtitle: null },
-        { id: "unit-227", num: "227", title: "Prepositions: revision test",                          subtitle: null },
+        { title: "Preposition Types", units: [
+          { num: "1", label: "Revise the basics: time" },
+          { num: "2", label: "Revise the basics: place and movement" },
+          { num: "3", label: "Some preposition choices" },
+          { num: "4", label: "Verbs with prepositions — Look at her." },
+          { num: "5", label: "Nouns with prepositions — lack of sleep" },
+          { num: "6", label: "Adjectives with prepositions — full of water" },
+          { num: "7", label: "Expressions beginning with prepositions — at a party" },
+        ]},
+        { title: "Review", units: [
+          { num: "8", label: "Prepositions: more practice" },
+          { num: "9", label: "Prepositions: revision test" },
+        ]},
       ],
     },
     {
-      title: "Section 22 — Spoken Grammar",
+      id: "section-22", num: "22", title: "Spoken Grammar", icon: "🗣️",
       subsections: [
-        { label: "Spoken Structures", unitIds: ["unit-228","unit-229","unit-230","unit-231","unit-232","unit-233","unit-234","unit-235"] },
-        { label: "Review",            unitIds: ["unit-236","unit-237"] },
-      ],
-      units: [
-        { id: "unit-228", num: "228", title: "It's difficult, the exam.",                            subtitle: "Spoken sentence structure" },
-        { id: "unit-229", num: "229", title: "Must dash.",                                           subtitle: "Dropping sentence beginnings" },
-        { id: "unit-230", num: "230", title: "'Get up!' 'I am!'",                                    subtitle: "Dropping words after auxiliaries" },
-        { id: "unit-231", num: "231", title: "It's cold, isn't it?",                                subtitle: "Revise the basics: question tags" },
-        { id: "unit-232", num: "232", title: "Nobody phoned, did they?",                             subtitle: "More about question tags" },
-        { id: "unit-233", num: "233", title: "Revise the basics: short answers and reply questions", subtitle: null },
-        { id: "unit-234", num: "234", title: "Revise the basics: so am I etc",                      subtitle: null },
-        { id: "unit-235", num: "235", title: "I (don't) think so. I hope so/not.",                  subtitle: "Structures with so and not" },
-        { id: "unit-236", num: "236", title: "Spoken grammar: more practice",                       subtitle: null },
-        { id: "unit-237", num: "237", title: "Spoken grammar: revision test",                       subtitle: null },
+        { title: "Spoken Structures", units: [
+          { num: "1", label: "Spoken sentence structure — It's difficult, the exam." },
+          { num: "2", label: "Dropping sentence beginnings — Must dash." },
+          { num: "3", label: "Dropping words after auxiliaries — 'Get up!' 'I am!'" },
+          { num: "4", label: "Revise the basics: question tags — It's cold, isn't it?" },
+          { num: "5", label: "More about question tags — Nobody phoned, did they?" },
+          { num: "6", label: "Revise the basics: short answers and reply questions" },
+          { num: "7", label: "Revise the basics: so am I etc" },
+          { num: "8", label: "Structures with so and not — I (don't) think so. I hope so/not." },
+        ]},
+        { title: "Review", units: [
+          { num: "9",  label: "Spoken grammar: more practice" },
+          { num: "10", label: "Spoken grammar: revision test" },
+        ]},
       ],
     },
   ],
 };
 
-const allUnits   = bookData.sections.flatMap((s) => s.units);
-const totalUnits = allUnits.length;
+const FREE_SECTIONS = 3;
 
-let _idx = 0;
-const unitIndexMap = {};
-bookData.sections.forEach((sec) =>
-  sec.units.forEach((u) => { unitIndexMap[u.id] = ++_idx; })
-);
-
-const sectionColors = [
-  { accent: "#b45309", bg: "#fffbeb", badge: "#fde68a", text: "#78350f", border: "#fcd34d", icon: "📌" },
-  { accent: "#0369a1", bg: "#f0f9ff", badge: "#bae6fd", text: "#0c4a6e", border: "#7dd3fc", icon: "⏱️" },
-  { accent: "#7c3aed", bg: "#faf5ff", badge: "#ede9fe", text: "#4c1d95", border: "#c4b5fd", icon: "🔮" },
-  { accent: "#b91c1c", bg: "#fff1f2", badge: "#fecdd3", text: "#7f1d1d", border: "#fda4af", icon: "📅" },
-  { accent: "#065f46", bg: "#f0fdf4", badge: "#d1fae5", text: "#022c22", border: "#6ee7b7", icon: "✅" },
-  { accent: "#92400e", bg: "#fffbeb", badge: "#fde68a", text: "#78350f", border: "#fcd34d", icon: "🔧" },
-  { accent: "#1d4ed8", bg: "#eff6ff", badge: "#dbeafe", text: "#1e3a8a", border: "#93c5fd", icon: "🔄" },
-  { accent: "#6d28d9", bg: "#f5f3ff", badge: "#ede9fe", text: "#3b0764", border: "#c4b5fd", icon: "❓" },
-  { accent: "#0f766e", bg: "#f0fdfa", badge: "#ccfbf1", text: "#042f2e", border: "#5eead4", icon: "🔗" },
-  { accent: "#a16207", bg: "#fefce8", badge: "#fef9c3", text: "#713f12", border: "#fde047", icon: "⚙️" },
-  { accent: "#9d174d", bg: "#fff1f2", badge: "#fce7f3", text: "#500724", border: "#f9a8d4", icon: "📖" },
-  { accent: "#15803d", bg: "#f0fdf4", badge: "#dcfce7", text: "#052e16", border: "#86efac", icon: "🎯" },
-  { accent: "#4338ca", bg: "#eef2ff", badge: "#e0e7ff", text: "#1e1b4b", border: "#a5b4fc", icon: "👤" },
-  { accent: "#c2410c", bg: "#fff7ed", badge: "#fed7aa", text: "#7c2d12", border: "#fb923c", icon: "📝" },
-  { accent: "#0e7490", bg: "#ecfeff", badge: "#cffafe", text: "#083344", border: "#67e8f9", icon: "✍️" },
-  { accent: "#5b21b6", bg: "#f5f3ff", badge: "#ddd6fe", text: "#2e1065", border: "#a78bfa", icon: "📊" },
-  { accent: "#1e40af", bg: "#eff6ff", badge: "#bfdbfe", text: "#1e3a8a", border: "#60a5fa", icon: "🔀" },
-  { accent: "#065f46", bg: "#ecfdf5", badge: "#d1fae5", text: "#022c22", border: "#34d399", icon: "❔" },
-  { accent: "#6b21a8", bg: "#faf5ff", badge: "#f3e8ff", text: "#3b0764", border: "#d8b4fe", icon: "🔍" },
-  { accent: "#9a3412", bg: "#fff7ed", badge: "#fdba74", text: "#7c2d12", border: "#fb923c", icon: "💬" },
-  { accent: "#1d4ed8", bg: "#f0f9ff", badge: "#dbeafe", text: "#1e3a8a", border: "#93c5fd", icon: "📍" },
-  { accent: "#374151", bg: "#f9fafb", badge: "#e5e7eb", text: "#111827", border: "#d1d5db", icon: "🗣️" },
+/* ─── Palette ────────────────────────────────────────────── */
+const palette = [
+  { accent: "#0369a1", bg: "#f0f9ff", border: "#bae6fd", text: "#0c4a6e", numBg: "#dbeafe" },
+  { accent: "#7c3aed", bg: "#faf5ff", border: "#ede9fe", text: "#4c1d95", numBg: "#ede9fe" },
+  { accent: "#b91c1c", bg: "#fff1f2", border: "#fecdd3", text: "#881337", numBg: "#fee2e2" },
+  { accent: "#0f766e", bg: "#f0fdfa", border: "#99f6e4", text: "#134e4a", numBg: "#ccfbf1" },
+  { accent: "#15803d", bg: "#f0fdf4", border: "#bbf7d0", text: "#14532d", numBg: "#dcfce7" },
+  { accent: "#64748b", bg: "#f8fafc", border: "#e2e8f0", text: "#1e293b", numBg: "#f1f5f9" },
+  { accent: "#b45309", bg: "#fffbeb", border: "#fde68a", text: "#78350f", numBg: "#fef3c7" },
+  { accent: "#dc2626", bg: "#fef2f2", border: "#fecaca", text: "#7f1d1d", numBg: "#fee2e2" },
+  { accent: "#1d4ed8", bg: "#eff6ff", border: "#bfdbfe", text: "#1e3a8a", numBg: "#dbeafe" },
+  { accent: "#c2410c", bg: "#fff7ed", border: "#fed7aa", text: "#7c2d12", numBg: "#ffedd5" },
+  { accent: "#0891b2", bg: "#ecfeff", border: "#a5f3fc", text: "#164e63", numBg: "#cffafe" },
+  { accent: "#4f46e5", bg: "#eef2ff", border: "#c7d2fe", text: "#312e81", numBg: "#e0e7ff" },
+  { accent: "#059669", bg: "#f0fdf4", border: "#d1fae5", text: "#065f46", numBg: "#d1fae5" },
+  { accent: "#9333ea", bg: "#fdf4ff", border: "#e9d5ff", text: "#581c87", numBg: "#f3e8ff" },
+  { accent: "#db2777", bg: "#fdf2f8", border: "#fbcfe8", text: "#831843", numBg: "#fce7f3" },
+  { accent: "#ca8a04", bg: "#fefce8", border: "#fef08a", text: "#713f12", numBg: "#fef9c3" },
+  { accent: "#16a34a", bg: "#f0fdf4", border: "#bbf7d0", text: "#14532d", numBg: "#dcfce7" },
+  { accent: "#7e22ce", bg: "#faf5ff", border: "#ddd6fe", text: "#4c1d95", numBg: "#ede9fe" },
+  { accent: "#0284c7", bg: "#f0f9ff", border: "#bae6fd", text: "#0c4a6e", numBg: "#dbeafe" },
+  { accent: "#be185d", bg: "#fdf2f8", border: "#fbcfe8", text: "#831843", numBg: "#fce7f3" },
+  { accent: "#0d9488", bg: "#f0fdfa", border: "#99f6e4", text: "#134e4a", numBg: "#ccfbf1" },
+  { accent: "#6d28d9", bg: "#faf5ff", border: "#ede9fe", text: "#4c1d95", numBg: "#ede9fe" },
 ];
 
-const subsectionColors = [
-  { bg: "#fef9c3", text: "#854d0e", border: "#fde68a" },
-  { bg: "#dbeafe", text: "#1e3a5f", border: "#93c5fd" },
-  { bg: "#fce7f3", text: "#831843", border: "#f9a8d4" },
-  { bg: "#dcfce7", text: "#14532d", border: "#86efac" },
-];
+/* ─── Helpers ────────────────────────────────────────────── */
+function countUnits(section) {
+  return section.subsections.reduce((a, s) => a + s.units.length, 0);
+}
 
-function UnitRow({ unit, isFree, locked, sc, isLast, path }) {
-  const [hovered, setHovered] = useState(false);
+/* ─── SubsectionBlock ────────────────────────────────────── */
+function SubsectionBlock({ sub, sc, locked }) {
+  const isReview = sub.title === "Review";
+  return (
+    <div style={{ marginBottom: "13px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "7px", marginBottom: "7px" }}>
+        <div style={{
+          width: "3px", height: "13px", borderRadius: "2px", flexShrink: 0,
+          backgroundColor: locked ? "#d1d5db" : isReview ? "#cbd5e1" : sc.accent,
+        }} />
+        <span style={{
+          fontSize: "10px", fontWeight: 800, letterSpacing: "0.5px",
+          textTransform: "uppercase",
+          color: locked ? "#c4c4c4" : isReview ? "#94a3b8" : sc.accent,
+        }}>
+          {sub.title}
+        </span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: "4px", paddingLeft: "10px" }}>
+        {sub.units.map((unit) => (
+          <div key={unit.num} style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
+            <div style={{
+              minWidth: "22px", height: "18px", borderRadius: "4px", flexShrink: 0,
+              marginTop: "1px",
+              backgroundColor: locked ? "#f3f4f6" : isReview ? "#f1f5f9" : sc.numBg,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: "9px", fontWeight: 800,
+              color: locked ? "#9ca3af" : isReview ? "#64748b" : sc.text,
+            }}>
+              {unit.num}
+            </div>
+            <span style={{
+              fontSize: "12px", lineHeight: 1.5,
+              color: locked ? "#c4c4c4" : isReview ? "#6b7280" : "#374151",
+              fontStyle: isReview ? "italic" : "normal",
+            }}>
+              {unit.label}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─── GRID CARD ─────────────────────────────────────────── */
+function GridCard({ section, sc, locked, href }) {
   return (
     <Link
-      href={locked ? "#" : path}
+      href={href}
       style={{
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "13px 20px", textDecoration: "none",
-        backgroundColor: locked ? "#fafafa" : hovered ? sc.bg : "#ffffff",
-        borderBottom: isLast ? "none" : "1px solid #f3f4f6",
-        opacity: locked ? 0.65 : 1,
+        display: "flex", flexDirection: "column",
+        backgroundColor: "#ffffff",
+        border: `1px solid ${locked ? "#e5e7eb" : sc.border}`,
+        borderRadius: "14px", overflow: "hidden",
+        textDecoration: "none",
+        opacity: locked ? 0.58 : 1,
         cursor: locked ? "not-allowed" : "pointer",
-        transition: "background-color 0.15s",
+        boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
+        transition: "box-shadow 0.18s, transform 0.18s",
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-        <div style={{
-          width: "38px", height: "38px", borderRadius: "8px",
-          backgroundColor: locked ? "#f3f4f6" : sc.badge,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: "12px", fontWeight: 800,
-          color: locked ? "#9ca3af" : sc.text,
-          flexShrink: 0, letterSpacing: "-0.3px",
-        }}>
-          {unit.num}
-        </div>
-        <div>
-          <p style={{ fontSize: "13px", fontWeight: 600, color: locked ? "#9ca3af" : "#111827", margin: 0, lineHeight: 1.3 }}>
-            {unit.title}
-          </p>
-          {unit.subtitle && (
-            <p style={{ fontSize: "12px", color: locked ? "#d1d5db" : sc.accent, margin: "3px 0 0", fontWeight: 500, fontFamily: "monospace" }}>
-              {unit.subtitle}
-            </p>
-          )}
-        </div>
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
-        {isFree && (
-          <span style={{ fontSize: "10px", fontWeight: 700, backgroundColor: "#d1fae5", color: "#059669", padding: "2px 8px", borderRadius: "999px" }}>
-            FREE
-          </span>
-        )}
-        {locked
-          ? <span style={{ fontSize: "15px" }}>🔒</span>
-          : <span style={{ fontSize: "16px", color: "#d1d5db" }}>›</span>
+      onMouseEnter={(e) => {
+        if (!locked) {
+          e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.10)";
+          e.currentTarget.style.transform = "translateY(-2px)";
         }
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = "0 1px 4px rgba(0,0,0,0.06)";
+        e.currentTarget.style.transform = "translateY(0)";
+      }}
+    >
+      <div style={{
+        backgroundColor: locked ? "#f9fafb" : sc.bg,
+        borderBottom: `1px solid ${locked ? "#f3f4f6" : sc.border}`,
+        padding: "14px 16px 12px",
+      }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "9px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <div style={{
+              width: "32px", height: "32px", borderRadius: "8px", flexShrink: 0,
+              backgroundColor: locked ? "#e5e7eb" : sc.numBg,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: "11px", fontWeight: 800, letterSpacing: "-0.3px",
+              color: locked ? "#9ca3af" : sc.text,
+            }}>
+              {section.num}
+            </div>
+            <span style={{ fontSize: "18px" }}>{section.icon}</span>
+          </div>
+          {locked
+            ? <span style={{ fontSize: "14px" }}>🔒</span>
+            : parseInt(section.num) <= FREE_SECTIONS
+              ? <span style={{ fontSize: "10px", fontWeight: 700, backgroundColor: "#d1fae5", color: "#059669", padding: "2px 8px", borderRadius: "999px" }}>FREE</span>
+              : null
+          }
+        </div>
+        <h2 style={{ fontSize: "13px", fontWeight: 800, margin: "0 0 3px", lineHeight: 1.3, color: locked ? "#9ca3af" : sc.text }}>
+          Section {section.num}: {section.title}
+        </h2>
+        <p style={{ fontSize: "10px", color: "#9ca3af", margin: 0, fontWeight: 500 }}>
+          {section.subsections.filter(s => s.title !== "Review").length} subsections · {countUnits(section)} lessons
+        </p>
+      </div>
+
+      <div style={{ padding: "14px 16px 4px", flex: 1 }}>
+        {section.subsections.map((sub, i) => (
+          <SubsectionBlock key={i} sub={sub} sc={sc} locked={locked} />
+        ))}
+      </div>
+
+      <div style={{
+        padding: "10px 16px",
+        borderTop: `1px solid ${locked ? "#f3f4f6" : sc.border}`,
+        backgroundColor: locked ? "#f9fafb" : sc.bg,
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+      }}>
+        <span style={{ fontSize: "12px", fontWeight: 600, color: locked ? "#9ca3af" : sc.accent }}>
+          {locked ? "Locked" : "Open section"}
+        </span>
+        {!locked && <span style={{ fontSize: "16px", color: sc.accent }}>→</span>}
       </div>
     </Link>
   );
 }
 
-export default function OEGCIntermediatePage() {
-  const [user, setUser]         = useState(null);
-  const [role, setRole]         = useState(null);
-  const [loading, setLoading]   = useState(true);
-  const [expanded, setExpanded] = useState(
-    Object.fromEntries(bookData.sections.map((_, i) => [i, true]))
+/* ─── HORIZONTAL ROW ─────────────────────────────────────── */
+function HorizontalRow({ section, sc, locked, href }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div style={{
+      backgroundColor: "#ffffff",
+      border: `1px solid ${open && !locked ? sc.border : "#e5e7eb"}`,
+      borderRadius: "12px", overflow: "hidden",
+      opacity: locked ? 0.58 : 1,
+      transition: "border-color 0.2s",
+    }}>
+      <div style={{
+        display: "flex", alignItems: "center", gap: "14px",
+        padding: "14px 20px",
+        backgroundColor: open && !locked ? sc.bg : "#ffffff",
+        transition: "background-color 0.2s",
+      }}>
+        <div style={{
+          width: "36px", height: "36px", borderRadius: "9px", flexShrink: 0,
+          backgroundColor: locked ? "#e5e7eb" : sc.numBg,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          fontSize: "12px", fontWeight: 800,
+          color: locked ? "#9ca3af" : sc.text,
+        }}>
+          {section.num}
+        </div>
+        <span style={{ fontSize: "20px", flexShrink: 0 }}>{section.icon}</span>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p style={{ fontSize: "14px", fontWeight: 700, color: locked ? "#9ca3af" : sc.text, margin: 0, lineHeight: 1.3 }}>
+            {section.title}
+          </p>
+          <p style={{ fontSize: "11px", color: "#9ca3af", margin: "2px 0 0" }}>
+            {section.subsections.filter(s => s.title !== "Review").length} subsections · {countUnits(section)} lessons
+          </p>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+          {!locked && parseInt(section.num) <= FREE_SECTIONS && (
+            <span style={{ fontSize: "10px", fontWeight: 700, backgroundColor: "#d1fae5", color: "#059669", padding: "2px 8px", borderRadius: "999px" }}>
+              FREE
+            </span>
+          )}
+          {locked
+            ? <span style={{ fontSize: "15px" }}>🔒</span>
+            : (
+              <>
+                <button
+                  onClick={(e) => { e.preventDefault(); setOpen(v => !v); }}
+                  style={{
+                    display: "flex", alignItems: "center", gap: "5px",
+                    fontSize: "11px", fontWeight: 700,
+                    color: open ? sc.text : sc.accent,
+                    backgroundColor: open ? sc.numBg : "#f9fafb",
+                    border: `1px solid ${open ? sc.border : "#e5e7eb"}`,
+                    borderRadius: "6px", padding: "5px 11px",
+                    cursor: "pointer", whiteSpace: "nowrap",
+                    transition: "all 0.15s",
+                  }}
+                >
+                  {open ? "Hide lessons" : "Show lessons"}
+                  <span style={{
+                    fontSize: "9px", display: "inline-block",
+                    transform: open ? "rotate(180deg)" : "rotate(0deg)",
+                    transition: "transform 0.2s",
+                  }}>▼</span>
+                </button>
+                <Link
+                  href={href}
+                  style={{
+                    fontSize: "11px", fontWeight: 700,
+                    color: "#ffffff", backgroundColor: sc.accent,
+                    borderRadius: "6px", padding: "5px 13px",
+                    textDecoration: "none", whiteSpace: "nowrap",
+                  }}
+                >
+                  Open →
+                </Link>
+              </>
+            )
+          }
+        </div>
+      </div>
+
+      {open && !locked && (
+        <div style={{
+          borderTop: `1px solid ${sc.border}`,
+          padding: "16px 20px 16px 70px",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+          gap: "0 28px",
+          backgroundColor: "#fafafa",
+        }}>
+          {section.subsections.map((sub, i) => (
+            <SubsectionBlock key={i} sub={sub} sc={sc} locked={false} />
+          ))}
+        </div>
+      )}
+    </div>
   );
+}
+
+/* ─── Main page ─────────────────────────────────────────── */
+export default function OEGCIntermediatePage() {
+  const [user, setUser]       = useState(null);
+  const [role, setRole]       = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [layout, setLayout]   = useState("grid");
 
   useEffect(() => {
     setPersistence(auth, browserLocalPersistence).then(() => {
@@ -586,22 +758,25 @@ export default function OEGCIntermediatePage() {
   }, []);
 
   const isLearner = role === "learner" || role === "admin" || role === "owner";
-  const toggleSec = (i) => setExpanded((p) => ({ ...p, [i]: !p[i] }));
 
-  if (loading) return (
-    <div style={{ fontFamily: "'Manrope', sans-serif", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#f9fafb" }}>
-      <div style={{ textAlign: "center" }}>
-        <div style={{ width: "44px", height: "44px", border: "3px solid #d1fae5", borderTop: "3px solid #036c48", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto 16px" }} />
-        <p style={{ fontSize: "14px", color: "#9ca3af" }}>Loading...</p>
+  if (loading) {
+    return (
+      <div style={{ fontFamily: "'Manrope', sans-serif", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#f9fafb" }}>
+        <div style={{ textAlign: "center" }}>
+          <div style={{ width: "44px", height: "44px", border: "3px solid #d1fae5", borderTop: "3px solid #036c48", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "0 auto 16px" }} />
+          <p style={{ fontSize: "14px", color: "#9ca3af" }}>Loading…</p>
+        </div>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
-      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
-    </div>
-  );
+    );
+  }
+
+  const totalLessons = bookData.sections.reduce((a, s) => a + countUnits(s), 0);
 
   return (
     <div style={{ fontFamily: "'Manrope', sans-serif", backgroundColor: "#f9fafb", minHeight: "100vh" }}>
 
-      {/* NAV */}
+      {/* ── NAV ── */}
       <nav style={{ backgroundColor: "rgba(255,255,255,0.96)", borderBottom: "1px solid #f0fdf4", position: "fixed", top: 0, width: "100%", zIndex: 50, backdropFilter: "blur(12px)" }}>
         <div style={{ padding: "0 32px", height: "68px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", flexWrap: "wrap" }}>
@@ -624,127 +799,123 @@ export default function OEGCIntermediatePage() {
         </div>
       </nav>
 
-      <div style={{ maxWidth: "860px", margin: "0 auto", padding: "96px 24px 80px" }}>
+      <div style={{ maxWidth: "980px", margin: "0 auto", padding: "96px 24px 80px" }}>
 
-        {/* BOOK HEADER */}
-        <div style={{ display: "grid", gridTemplateColumns: "140px 1fr", gap: "28px", alignItems: "start", marginBottom: "40px" }}>
-          <div style={{ width: "140px", aspectRatio: "3/4", backgroundColor: "#e5e7eb", borderRadius: "10px", overflow: "hidden", border: "1px solid #d1d5db", flexShrink: 0 }}>
-            <img src={bookData.cover} alt={bookData.title} style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              onError={(e) => { e.target.style.display = "none"; e.target.nextSibling.style.display = "flex"; }} />
+        {/* ── BOOK HEADER ── */}
+        <div style={{ display: "grid", gridTemplateColumns: "140px 1fr", gap: "28px", alignItems: "start", marginBottom: "36px" }}>
+          <div style={{ width: "140px", aspectRatio: "3/4", backgroundColor: "#e5e7eb", borderRadius: "10px", overflow: "hidden", border: "1px solid #d1d5db" }}>
+            <img src={bookData.cover} alt={bookData.title}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              onError={(e) => { e.target.style.display = "none"; e.target.nextSibling.style.display = "flex"; }}
+            />
             <div style={{ display: "none", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "6px", backgroundColor: "#f3f4f6" }}>
               <span style={{ fontSize: "32px" }}>📘</span>
               <span style={{ fontSize: "10px", color: "#9ca3af", textAlign: "center", padding: "0 8px", lineHeight: 1.4 }}>Cover coming soon</span>
             </div>
           </div>
-
           <div>
-            <span style={{ display: "inline-block", fontSize: "11px", fontWeight: 700, backgroundColor: "#fed7aa", color: "#9a3412", padding: "3px 10px", borderRadius: "999px", marginBottom: "10px", letterSpacing: "0.3px" }}>
+            <span style={{ display: "inline-block", fontSize: "11px", fontWeight: 700, backgroundColor: "#dbeafe", color: "#1d4ed8", padding: "3px 10px", borderRadius: "999px", marginBottom: "10px", letterSpacing: "0.3px" }}>
               INTERMEDIATE
             </span>
-            <h1 style={{ fontSize: "26px", fontWeight: 800, color: "#064e3b", letterSpacing: "-0.4px", lineHeight: 1.2, marginBottom: "6px" }}>{bookData.title}</h1>
+            <h1 style={{ fontSize: "26px", fontWeight: 800, color: "#064e3b", letterSpacing: "-0.4px", lineHeight: 1.2, marginBottom: "6px" }}>
+              {bookData.title}
+            </h1>
             <p style={{ fontSize: "14px", color: "#6b7280", marginBottom: "20px", fontWeight: 500 }}>{bookData.authors}</p>
-            <div style={{ display: "flex", gap: "24px", marginBottom: "20px" }}>
+            <div style={{ display: "flex", gap: "24px", marginBottom: "20px", flexWrap: "wrap" }}>
               {[
                 { val: bookData.sections.length, label: "Sections" },
-                { val: totalUnits,               label: "Units" },
-                { val: 3,                        label: "Free units", hi: true },
-              ].map(({ val, label, hi }) => (
+                { val: totalLessons,             label: "Total lessons" },
+                { val: FREE_SECTIONS,            label: "Free sections", highlight: true },
+              ].map(({ val, label, highlight }) => (
                 <div key={label}>
-                  <p style={{ fontSize: "22px", fontWeight: 800, color: hi ? "#059669" : "#064e3b", lineHeight: 1 }}>{val}</p>
+                  <p style={{ fontSize: "22px", fontWeight: 800, color: highlight ? "#059669" : "#064e3b", lineHeight: 1 }}>{val}</p>
                   <p style={{ fontSize: "11px", color: "#9ca3af", marginTop: "2px" }}>{label}</p>
                 </div>
               ))}
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <div style={{ flex: 1, height: "6px", backgroundColor: "#e5e7eb", borderRadius: "999px", overflow: "hidden" }}>
-                <div style={{ width: `${(3 / totalUnits) * 100}%`, height: "100%", backgroundColor: "#059669", borderRadius: "999px" }} />
+                <div style={{ width: `${(FREE_SECTIONS / bookData.sections.length) * 100}%`, height: "100%", backgroundColor: "#059669", borderRadius: "999px" }} />
               </div>
-              <span style={{ fontSize: "11px", color: "#9ca3af", whiteSpace: "nowrap" }}>3 of {totalUnits} unlocked</span>
+              <span style={{ fontSize: "11px", color: "#9ca3af", whiteSpace: "nowrap" }}>
+                {FREE_SECTIONS} of {bookData.sections.length} unlocked
+              </span>
             </div>
           </div>
         </div>
 
-        {/* UPGRADE BANNER */}
+        {/* ── UPGRADE BANNER ── */}
         {!isLearner && (
-          <div style={{ backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderRadius: "10px", padding: "14px 20px", marginBottom: "32px", display: "flex", alignItems: "center", gap: "12px" }}>
+          <div style={{ backgroundColor: "#fffbeb", border: "1px solid #fde68a", borderRadius: "10px", padding: "14px 20px", marginBottom: "28px", display: "flex", alignItems: "center", gap: "12px" }}>
             <span style={{ fontSize: "20px" }}>🔒</span>
             <p style={{ fontSize: "13px", color: "#92400e", fontWeight: 500, lineHeight: 1.5 }}>
-              Units 1–3 are free. <Link href="/dashboard" style={{ color: "#059669", fontWeight: 700, textDecoration: "none" }}>Upgrade to Learner</Link> to unlock all {totalUnits} units.
+              Sections 1–{FREE_SECTIONS} are free.{" "}
+              <Link href="/dashboard" style={{ color: "#059669", fontWeight: 700, textDecoration: "none" }}>Upgrade to Learner</Link>
+              {" "}to unlock all {bookData.sections.length} sections.
             </p>
           </div>
         )}
 
-        {/* SECTIONS */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {bookData.sections.map((section, si) => {
-            const sc     = sectionColors[si] || sectionColors[0];
-            const isOpen = expanded[si] !== false;
-
-            const subsecMap = {};
-            if (section.subsections) {
-              section.subsections.forEach((sub, subIdx) => {
-                sub.unitIds.forEach((uid) => { subsecMap[uid] = { label: sub.label, colorIdx: subIdx }; });
-              });
-            }
-
-            return (
-              <div key={si} style={{ backgroundColor: "#ffffff", border: `1px solid ${isOpen ? sc.border : "#e5e7eb"}`, borderRadius: "12px", overflow: "hidden", transition: "border-color 0.2s" }}>
-                <button
-                  onClick={() => toggleSec(si)}
-                  style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", backgroundColor: isOpen ? sc.bg : "#ffffff", border: "none", cursor: "pointer", transition: "background-color 0.2s", textAlign: "left" }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <span style={{ fontSize: "20px" }}>{sc.icon}</span>
-                    <div>
-                      <p style={{ fontSize: "14px", fontWeight: 700, color: sc.text, margin: 0 }}>{section.title}</p>
-                      <p style={{ fontSize: "11px", color: "#9ca3af", margin: "2px 0 0", fontWeight: 500 }}>{section.units.length} units</p>
-                    </div>
-                  </div>
-                  <span style={{ fontSize: "18px", color: "#9ca3af", transform: isOpen ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 0.2s", display: "inline-block" }}>›</span>
-                </button>
-
-                {isOpen && (
-                  <div style={{ borderTop: `1px solid ${sc.border}` }}>
-                    {(() => {
-                      let lastLabel = null;
-                      return section.units.map((unit, ui) => {
-                        const gIdx   = unitIndexMap[unit.id];
-                        const isFree = gIdx <= 3;
-                        const locked = !isLearner && !isFree;
-                        const sub    = subsecMap[unit.id];
-                        const showSub = sub && sub.label !== lastLabel;
-                        if (showSub) lastLabel = sub.label;
-                        const subColor = sub ? subsectionColors[sub.colorIdx % subsectionColors.length] : null;
-
-                        return (
-                          <div key={unit.id}>
-                            {showSub && (
-                              <div style={{ padding: "7px 20px", backgroundColor: subColor.bg, borderTop: ui === 0 ? "none" : `1px solid ${sc.border}`, borderBottom: `1px solid ${subColor.border}` }}>
-                                <span style={{ fontSize: "10px", fontWeight: 800, color: subColor.text, textTransform: "uppercase", letterSpacing: "0.6px" }}>{sub.label}</span>
-                              </div>
-                            )}
-                            <UnitRow
-                              unit={unit} isFree={isFree} locked={locked} sc={sc}
-                              isLast={ui === section.units.length - 1}
-                              path={`/english/grammar/oegc-intermediate/${unit.id}`}
-                            />
-                          </div>
-                        );
-                      });
-                    })()}
-                  </div>
-                )}
-              </div>
-            );
-          })}
+        {/* ── LAYOUT TOGGLE ── */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
+          <p style={{ fontSize: "13px", color: "#6b7280", fontWeight: 600, margin: 0 }}>
+            {bookData.sections.length} Sections · {totalLessons} Lessons
+          </p>
+          <div style={{ display: "flex", backgroundColor: "#f3f4f6", borderRadius: "8px", padding: "3px", gap: "2px" }}>
+            {[
+              { key: "grid",       icon: "⊞", label: "Grid" },
+              { key: "horizontal", icon: "☰", label: "List" },
+            ].map(({ key, icon, label }) => (
+              <button key={key} onClick={() => setLayout(key)} style={{
+                fontSize: "12px", fontWeight: 700,
+                padding: "5px 14px", borderRadius: "6px",
+                border: "none", cursor: "pointer",
+                backgroundColor: layout === key ? "#ffffff" : "transparent",
+                color: layout === key ? "#064e3b" : "#6b7280",
+                boxShadow: layout === key ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
+                transition: "all 0.15s",
+                display: "flex", alignItems: "center", gap: "5px",
+              }}>
+                <span>{icon}</span> {label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* BOTTOM CTA */}
+        {/* ── GRID LAYOUT ── */}
+        {layout === "grid" && (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(290px, 1fr))", gap: "16px" }}>
+            {bookData.sections.map((section, si) => {
+              const sc     = palette[si] || palette[0];
+              const locked = !isLearner && si >= FREE_SECTIONS;
+              const href   = locked ? "#" : `/english/grammar/oegc-intermediate/${section.id}`;
+              return <GridCard key={section.id} section={section} sc={sc} locked={locked} href={href} />;
+            })}
+          </div>
+        )}
+
+        {/* ── HORIZONTAL LAYOUT ── */}
+        {layout === "horizontal" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            {bookData.sections.map((section, si) => {
+              const sc     = palette[si] || palette[0];
+              const locked = !isLearner && si >= FREE_SECTIONS;
+              const href   = locked ? "#" : `/english/grammar/oegc-intermediate/${section.id}`;
+              return <HorizontalRow key={section.id} section={section} sc={sc} locked={locked} href={href} />;
+            })}
+          </div>
+        )}
+
+        {/* ── BOTTOM CTA ── */}
         {!isLearner && (
           <div style={{ marginTop: "40px", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "12px", padding: "24px", textAlign: "center" }}>
             <p style={{ fontSize: "20px", marginBottom: "8px" }}>🎓</p>
-            <p style={{ fontSize: "15px", fontWeight: 700, color: "#064e3b", marginBottom: "6px" }}>Unlock all {totalUnits} units</p>
-            <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "16px" }}>Full access to every unit, grammar explanations, and practice exercises.</p>
+            <p style={{ fontSize: "15px", fontWeight: 700, color: "#064e3b", marginBottom: "6px" }}>
+              Unlock all {bookData.sections.length} sections
+            </p>
+            <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "16px" }}>
+              Get full access to every grammar section with all subsections and lessons.
+            </p>
             <Link href="/dashboard" style={{ display: "inline-block", backgroundColor: "#059669", color: "#ffffff", padding: "10px 28px", borderRadius: "8px", textDecoration: "none", fontSize: "14px", fontWeight: 700 }}>
               Upgrade to Learner
             </Link>
@@ -752,7 +923,7 @@ export default function OEGCIntermediatePage() {
         )}
       </div>
 
-      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }
