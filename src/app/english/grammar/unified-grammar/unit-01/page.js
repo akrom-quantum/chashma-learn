@@ -883,7 +883,13 @@ function PracticeContent({ unitId }) {
     </div>
   );
 }
-
+return (
+    <div style={{ textAlign: "center", padding: "60px 0" }}>
+      <p style={{ fontSize: "32px", marginBottom: "12px" }}>✍️</p>
+      <p style={{ fontSize: "15px", color: "#9ca3af" }}>Practice exercises for this unit are coming soon.</p>
+    </div>
+  );
+}
 // ─────────────────────────────────────────────────────────────
 // MAIN UNIT PAGE COMPONENT
 // ─────────────────────────────────────────────────────────────
