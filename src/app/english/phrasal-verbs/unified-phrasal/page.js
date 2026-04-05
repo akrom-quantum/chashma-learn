@@ -19,19 +19,12 @@ const auth = getAuth(app);
 const db   = getFirestore(app, "chashma-learn");
 
 // ─────────────────────────────────────────────────────────────────────────────
-// BADGE LEGEND
+// COVERAGE KEYS (kept for data only, not shown in UI)
 // ─────────────────────────────────────────────────────────────────────────────
-// ✅ = both  🟦 = Int only  🟪 = Adv only
 const COVERAGE = {
   BOTH: "both",
   INT:  "int",
   ADV:  "adv",
-};
-
-const coverageMeta = {
-  [COVERAGE.BOTH]: { label: "Both levels", bg: "#d1fae5", color: "#036c48", dot: "✅" },
-  [COVERAGE.INT]:  { label: "Intermediate", bg: "#dbeafe", color: "#1e40af", dot: "🟦" },
-  [COVERAGE.ADV]:  { label: "Advanced",     bg: "#ede9fe", color: "#5b21b6", dot: "🟪" },
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -939,14 +932,35 @@ const bookData = {
   ],
 };
 
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LEVEL BADGE for source boxes
+// ─────────────────────────────────────────────────────────────────────────────
+function LevelBadge({ label }) {
+  const isInt = label.startsWith("PV-Int");
+  return (
+    <span style={{
+      fontSize: "11px", fontWeight: 700,
+      backgroundColor: isInt ? "#d1fae5" : "#ede9fe",
+      color: isInt ? "#036c48" : "#5b21b6",
+      padding: "2px 9px",
+      borderRadius: "999px",
+      flexShrink: 0,
+    }}>
+      {isInt ? "Intermediate" : "Advanced"}
+    </span>
+  );
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // UNIT ROW COMPONENT
 // ─────────────────────────────────────────────────────────────────────────────
 function UnitRow({ unit, unitNum, isLearner }) {
   const [sourcesOpen, setSourcesOpen] = useState(false);
-  const [focusOpen, setFocusOpen]     = useState(false);
   const locked = !isLearner && unitNum > 3;
-  const cm     = coverageMeta[unit.coverage];
+
+  // Strip "Unit N — " prefix for a cleaner title
+  const titleText = unit.title.replace(/^Unit \d+ — /, "");
 
   return (
     <div style={{
@@ -954,15 +968,15 @@ function UnitRow({ unit, unitNum, isLearner }) {
       border: "1px solid #e5e7eb",
       borderRadius: "10px",
       overflow: "hidden",
-      opacity: locked ? 0.6 : 1,
-      transition: "box-shadow 0.15s ease",
+      opacity: locked ? 0.55 : 1,
     }}>
+
       {/* ── Main row ── */}
       <div style={{
         display: "flex",
         alignItems: "center",
-        padding: "13px 16px",
-        gap: "12px",
+        padding: "14px 18px",
+        gap: "14px",
       }}>
 
         {/* Unit number badge */}
@@ -977,87 +991,46 @@ function UnitRow({ unit, unitNum, isLearner }) {
           {unitNum}
         </div>
 
-        {/* Title + badges */}
+        {/* Title + focus subtitle */}
         <div style={{ flex: 1, minWidth: 0 }}>
           {locked ? (
             <p style={{ fontSize: "14px", fontWeight: 600, color: "#9ca3af", margin: 0 }}>
-              {unit.title}
+              {titleText}
             </p>
           ) : (
             <Link
               href={`/english/phrasal-verbs/pviu-unified/${unit.id}`}
-              style={{ fontSize: "14px", fontWeight: 600, color: "#111827", textDecoration: "none" }}
+              style={{ fontSize: "14px", fontWeight: 600, color: "#111827", textDecoration: "none", display: "block" }}
               onMouseEnter={e => e.currentTarget.style.color = "#036c48"}
               onMouseLeave={e => e.currentTarget.style.color = "#111827"}
             >
-              {unit.title}
+              {titleText}
             </Link>
           )}
 
-          {/* Sub-badges row */}
-          <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "4px", flexWrap: "wrap" }}>
-            {/* Coverage badge */}
-            <span style={{
-              fontSize: "10px", fontWeight: 700,
-              backgroundColor: cm.bg, color: cm.color,
-              padding: "1px 7px", borderRadius: "999px",
+          {/* Focus as subtitle */}
+          {unit.focus && unit.focus.length > 0 && (
+            <p style={{
+              fontSize: "12px", color: "#9ca3af",
+              margin: "3px 0 0", lineHeight: 1.4,
             }}>
-              {cm.dot} {cm.label}
-            </span>
-
-            {/* Free badge */}
-            {unitNum <= 3 && (
-              <span style={{
-                fontSize: "10px", fontWeight: 700,
-                backgroundColor: "#d1fae5", color: "#036c48",
-                padding: "1px 7px", borderRadius: "999px",
-              }}>
-                FREE
-              </span>
-            )}
-
-            {/* Sources count */}
-            <span style={{ fontSize: "11px", color: "#9ca3af" }}>
-              {unit.sources.length} source{unit.sources.length > 1 ? "s" : ""}
-            </span>
-          </div>
+              {unit.focus.join(" · ")}
+            </p>
+          )}
         </div>
 
-        {/* Right-side action buttons */}
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", flexShrink: 0 }}>
-
-          {/* Focus toggle button */}
+        {/* Right: sources toggle + lock */}
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
           {!locked && (
             <button
-              onClick={() => { setFocusOpen(p => !p); setSourcesOpen(false); }}
-              title="Show focus points"
-              style={{
-                width: "30px", height: "30px",
-                borderRadius: "7px",
-                border: `1px solid ${focusOpen ? "#bbf7d0" : "#e5e7eb"}`,
-                backgroundColor: focusOpen ? "#f0fdf4" : "#f9fafb",
-                color: focusOpen ? "#036c48" : "#6b7280",
-                cursor: "pointer",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: "14px",
-                transition: "all 0.15s",
-              }}
-            >
-              🎯
-            </button>
-          )}
-
-          {/* Sources toggle button */}
-          {!locked && (
-            <button
-              onClick={() => { setSourcesOpen(p => !p); setFocusOpen(false); }}
+              onClick={() => setSourcesOpen(p => !p)}
               title="Show sources"
               style={{
                 width: "30px", height: "30px",
                 borderRadius: "7px",
                 border: `1px solid ${sourcesOpen ? "#bbf7d0" : "#e5e7eb"}`,
                 backgroundColor: sourcesOpen ? "#f0fdf4" : "#f9fafb",
-                color: sourcesOpen ? "#036c48" : "#6b7280",
+                color: sourcesOpen ? "#036c48" : "#9ca3af",
                 cursor: "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 fontSize: "14px",
@@ -1067,72 +1040,56 @@ function UnitRow({ unit, unitNum, isLearner }) {
               📚
             </button>
           )}
-
-          {/* Lock or arrow */}
-          {locked ? (
-            <span style={{ fontSize: "16px" }}>🔒</span>
-          ) : (
-            <Link
-              href={`/english/phrasal-verbs/pviu-unified/${unit.id}`}
-              style={{ fontSize: "20px", color: "#d1d5db", textDecoration: "none", lineHeight: 1 }}
-            >
-              ›
-            </Link>
-          )}
+          {locked && <span style={{ fontSize: "15px" }}>🔒</span>}
         </div>
       </div>
-
-      {/* ── Focus points panel ── */}
-      {focusOpen && (
-        <div style={{
-          borderTop: "1px solid #f0fdf4",
-          backgroundColor: "#f9fafb",
-          padding: "12px 16px 12px 64px",
-        }}>
-          <p style={{ fontSize: "11px", fontWeight: 700, color: "#036c48", marginBottom: "6px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-            Focus
-          </p>
-          <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: "4px" }}>
-            {unit.focus.map((f, i) => (
-              <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "8px", fontSize: "13px", color: "#374151" }}>
-                <span style={{ color: "#10b981", marginTop: "1px", flexShrink: 0 }}>•</span>
-                {f}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
 
       {/* ── Sources panel ── */}
       {sourcesOpen && (
         <div style={{
           borderTop: "1px solid #f0fdf4",
           backgroundColor: "#f9fafb",
-          padding: "12px 16px 12px 64px",
+          padding: "12px 18px 14px 68px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
         }}>
-          <p style={{ fontSize: "11px", fontWeight: 700, color: "#036c48", marginBottom: "6px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-            Sources
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-            {unit.sources.map((src, i) => (
+          {unit.sources.map((src, i) => {
+            const srcLabel = src.label.replace(/^PV-(Int|Adv): /, "");
+            return (
               <a
                 key={i}
                 href={src.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  display: "inline-flex", alignItems: "center", gap: "6px",
-                  fontSize: "13px", color: "#036c48", textDecoration: "none",
-                  fontWeight: 500,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "9px 14px",
+                  backgroundColor: "#ffffff",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "8px",
+                  textDecoration: "none",
+                  transition: "border-color 0.15s, box-shadow 0.15s",
                 }}
-                onMouseEnter={e => e.currentTarget.style.textDecoration = "underline"}
-                onMouseLeave={e => e.currentTarget.style.textDecoration = "none"}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = "#bbf7d0";
+                  e.currentTarget.style.boxShadow = "0 1px 4px rgba(3,108,72,0.08)";
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = "#e5e7eb";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
               >
-                <span style={{ fontSize: "11px" }}>↗</span>
-                {src.label}
+                <LevelBadge label={src.label} />
+                <span style={{ fontSize: "13px", color: "#111827", fontWeight: 500, flex: 1 }}>
+                  {srcLabel}
+                </span>
+                <span style={{ fontSize: "13px", color: "#9ca3af" }}>↗</span>
               </a>
-            ))}
-          </div>
+            );
+          })}
         </div>
       )}
     </div>
@@ -1183,16 +1140,13 @@ export default function PVIUUnifiedPage() {
           }} />
           <p style={{ fontSize: "14px", color: "#9ca3af", fontFamily: "'Manrope', sans-serif" }}>Loading...</p>
         </div>
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        <style>{\`@keyframes spin { to { transform: rotate(360deg); } }\`}</style>
       </div>
     );
   }
 
   const isLearner  = role === "learner" || role === "admin" || role === "owner";
   const totalUnits = bookData.sections.reduce((acc, s) => acc + s.units.length, 0);
-  const bothCount  = bookData.sections.flatMap(s => s.units).filter(u => u.coverage === COVERAGE.BOTH).length;
-  const intCount   = bookData.sections.flatMap(s => s.units).filter(u => u.coverage === COVERAGE.INT).length;
-  const advCount   = bookData.sections.flatMap(s => s.units).filter(u => u.coverage === COVERAGE.ADV).length;
 
   let unitCounter = 0;
 
@@ -1277,7 +1231,6 @@ export default function PVIUUnifiedPage() {
 
           {/* Info */}
           <div>
-            {/* Unified badge */}
             <span style={{
               display: "inline-block", fontSize: "11px", fontWeight: 700,
               backgroundColor: "#fef3c7", color: "#92400e",
@@ -1297,8 +1250,8 @@ export default function PVIUUnifiedPage() {
               Michael McCarthy, Felicity O'Dell · Intermediate + Advanced combined
             </p>
 
-            {/* Stats */}
-            <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+            {/* Stats — only sections and units */}
+            <div style={{ display: "flex", gap: "20px" }}>
               <div>
                 <p style={{ fontSize: "22px", fontWeight: 800, color: "#064e3b" }}>{bookData.sections.length}</p>
                 <p style={{ fontSize: "12px", color: "#9ca3af" }}>Sections</p>
@@ -1308,49 +1261,11 @@ export default function PVIUUnifiedPage() {
                 <p style={{ fontSize: "12px", color: "#9ca3af" }}>Units</p>
               </div>
               <div>
-                <p style={{ fontSize: "22px", fontWeight: 800, color: "#036c48" }}>{bothCount}</p>
-                <p style={{ fontSize: "12px", color: "#9ca3af" }}>✅ Both levels</p>
-              </div>
-              <div>
-                <p style={{ fontSize: "22px", fontWeight: 800, color: "#1e40af" }}>{intCount}</p>
-                <p style={{ fontSize: "12px", color: "#9ca3af" }}>🟦 Int only</p>
-              </div>
-              <div>
-                <p style={{ fontSize: "22px", fontWeight: 800, color: "#5b21b6" }}>{advCount}</p>
-                <p style={{ fontSize: "12px", color: "#9ca3af" }}>🟪 Adv only</p>
+                <p style={{ fontSize: "22px", fontWeight: 800, color: "#036c48" }}>3</p>
+                <p style={{ fontSize: "12px", color: "#9ca3af" }}>Free units</p>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* ── Legend ── */}
-        <div style={{
-          backgroundColor: "#ffffff",
-          border: "1px solid #e5e7eb",
-          borderRadius: "10px",
-          padding: "14px 20px",
-          marginBottom: "24px",
-          display: "flex", alignItems: "center", gap: "24px", flexWrap: "wrap",
-        }}>
-          <p style={{ fontSize: "12px", fontWeight: 700, color: "#374151", margin: 0 }}>Legend:</p>
-          {Object.values(COVERAGE).map(c => {
-            const m = coverageMeta[c];
-            return (
-              <span key={c} style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "#6b7280" }}>
-                <span style={{
-                  backgroundColor: m.bg, color: m.color,
-                  padding: "1px 8px", borderRadius: "999px",
-                  fontSize: "11px", fontWeight: 700,
-                }}>
-                  {m.dot} {m.label}
-                </span>
-              </span>
-            );
-          })}
-          <span style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "#6b7280" }}>
-            <span style={{ fontSize: "14px" }}>🎯</span> Focus points
-            <span style={{ fontSize: "14px", marginLeft: "8px" }}>📚</span> Sources
-          </span>
         </div>
 
         {/* ── Upgrade banner ── */}
