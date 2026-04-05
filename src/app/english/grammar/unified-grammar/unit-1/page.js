@@ -557,14 +557,15 @@ return (
 // MAIN UNIT PAGE COMPONENT
 // ─────────────────────────────────────────────────────────────
 export default function UnitPage() {
-  const params = useParams();
-  const subject = params.subject;
-  const book    = params.book;
-  const unitId  = params.unit;
+  const params  = useParams();
+  const subject = params?.subject  || "";
+  const book    = params?.book     || "";
+  const unitId  = params?.unit     || "";
   const [user, setUser]       = useState(null);
   const [role, setRole]       = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("topic");
+  console.log("ALL PARAMS:", JSON.stringify(params));
 
   useEffect(() => {
     setPersistence(auth, browserLocalPersistence).then(() => {
