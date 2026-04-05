@@ -4,7 +4,6 @@ import { initializeApp, getApps } from "firebase/app";
 import { getAuth, onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 
 const firebaseConfig = {
   apiKey:            "AIzaSyBD65CTP7Tx84l-qL-KT9pj3uMUOsLOCI4",
@@ -556,11 +555,10 @@ return (
 // ─────────────────────────────────────────────────────────────
 // MAIN UNIT PAGE COMPONENT
 // ─────────────────────────────────────────────────────────────
-export default function UnitPage() {
-  const params  = useParams();
-  const subject = params?.subject  || "";
-  const book    = params?.book     || "";
-  const unitId  = params?.unit     || "";
+export default function UnitPage({ params }) {
+  const subject = params?.subject || "";
+const book    = params?.book    || "";
+const unitId  = params?.unit    || "";
   const [user, setUser]       = useState(null);
   const [role, setRole]       = useState(null);
   const [loading, setLoading] = useState(true);
