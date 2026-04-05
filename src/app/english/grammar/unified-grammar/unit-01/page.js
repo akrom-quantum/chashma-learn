@@ -123,16 +123,345 @@ const unitRegistry = {
 function TopicContent({ unitId }) {
   // ── PASTE TOPIC CONTENT BELOW FOR EACH UNIT ──
   if (unitId === "unit-1") {
-    return (
-      <div>
-        {/* PASTE UNIT 1 TOPIC JSX HERE */}
-        <Abstract>
-          <p>This is a placeholder for Unit 1 topic content.</p>
-          <p>Paste your converted JSX content here after Claude converts it from markdown.</p>
-        </Abstract>
+  return (
+    <div>
+      <H2>Unit 1 — BE: Forms, Functions & Mastery</H2>
+
+      <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "24px" }}>
+        <span style={{ fontSize: "12px", fontWeight: 700, backgroundColor: "#d1fae5", color: "#036c48", padding: "4px 12px", borderRadius: "999px" }}>Intermediate – Upper Intermediate</span>
+        <span style={{ fontSize: "12px", fontWeight: 700, backgroundColor: "#f3f4f6", color: "#6b7280", padding: "4px 12px", borderRadius: "999px" }}>General English Program</span>
       </div>
-    );
-  }
+
+      <Abstract>
+        <P>The verb <Em>be</Em> is the most frequently used word in English — and also the most irregular. Whether it sits alone as a main verb or silently powers a progressive tense or passive structure, mastering <Em>be</Em> across all tenses and functions separates an intermediate learner from a confident, accurate speaker.</P>
+        <P><Bold>By the end of this unit you will:</Bold></P>
+        <UL items={[
+          "Command all forms of be across present, past, future and perfect structures",
+          "Distinguish be as a main verb, linking verb, and auxiliary verb",
+          "Understand contracted vs full forms and when to use each",
+          "Avoid the 12 most common mistakes with be at intermediate/upper-intermediate level",
+          "Use be confidently in progressive, passive, and emphatic structures",
+        ]} />
+      </Abstract>
+
+      <Quote author="William Shakespeare, Hamlet">"To be, or not to be — that is the question."</Quote>
+
+      {/* SECTION A */}
+      <H2>Section A — The Three Lives of Be 🔑</H2>
+      <P>Before drilling conjugations, you need to understand why <Em>be</Em> behaves the way it does. Unlike most English verbs, <Em>be</Em> can wear three completely different hats in the same sentence.</P>
+
+      <H3>A1 — Be as a Main / Linking Verb</H3>
+      <P>When <Em>be</Em> is the main verb, it links a subject to a description, identity, or location. Think of it as an <Bold>equals sign</Bold>.</P>
+
+      <Table
+        headers={["Function", "Example", "What be connects"]}
+        rows={[
+          ["Identity",          "She is a software engineer.",          "Subject → Noun (who they are)"],
+          ["Quality / Adjective","The presentation was impressive.",     "Subject → Adjective (what they are like)"],
+          ["Location",          "Your keys are in the drawer.",         "Subject → Place (where they are)"],
+          ["Age",               "He was only nineteen when he wrote that.", "Subject → Age"],
+          ["Measurement",       "The bridge is 400 metres long.",       "Subject → Measurement"],
+          ["Price / Value",     "These seats are £60 each.",            "Subject → Price"],
+          ["Existence (there + be)", "There are three unread messages.", "Introduces existence of something"],
+        ]}
+      />
+
+      <H3>A2 — Be as an Auxiliary Verb (Helper)</H3>
+      <P>Here <Em>be</Em> does not carry the main meaning — it serves another verb. You cannot drop it without breaking the sentence.</P>
+
+      <Table
+        headers={["Grammatical Purpose", "Structure", "Example"]}
+        rows={[
+          ["Progressive tenses",    "be + -ing",                        "They are reviewing the contract right now."],
+          ["Passive voice",         "be + past participle",             "The report was submitted on time."],
+          ["Future (going to)",     "be + going to + infinitive",       "We are going to launch in March."],
+          ["Passive progressive",   "be + being + past participle",     "The bridge is being repaired."],
+        ]}
+      />
+
+      {/* SECTION B */}
+      <H2>Section B — The Complete Conjugation of Be 📊</H2>
+      <P>English has only one verb that changes this dramatically across tenses. Study these tables not just to memorise, but to notice the patterns.</P>
+
+      <H3>B1 — Present Simple</H3>
+      <Table
+        headers={["Subject", "Positive", "Negative", "Contracted Neg.", "Question"]}
+        rows={[
+          ["I",              "am",  "am not",   "I'm not ⚠️ NOT amn't", "Am I …?"],
+          ["You",            "are", "are not",  "aren't",               "Are you …?"],
+          ["He / She / It",  "is",  "is not",   "isn't",                "Is he/she/it …?"],
+          ["We",             "are", "are not",  "aren't",               "Are we …?"],
+          ["They",           "are", "are not",  "aren't",               "Are they …?"],
+        ]}
+      />
+
+      <Warning>
+        <P>In standard British and American English, <Bold>"amn't" does not exist."</Bold> The only contracted negative of "I am" is <Bold>"I'm not."</Bold></P>
+        <P>In speech, informal questions use <Em>"Aren't I?"</Em> (even though this is technically illogical). In Scottish and Irish English, <Em>"amn't"</Em> is occasionally used — but avoid it in formal writing or exams.</P>
+      </Warning>
+
+      <H3>B2 — Past Simple</H3>
+      <Table
+        headers={["Subject", "Positive", "Negative", "Contracted Neg.", "Question"]}
+        rows={[
+          ["I",              "was",  "was not",  "wasn't",  "Was I …?"],
+          ["You",            "were", "were not", "weren't", "Were you …?"],
+          ["He / She / It",  "was",  "was not",  "wasn't",  "Was he/she/it …?"],
+          ["We",             "were", "were not", "weren't", "Were we …?"],
+          ["They",           "were", "were not", "weren't", "Were they …?"],
+        ]}
+      />
+
+      <H3>B3 — Future with Will</H3>
+      <Table
+        headers={["Subject", "Positive", "Contracted (+)", "Negative", "Question"]}
+        rows={[
+          ["All subjects", "will be", "I'll / you'll / he'll … be", "will not be / won't be", "Will … be?"],
+        ]}
+      />
+      <Tip><P><Code>will be</Code> is the same for <Bold>all subjects</Bold>. There is no agreement change. This makes future <Em>be</Em> considerably simpler.</P></Tip>
+
+      <H3>B4 — Present Perfect</H3>
+      <Table
+        headers={["Subject", "Positive", "Negative", "Question"]}
+        rows={[
+          ["I / You / We / They", "have been", "haven't been", "Have … been?"],
+          ["He / She / It",       "has been",  "hasn't been",  "Has … been?"],
+        ]}
+      />
+      <P><Em>Example: She has been very patient with us. • Have you ever been to Istanbul?</Em></P>
+
+      <H3>B5 — Past Perfect</H3>
+      <Table
+        headers={["Subject", "Positive", "Negative", "Question"]}
+        rows={[
+          ["All subjects", "had been", "hadn't been", "Had … been?"],
+        ]}
+      />
+      <P><Em>Example: By the time she arrived, the meeting had already been over for an hour.</Em></P>
+      <Quote author="William Faulkner">"The past is never dead. It's not even past."</Quote>
+
+      {/* SECTION C */}
+      <H2>Section C — Contractions: When, Why & How ✍️</H2>
+      <P>Contractions are not laziness — they are the <Bold>natural rhythm of English</Bold>. Using full forms where a native speaker would use contractions sounds unnatural and even cold. However, knowing when NOT to contract is equally important.</P>
+
+      <Table
+        headers={["Use Contractions (spoken / informal)", "Avoid Contractions (written / formal)", "Never Contract Certain Forms"]}
+        rows={[
+          ["Everyday conversation",   "Academic essays",       "End-of-sentence position:"],
+          ["Texting and messaging",   "Business reports",      '"Yes, I am." NOT "Yes, I\'m."'],
+          ["Informal emails",         "Cover letters",         "Short answers always use full forms"],
+          ["Fiction and dialogue",    "Legal documents",       ""],
+          ["Speaking exams (natural speech)", "Formal announcements", ""],
+        ]}
+      />
+
+      <H3>C1 — The Full Contraction Map</H3>
+      <Table
+        headers={["Full Form", "Contraction", "Full Form", "Contraction"]}
+        rows={[
+          ["I am",        "I'm",    "I am not",       "I'm not"],
+          ["You are",     "You're", "You are not",    "You aren't / You're not"],
+          ["He is",       "He's",   "He is not",      "He isn't / He's not"],
+          ["She is",      "She's",  "She is not",     "She isn't / She's not"],
+          ["It is",       "It's",   "It is not",      "It isn't / It's not"],
+          ["We are",      "We're",  "We are not",     "We aren't / We're not"],
+          ["They are",    "They're","They are not",   "They aren't / They're not"],
+          ["There is",    "There's","There is not",   "There isn't"],
+          ["There are",   "— (no standard contraction)", "There are not", "There aren't"],
+          ["I was not",   "—",      "was not / were not", "wasn't / weren't"],
+        ]}
+      />
+
+      {/* SECTION D */}
+      <H2>Section D — Building Questions with Be ❓</H2>
+      <P>Forming questions with <Em>be</Em> is structurally simpler than with most other verbs because <Bold>be does NOT use do/does/did.</Bold> The rule is direct: move <Em>be</Em> before the subject.</P>
+
+      <Info>
+        <P><Bold>The Core Rule:</Bold></P>
+        <UL items={[
+          "STATEMENT: Subject + be + …",
+          "QUESTION: Be + Subject + … ?",
+        ]} />
+      </Info>
+
+      <Table
+        headers={["Tense", "Statement", "Question"]}
+        rows={[
+          ["Present",      "The project is ready.",           "Is the project ready?"],
+          ["Present",      "You are the team leader.",        "Are you the team leader?"],
+          ["Past",         "The meeting was productive.",     "Was the meeting productive?"],
+          ["Past",         "They were informed in advance.",  "Were they informed in advance?"],
+          ["Future",       "The results will be published.",  "Will the results be published?"],
+          ["Pres. Perfect","She has been promoted.",          "Has she been promoted?"],
+          ["Past Perfect", "The data had been corrupted.",    "Had the data been corrupted?"],
+        ]}
+      />
+
+      <H3>D1 — Question Words with Be</H3>
+      <Table
+        headers={["Question Word", "Structure", "Example"]}
+        rows={[
+          ["Who",      "Who + is/are + subject?",                    "Who is responsible for this section?"],
+          ["What",     "What + is/are + subject?",                   "What are your main concerns?"],
+          ["Where",    "Where + is/are + subject?",                  "Where were you during the call?"],
+          ["When",     "When + was/were + subject?",                 "When was the deadline changed?"],
+          ["Why",      "Why + is/are/was/were + subject?",           "Why was the budget cut?"],
+          ["How",      "How + is/are + subject?",                    "How is the new system working?"],
+          ["How long", "How long + has/have + subject + been?",      "How long have you been in this role?"],
+          ["How old",  "How old + is/are + subject?",               "How old is the company?"],
+        ]}
+      />
+
+      <Quote author="Paraphrased from Richard Feynman">"If you ask the wrong question, you'll get the wrong answer — even if it's perfectly grammatical."</Quote>
+
+      {/* SECTION E */}
+      <H2>Section E — There + Be: Existence and Introduction 🌍</H2>
+      <P>One of the most common intermediate-level mistakes is confusing <Em>there is/are</Em> with <Em>it is.</Em> These structures have completely different jobs.</P>
+
+      <Info>
+        <P><Bold>THERE + BE</Bold> = introduces <Bold>existence</Bold> of something new to the listener</P>
+        <P><Bold>IT + BE</Bold> = refers to something <Bold>already known</Bold>, or describes time/weather/distance</P>
+      </Info>
+
+      <Table
+        headers={["There + be: introducing new information", "It + be: describing / referring back"]}
+        rows={[
+          ["There is a problem with your application.",        "It is a serious problem. (= the problem I just mentioned)"],
+          ["There are 47 students in this class.",             "It is the largest class in the school."],
+          ["There was a long silence after the announcement.", "It was an uncomfortable silence."],
+          ["Is there a pharmacy near here?",                   "It's just around the corner. (= distance/location)"],
+          ["There will be three rounds of interviews.",        "It will be a challenging process. (= referring to the process)"],
+        ]}
+      />
+
+      <H3>E1 — Agreement: there is vs there are</H3>
+      <P>The verb agrees with the <Bold>noun that follows</Bold>, not with "there". This is where intermediate learners make the most errors.</P>
+
+      <Failure><P>Wrong: <Em>There is many options available.</Em></P></Failure>
+      <Success><P>Correct: <Em>There are many options available.</Em> → The noun "options" is plural → use "are"</P></Success>
+      <Failure><P>Wrong: <Em>There are an interesting documentary on tonight.</Em></P></Failure>
+      <Success><P>Correct: <Em>There is an interesting documentary on tonight.</Em> → "a documentary" is singular → use "is"</P></Success>
+
+      <Warning>
+        <P><Bold>Informal Spoken Exception:</Bold> In fast informal speech, <Em>"there's"</Em> is often used with plural nouns by native speakers.</P>
+        <UL items={[
+          '"There\'s a few things I want to discuss." (spoken, informal — acceptable)',
+          '"There are a few things I want to discuss." (always correct — use in writing)',
+        ]} />
+      </Warning>
+
+      {/* SECTION F */}
+      <H2>Section F — Be in Progressive Structures ⏳</H2>
+      <P>When <Em>be</Em> acts as an auxiliary in progressive tenses, a crucial distinction emerges: the difference between a <Bold>state</Bold> and <Bold>behaviour</Bold>.</P>
+
+      <H3>F1 — States vs Behaviour: The Key Distinction</H3>
+      <P>Stative adjectives describe permanent or temporary states. When <Em>be</Em> is used in the progressive, it signals <Bold>current behaviour</Bold> — something the person is actively doing.</P>
+
+      <Example>
+        <P><Bold>"She is being very patient."</Bold> → She is <Em>actively behaving</Em> patiently (it is something she is doing right now)</P>
+        <P><Bold>"She is patient."</Bold> → This is a <Em>permanent quality</Em> of her character</P>
+      </Example>
+
+      <Table
+        headers={["State (simple be = character)", "Behaviour (progressive be = current action)"]}
+        rows={[
+          ["He is very rude.",                      "He is being very rude to the customer."],
+          ["She's usually careful.",                "She's being unusually careless with the data today."],
+          ["The children are quite well-behaved.",  "The children are being absolutely impossible this morning."],
+          ["You're selfish.",                       "You're being selfish by not sharing the credit."],
+          ["I'm not silly.",                        "I wasn't being silly — I was making a serious suggestion."],
+        ]}
+      />
+
+      <Danger>
+        <P><Bold>Adjectives that CANNOT be used with progressive be:</Bold></P>
+        <P>Feelings as states: <Em>depressed, tired, excited, worried, happy, sad</Em></P>
+        <UL items={[
+          '❌ "She is being depressed." → ✅ "She is depressed."',
+          '❌ "I\'m being tired." → ✅ "I\'m tired."',
+        ]} />
+      </Danger>
+
+      <Quote author="Adapted from Viktor Frankl">"Every action is a choice. When you say 'I am being patient,' you own it completely."</Quote>
+
+      {/* SECTION G */}
+      <H2>Section G — 12 Classic Mistakes with Be 🚨</H2>
+
+      {[
+        { n:"1", wrong:"She don't be at home.",              right:"She isn't at home. / She's not at home.",                    note:"NEVER use do/does/did to negate be." },
+        { n:"2", wrong:"Are they be students?",              right:"Are they students?",                                         note:"NEVER add be after the question form of be." },
+        { n:"3", wrong:"There is many problems.",            right:"There are many problems.",                                   note:"be agrees with the noun after it, not with 'there'." },
+        { n:"4", wrong:"I am agree with you.",               right:"I agree with you.",                                          note:'"Agree" is NOT an adjective — it is a full verb. Never use be + agree.' },
+        { n:"5", wrong:"He is very boring in class.",        right:"He is very bored in class. / The class is very boring.",     note:"-ed = how a person feels; -ing = what causes the feeling." },
+        { n:"6", wrong:"I am boring of this routine.",       right:"I am bored of / with this routine.",                        note:'"Bored" not "boring" for personal feelings.' },
+        { n:"7", wrong:"The news are shocking.",             right:"The news is shocking.",                                      note:'"News" looks plural but is always singular. Same: "information", "advice".' },
+        { n:"8", wrong:"She was being very tired yesterday.", right:"She was very tired yesterday.",                             note:"States/feelings cannot be progressive." },
+        { n:"9", wrong:"I amn't sure about that.",           right:"I'm not sure about that. / I am not sure.",                 note:'"amn\'t" does not exist in standard English.' },
+        { n:"10",wrong:"Where was you yesterday?",           right:"Where were you yesterday?",                                 note:'"You" always takes "were", never "was".' },
+        { n:"11",wrong:"Is there a problems with the system?", right:"Are there problems? / Is there a problem?",               note:"Number must match: singular = is, plural = are." },
+        { n:"12",wrong:"The advice they gave us were surprisingly practical.", right:"The advice they gave us was surprisingly practical.", note:'"Advice" is uncountable — always singular.' },
+      ].map((m) => (
+        <div key={m.n} style={{ marginBottom: "16px" }}>
+          <p style={{ fontSize: "13px", fontWeight: 700, color: "#9ca3af", marginBottom: "6px" }}>Mistake #{m.n}</p>
+          <Failure><P>Wrong: <Em>{m.wrong}</Em></P></Failure>
+          <Success><P>Correct: <Em>{m.right}</Em><br /><span style={{ fontSize: "13px", color: "#065f46" }}>→ {m.note}</span></P></Success>
+        </div>
+      ))}
+
+      {/* SECTION H */}
+      <H2>Section H — Pronunciation Guide 🎤</H2>
+      <P>The way <Em>be</Em> sounds in natural speech is very different from how it looks in writing. Weak forms, linking sounds and contraction rhythms are essential for natural spoken English.</P>
+
+      <Table
+        headers={["Word / Phrase", "IPA Pronunciation", "Common Mistake / Tip"]}
+        rows={[
+          ["am",      "/æm/ (strong) ▶ /əm/ (weak)",   'In natural speech: "I\'m" /aɪm/ or weakened to /əm/'],
+          ["are",     "/ɑː/ (strong) ▶ /ə/ (weak)",    '"You are" in flow sounds like "yor" — "are" reduces to /ə/'],
+          ["is",      "/ɪz/ (strong) ▶ /z/ or /s/ (weak)", 'After nouns ending in voiced sounds: "he\'s" = /hiːz/'],
+          ["was",     "/wɒz/ (strong) ▶ /wəz/ (weak)", 'Most learners over-stress "was." It reduces: "He was there" → /hiː wəz ðeə/'],
+          ["were",    "/wɜː/ (strong) ▶ /wə/ (weak)",  '"They were" in fast speech → /ðeɪwə/'],
+          ["isn't",   "/ɪzənt/",                        'Do NOT pronounce the "t" in natural speech: /ɪzən/'],
+          ["wasn't",  "/wɒzənt/",                       'Common error: pronouncing it as "woz-ant." Correct: /wɒzənt/ with glottal stop.'],
+          ["weren't", "/wɜːnt/",                        'Rhymes with "burnt." Many learners say "we-rent" — incorrect.'],
+          ["there's", "/ðeəz/",                         'Sounds like "thers." Do not pause between "there" and "s".'],
+          ["there are","/ðeər ɑː/",                     'In fast speech: "therer" — the /r/ links to "are".'],
+          ["being",   "/biːɪŋ/",                        'Two syllables: BEE-ing. Many learners say "bean" (one syllable).'],
+          ["been",    "/biːn/ (British) ▶ /bɪn/ (American)", 'British: rhymes with "seen." American: rhymes with "bin."'],
+        ]}
+      />
+
+      {/* QUICK REFERENCE */}
+      <H2>Quick Reference — All Rules at a Glance 📋</H2>
+      <Table
+        headers={["Rule / Structure", "Example", "Note"]}
+        rows={[
+          ["be as main verb",             "She is a doctor. / He was tired.",          "Links subject to description/identity/location"],
+          ["be as auxiliary (progressive)","We are reviewing the data.",               "be + -ing verb (cannot drop be)"],
+          ["be as auxiliary (passive)",   "The form was submitted.",                   "be + past participle"],
+          ["Present: I am",               "I'm ready. / Am I late?",                  "Never 'I are' or 'I is'"],
+          ["Present: he/she/it is",       "She's not here. / Is it ready?",            "Third-person singular always takes is"],
+          ["Present: you/we/they are",    "You aren't wrong. / Are they here?",        "Plural and you always take are"],
+          ["Past: I/he/she/it was",       "It wasn't difficult.",                      "Only singular subjects take was"],
+          ["Past: you/we/they were",      "Where were you?",                           "Plural and you always take were"],
+          ["Future: will be",             "It won't be easy. / Will she be there?",    "Same for ALL subjects — no agreement needed"],
+          ["Present perfect: have/has been","I have been here before.",               "have = all plurals + I/you; has = he/she/it"],
+          ["there is + singular",         "There is a message for you.",               "Agreement is with the NOUN, not 'there'"],
+          ["there are + plural",          "There are five candidates.",                "Do NOT write 'there is five candidates'"],
+          ["Progressive be = behaviour",  "She is being patient right now.",           "Use simple be for states; progressive for actions"],
+          ["Progressive be ❌ for feelings","I'm tired. NOT I'm being tired.",         "Tired, happy, sad, depressed = states, not behaviour"],
+          ["No do/does/did with be",      "She isn't ✅ NOT She doesn't be ❌",        "be makes its own negatives and questions"],
+          ["Contraction rule: end of clause","Yes, I am. NOT Yes, I'm.",              "Never contract at the END of a clause or sentence"],
+          ["be + agree ❌",              "I agree. NOT I am agree.",                  "agree, belong, matter — these are full verbs"],
+          ["news / advice / information", "The news is ✅ NOT The news are ❌",        "These look plural but are grammatically singular"],
+        ]}
+      />
+
+      <Quote author="Socrates">"The beginning of wisdom is the definition of terms."</Quote>
+
+    </div>
+  );
+}  
   // Add more units below:
   // if (unitId === "unit-2") { return <div>...</div>; }
   return (
@@ -146,20 +475,411 @@ function TopicContent({ unitId }) {
 function PracticeContent({ unitId }) {
   // ── PASTE PRACTICE CONTENT BELOW FOR EACH UNIT ──
   if (unitId === "unit-1") {
-    return (
-      <div>
-        {/* PASTE UNIT 1 PRACTICE JSX HERE */}
-        <Info>
-          <p>This is a placeholder for Unit 1 practice content.</p>
-          <p>Paste your converted practice exercises here after Claude converts them from markdown.</p>
-        </Info>
-      </div>
-    );
-  }
   return (
-    <div style={{ textAlign: "center", padding: "60px 0" }}>
-      <p style={{ fontSize: "32px", marginBottom: "12px" }}>✍️</p>
-      <p style={{ fontSize: "15px", color: "#9ca3af" }}>Practice exercises for this unit are coming soon.</p>
+    <div>
+      <H2>Unit 1 — Practice File: BE: Forms, Functions & Mastery</H2>
+
+      <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "24px" }}>
+        <span style={{ fontSize: "12px", fontWeight: 700, backgroundColor: "#d1fae5", color: "#036c48", padding: "4px 12px", borderRadius: "999px" }}>Intermediate – Upper Intermediate</span>
+        <span style={{ fontSize: "12px", fontWeight: 700, backgroundColor: "#f3f4f6", color: "#6b7280", padding: "4px 12px", borderRadius: "999px" }}>8 Exercises + Reading Passage + Full Answer Key</span>
+      </div>
+
+      <Info>
+        <P><Bold>How to Use This Practice File:</Bold> Work through exercises in order. Each exercise focuses on a specific function or challenge from Unit 1. <Bold>Do not look at the Answer Key until you have completed the exercise.</Bold> When you check your answers, read the explanation — even for correct answers. The explanation tells you WHY, not just WHAT.</P>
+      </Info>
+
+      {/* EXERCISE 1 */}
+      <H2>Exercise 1 — Choose the Correct Form 🎯</H2>
+      <Note>
+        <P>Complete each sentence with the correct form of <Em>be</Em>. Use the tense indicated in brackets.</P>
+      </Note>
+
+      <Example>
+        <P>Context: The sentences below describe a young entrepreneur named <Bold>Layla</Bold> who is building her first startup.</P>
+      </Example>
+
+      <div style={{ backgroundColor: "#f9fafb", borderRadius: "10px", padding: "24px", margin: "16px 0" }}>
+        <OL items={[
+          "Layla ____________ only 24 years old when she registered her first company. [PAST]",
+          "At first, her office ____________ a tiny rented room above a bakery. [PAST]",
+          "Her investors ____________ not particularly enthusiastic at the beginning. [PAST]",
+          "Now, three years later, her team ____________ fifteen people strong. [PRESENT]",
+          "____________ her product really as good as the reviews say? [PRESENT]",
+          "She ____________ featured on three different podcasts this month. [PRESENT PERFECT]",
+          "Two years ago, she ____________ barely able to cover her monthly expenses. [PAST]",
+          'Her co-founder says: "The next six months ____________ the most critical of our journey." [FUTURE]',
+          "The company's headquarters ____________ in Seoul at the moment, but a London office ____________ planned for next year. [PRESENT + FUTURE]",
+          "Had Layla known how difficult it would ____________, she says she would still have started anyway. [INFINITIVE]",
+          "Her parents ____________ sceptical at first, but now they ____________ her biggest supporters. [PAST + PRESENT]",
+          "By the time the product launched, it ____________ in development for over eighteen months. [PAST PERFECT]",
+        ]} />
+      </div>
+
+      <Quote author="Mark Twain">"The secret of getting ahead is getting started."</Quote>
+
+      {/* EXERCISE 2 */}
+      <H2>Exercise 2 — There Is / There Are: Agreement Challenge 📍</H2>
+
+      <H3>Part A</H3>
+      <Note><P>Complete each sentence with <Em>there is</Em>, <Em>there are</Em>, <Em>there was</Em>, <Em>there were</Em>, or <Em>there will be</Em>.</P></Note>
+
+      <div style={{ backgroundColor: "#f9fafb", borderRadius: "10px", padding: "24px", margin: "16px 0" }}>
+        <OL items={[
+          "____________ a stunning view of the river from my office window.",
+          "____________ over two hundred applicants for the position, but only three made it to the final round.",
+          "____________ no easy answers to this problem, and everyone in the room knew it.",
+          "By tomorrow morning, ____________ a formal announcement from the CEO.",
+          "When we arrived at the venue, ____________ nobody at the reception desk.",
+          "____________ something unusual about the way he answered the question.",
+          "____________ three serious errors in your first draft. Please revise before submitting.",
+          "____________ a time when this technology simply didn't exist.",
+          "____________ been significant progress since we last met. Let's review it together.",
+          "How many languages ____________ in daily use in Singapore?",
+        ]} />
+      </div>
+
+      <H3>Part B</H3>
+      <Note><P>Five of the sentences below contain an error with <Em>there is/are</Em>. Find and correct them. Write ✔ if the sentence is correct.</P></Note>
+
+      <div style={{ backgroundColor: "#f9fafb", borderRadius: "10px", padding: "24px", margin: "16px 0" }}>
+        <OL items={[
+          "There's been three major changes to the syllabus this semester. → _______________",
+          "Is there a vegetarian option on the menu tonight? → _______________",
+          "There are some interesting news in today's briefing. → _______________",
+          "There were a huge storm last night, and the roads are still flooded. → _______________",
+          "There's a lot of work still to be done before the deadline. → _______________",
+          "There are clearly a misunderstanding between the two departments. → _______________",
+          "Were there any volunteers at the community event? → _______________",
+        ]} />
+      </div>
+
+      {/* EXERCISE 3 */}
+      <H2>Exercise 3 — Error Correction: Find and Fix 🔎</H2>
+      <Note><P>Each sentence below contains exactly <Bold>ONE error</Bold> involving <Em>be</Em>. Underline the error and write the corrected sentence.</P></Note>
+
+      <div style={{ backgroundColor: "#f9fafb", borderRadius: "10px", padding: "24px", margin: "16px 0" }}>
+        <OL items={[
+          "The information about the new policy are not yet available on the website. → ✔ Corrected: _______________",
+          "He don't be very communicative in meetings, which is becoming a problem. → ✔ Corrected: _______________",
+          "I am agree that the current system is outdated and needs to be replaced. → ✔ Corrected: _______________",
+          "Were you been working here when the previous director was in charge? → ✔ Corrected: _______________",
+          "She is being very exhausted after the conference — she slept for twelve hours. → ✔ Corrected: _______________",
+          "There is three candidates shortlisted, and we're interviewing them next week. → ✔ Corrected: _______________",
+          "When was the last time you are in Paris for a business trip? → ✔ Corrected: _______________",
+          "The advice they gave us were surprisingly practical and easy to follow. → ✔ Corrected: _______________",
+          "I'm boring of hearing the same excuses every single time there's a deadline. → ✔ Corrected: _______________",
+          "By the time you read this, the decision will already been made. → ✔ Corrected: _______________",
+          "Where was you when the fire alarm went off at 3 p.m. yesterday? → ✔ Corrected: _______________",
+          "The committee have been being very secretive about their plans for the restructuring. → ✔ Corrected: _______________",
+        ]} />
+      </div>
+
+      <Quote author="Terry Pratchett">"The first draft is just you telling yourself the story."</Quote>
+
+      {/* EXERCISE 4 */}
+      <H2>Exercise 4 — State or Behaviour? 🧠</H2>
+      <Note><P>Choose the correct option (A or B). Then write a brief explanation of <Bold>WHY</Bold> that option is correct.</P></Note>
+
+      {[
+        { num: 1, situation: "Your colleague, who is normally very polite, has just interrupted three people in a row.", a: "He is rude.", b: "He is being rude." },
+        { num: 2, situation: "A friend asks why you look so pale and sluggish at work today.", a: "I am being tired.", b: "I am tired." },
+        { num: 3, situation: "Your manager calls you into a meeting and you can tell she wants a decision today.", a: "She is impatient.", b: "She is being impatient." },
+        { num: 4, situation: "A child who always causes trouble is, unusually, sitting quietly and listening.", a: "She is very well-behaved.", b: "She is being very well-behaved." },
+        { num: 5, situation: "You are describing a permanent personality trait of your best friend to someone who has never met them.", a: "She is being incredibly kind.", b: "She is incredibly kind." },
+        { num: 6, situation: "Your team member gives a brilliantly clear explanation during a difficult client call.", a: "He is being very articulate today.", b: "He is very articulate." },
+      ].map((item) => (
+        <div key={item.num} style={{ backgroundColor: "#f9fafb", borderRadius: "10px", padding: "20px", margin: "12px 0", border: "1px solid #e5e7eb" }}>
+          <p style={{ fontSize: "13px", fontWeight: 700, color: "#036c48", marginBottom: "8px" }}>Situation {item.num}</p>
+          <P>{item.situation}</P>
+          <div style={{ display: "flex", gap: "12px", marginTop: "12px", flexWrap: "wrap" }}>
+            <div style={{ flex: 1, backgroundColor: "#ffffff", border: "1px solid #e5e7eb", borderRadius: "8px", padding: "12px" }}>
+              <p style={{ fontSize: "12px", fontWeight: 700, color: "#9ca3af", marginBottom: "4px" }}>A</p>
+              <P>{item.a}</P>
+            </div>
+            <div style={{ flex: 1, backgroundColor: "#ffffff", border: "1px solid #e5e7eb", borderRadius: "8px", padding: "12px" }}>
+              <p style={{ fontSize: "12px", fontWeight: 700, color: "#9ca3af", marginBottom: "4px" }}>B</p>
+              <P>{item.b}</P>
+            </div>
+          </div>
+          <div style={{ marginTop: "12px", backgroundColor: "#ffffff", border: "1px solid #e5e7eb", borderRadius: "8px", padding: "12px" }}>
+            <p style={{ fontSize: "12px", fontWeight: 700, color: "#9ca3af", marginBottom: "4px" }}>Your choice: ____ &nbsp;&nbsp; Why: _______________________________________________</p>
+          </div>
+        </div>
+      ))}
+
+      {/* EXERCISE 5 */}
+      <H2>Exercise 5 — Dialogue Repair: Fix the Conversation 🗣️</H2>
+      <Warning><P>Read the dialogue between <Bold>Mia</Bold> and <Bold>Reza</Bold>. It contains <Bold>10 errors</Bold> with <Em>be</Em> (marked with *). List the errors and their corrections in the table below.</P></Warning>
+
+      <div style={{ backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "10px", padding: "24px", margin: "16px 0" }}>
+        <P><Bold>Mia:</Bold> "Reza, *are you being ready for the client call? It *is starts in ten minutes."</P>
+        <P><Bold>Reza:</Bold> "Almost. *Was there any updates from the design team? I haven't checked my email."</P>
+        <P><Bold>Mia:</Bold> "Yes — the slides *is now uploaded to the shared folder. Oh, and the client's name *are Dr. Hoffman, not Ms Hoffman."</P>
+        <P><Bold>Reza:</Bold> "Got it. I *am agree that we should let her lead the first section. *Is her assistant going to being on the call too?"</P>
+        <P><Bold>Mia:</Bold> "Apparently. There *is two people joining from their side — Dr. Hoffman and her project manager."</P>
+        <P><Bold>Reza:</Bold> "Perfect. I *am boring of starting these calls with technical problems. Is everything working?"</P>
+        <P><Bold>Mia:</Bold> "Everything *are fine. Let's go."</P>
+      </div>
+
+      <Table
+        headers={["#", "Error", "Correction"]}
+        rows={[
+          ["1", "", ""], ["2", "", ""], ["3", "", ""], ["4", "", ""], ["5", "", ""],
+          ["6", "", ""], ["7", "", ""], ["8", "", ""], ["9", "", ""], ["10", "", ""],
+        ]}
+      />
+
+      <Quote author="Frank Smith">"Language is not a genetic gift, it is a social gift. Learning a new language is becoming a member of the club."</Quote>
+
+      {/* EXERCISE 6 */}
+      <H2>Exercise 6 — Question Formation: Real-World Scenarios ❓</H2>
+      <Note><P>Using the information in brackets, write a complete and natural question using <Em>be</Em>.</P></Note>
+
+      <div style={{ backgroundColor: "#f9fafb", borderRadius: "10px", padding: "24px", margin: "16px 0" }}>
+        <OL items={[
+          "You want to know if the report is finished. [present] → _______________",
+          "You want to know where your colleague was on Tuesday morning. [past] → _______________",
+          "You're asking about the price of the conference ticket. [present] → _______________",
+          "You want to confirm how long the flight will be. [future] → _______________",
+          "You are a journalist asking a CEO how long they have been in the role. [present perfect] → _______________",
+          "You are asking a friend why they looked so upset at lunch yesterday. [past + adjective] → _______________",
+          "You want to know if there are any seats left at the back of the theatre. [present / there + be] → _______________",
+          "You're calling a restaurant and want to confirm that it will be open on Sunday. [future] → _______________",
+          "After a difficult project, you want to ask your team how they are feeling. [present + adjective] → _______________",
+          "You read that a famous architect was born in your city. You want to confirm what year. [past + when/what year] → _______________",
+        ]} />
+      </div>
+
+      {/* EXERCISE 7 */}
+      <H2>Exercise 7 — Reading Passage: Analyse & Respond 📚</H2>
+      <Info><P>Read the passage carefully. Complete the tasks that follow. The passage is written at <Bold>B2 level</Bold>.</P></Info>
+
+      <div style={{ backgroundColor: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: "12px", padding: "32px", margin: "20px 0" }}>
+        <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#064e3b", marginBottom: "6px" }}>THE QUIET REVOLUTION IN DISTANCE LEARNING</h3>
+        <p style={{ fontSize: "13px", color: "#9ca3af", fontStyle: "italic", marginBottom: "20px" }}>How digital education is reshaping what it means to be a student</p>
+
+        <P>Twenty years ago, the idea of earning a university degree without ever setting foot in a lecture hall was considered either impractical or suspicious. Today, it is neither. Online education <Bold>has been</Bold> one of the most significant transformations in the history of formal learning, and its pace of growth has been accelerating ever since the global disruptions of the early 2020s.</P>
+        <P>What is particularly striking is not just that these programmes exist, but that they <Bold>are being taken</Bold> seriously by employers who were once openly sceptical. "In the past, I was embarrassed to mention that my qualification was online," says Hamid Sultani, a data analyst based in Toronto. "Now it's genuinely not an issue. My employers were impressed by the self-discipline it required, not concerned about where the lectures were held."</P>
+        <P>Part of this shift is the result of major universities — institutions that <Bold>were long considered</Bold> the gatekeepers of legitimate education — entering the online space. Their presence <Bold>has been</Bold> transformative. When Oxford, MIT and the National University of Singapore are all offering fully online postgraduate programmes, the old stigma is simply harder to sustain.</P>
+        <P>However, the experience of being a distance learner is not without its complications. Isolation is frequently cited as the greatest challenge. Unlike a traditional campus, where <Bold>there are</Bold> always opportunities for spontaneous conversation — in corridors, in cafeterias, between classes — the online environment requires deliberate effort to build community. "You have to be much more intentional," explains Dr. Leila Ahmadi, who <Bold>has been teaching</Bold> online since 2015. "It's not enough for the content to be good. The interaction has to be structured, because it's never going to be accidental."</P>
+        <P>There is also the question of self-regulation. The traditional classroom has a built-in rhythm: there are fixed times when you <Bold>are expected to be</Bold> present, participate, and perform. Remove that structure, and you are left with something that sounds appealing — total flexibility — but that is, for many learners, genuinely difficult to manage. Research from several universities has shown that completion rates for purely self-paced online courses are significantly lower than for those <Bold>that are structured</Bold> around a cohort with regular deadlines.</P>
+        <P>None of this is to say that the future of education is uncertain. What is clear is that the definition of being a student — what it looks like, where it happens, and what it demands — <Bold>has been</Bold> permanently altered. The question is no longer whether online education <Bold>is legitimate</Bold>, but how it can be done best.</P>
+      </div>
+
+      <H3>Task A — Classify the Use of Be</H3>
+      <Note><P>Find each bold phrase and classify the use of <Em>be</Em>: <Bold>(M)</Bold> Main/linking verb · <Bold>(PA)</Bold> Passive auxiliary · <Bold>(PR)</Bold> Progressive auxiliary · <Bold>(PF)</Bold> Perfect auxiliary</P></Note>
+
+      <Table
+        headers={["#", "Phrase", "Classification"]}
+        rows={[
+          ["1",  '"has been one of the most significant transformations" (¶1)', ""],
+          ["2",  '"are being taken seriously by employers" (¶2)',               ""],
+          ["3",  '"were long considered the gatekeepers" (¶3)',                 ""],
+          ["4",  '"has been transformative" (¶3)',                              ""],
+          ["5",  '"there are always opportunities" (¶4)',                       ""],
+          ["6",  '"has been teaching online since 2015" (¶4)',                  ""],
+          ["7",  '"you are expected to be present" (¶5)',                       ""],
+          ["8",  '"that are structured around a cohort" (¶5)',                  ""],
+          ["9",  '"has been permanently altered" (¶6)',                         ""],
+          ["10", '"whether online education is legitimate" (¶6)',               ""],
+        ]}
+      />
+
+      <H3>Task B — Comprehension and Discussion</H3>
+      <Note><P>Answer these questions in complete sentences. Pay attention to your use of <Em>be</Em> in every answer.</P></Note>
+
+      <div style={{ backgroundColor: "#f9fafb", borderRadius: "10px", padding: "24px", margin: "16px 0" }}>
+        <OL items={[
+          "According to the passage, what has been the most common employer attitude towards online qualifications, and how has it changed?",
+          "What does Dr. Ahmadi mean when she says interaction has to be 'intentional' rather than 'accidental'?",
+          'The passage mentions that "completion rates… are significantly lower" for self-paced courses. What does this suggest about how online programmes should be designed?',
+          "In your own words, explain the 'built-in rhythm' of traditional education. Why is its absence challenging?",
+          'The passage ends by saying the question "is no longer whether online education is legitimate, but how it can be done best." Do you agree?',
+        ]} />
+      </div>
+
+      {/* EXERCISE 8 */}
+      <H2>Exercise 8 — Free Writing Challenge ✏️</H2>
+      <Warning>
+        <P><Bold>Challenge Rules:</Bold> Write a short paragraph (80–120 words) on ONE of the prompts below. You must use at least <Bold>8 different forms of <Em>be</Em></Bold> — including at least one progressive and one passive form. Underline every use of <Em>be</Em> when you finish.</P>
+      </Warning>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "12px", margin: "16px 0" }}>
+        {[
+          { opt: "A", text: "Describe a person — real or fictional — whose job or role has changed significantly over the past ten years." },
+          { opt: "B", text: "Describe a city, town, or neighbourhood you know well. Focus on what it was like in the past, what it is like now, and what it will be like in the future." },
+          { opt: "C", text: "Describe an experience that was not what you expected it to be. What were your assumptions? What was the reality?" },
+        ].map((p) => (
+          <div key={p.opt} style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb", borderRadius: "10px", padding: "16px" }}>
+            <p style={{ fontSize: "12px", fontWeight: 700, color: "#036c48", marginBottom: "8px" }}>Option {p.opt}</p>
+            <P>{p.text}</P>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ backgroundColor: "#f9fafb", border: "1px dashed #d1d5db", borderRadius: "10px", padding: "24px", margin: "16px 0", minHeight: "160px" }}>
+        <p style={{ fontSize: "13px", color: "#d1d5db" }}>Write your paragraph here...</p>
+      </div>
+
+      <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", margin: "16px 0" }}>
+        {["Total uses of be: ____", "Progressive forms: ____", "Passive forms: ____", "Perfect forms: ____"].map((item) => (
+          <div key={item} style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb", borderRadius: "8px", padding: "10px 16px", fontSize: "13px", color: "#374151", fontWeight: 500 }}>
+            {item}
+          </div>
+        ))}
+      </div>
+
+      <Quote author="Maya Angelou">"You can't use up creativity. The more you use, the more you have."</Quote>
+
+      {/* ANSWER KEY */}
+      <H2>✅ Answer Key & Explanations</H2>
+      <Success><P>Reminder: Check your answers only after completing each exercise. Read every explanation — even for correct answers.</P></Success>
+
+      <H3>Key — Exercise 1</H3>
+      <Table
+        headers={["#", "Answer", "Explanation"]}
+        rows={[
+          ["1",  "was",            "Past simple, singular subject (Layla)"],
+          ["2",  "was",            "Past simple, singular (office)"],
+          ["3",  "were not / weren't", "Past simple, plural (investors)"],
+          ["4",  "is",             "Present simple, singular (team = collective noun)"],
+          ["5",  "Is",             "Present yes/no question: be before subject"],
+          ["6",  "has been",       "Present perfect — action completed recently, relevant now"],
+          ["7",  "was",            "Past simple, singular"],
+          ["8",  "will be",        "Future prediction, same for all subjects"],
+          ["9",  "is … is",        '"headquarters is" (singular) + "office is planned" (future passive)'],
+          ["10", "be",             'After modal "would" — always bare infinitive: "would be"'],
+          ["11", "were … are",     "Past plural + present plural"],
+          ["12", "had been",       "Past perfect: action completed before another past event (the launch)"],
+        ]}
+      />
+
+      <H3>Key — Exercise 2 Part A</H3>
+      <Table
+        headers={["#", "Answer", "Explanation"]}
+        rows={[
+          ["1",  "There is",        'Singular: "a view"'],
+          ["2",  "There were",      'Plural past: "over two hundred applicants"'],
+          ["3",  "There are / were","\"no easy answers\" — plural"],
+          ["4",  "there will be",   'Future: after "By tomorrow morning"'],
+          ["5",  "there was",       'Past singular: "nobody" (grammatically singular)'],
+          ["6",  "There was",       'Singular: "something"'],
+          ["7",  "There are",       'Plural: "three serious errors"'],
+          ["8",  "There was",       'Singular past: "a time"'],
+          ["9",  "There has",       '"There has been" — present perfect: "significant progress" (uncountable singular)'],
+          ["10", "are there",       'Question form: "How many languages are there …?" — plural'],
+        ]}
+      />
+
+      <H3>Key — Exercise 2 Part B</H3>
+      <Table
+        headers={["#", "Answer", "Explanation"]}
+        rows={[
+          ["1", '❌ → "There have been three major changes…"', '"Three changes" = plural, needs "have been"'],
+          ["2", "✔ Correct",                                  'Singular question — "Is there a vegetarian option?" ✔'],
+          ["3", '❌ → "There is some interesting news…"',      '"News" is always singular'],
+          ["4", '❌ → "There was a huge storm…"',              'Singular past: "a storm"'],
+          ["5", "✔ Correct",                                  '"a lot of work" — uncountable, takes "there\'s" ✔'],
+          ["6", '❌ → "There is clearly a misunderstanding…"', 'Singular: "a misunderstanding"'],
+          ["7", "✔ Correct",                                  'Past plural question: "Were there any volunteers?" ✔'],
+        ]}
+      />
+
+      <H3>Key — Exercise 3</H3>
+      <Table
+        headers={["#", "Correction", "Explanation"]}
+        rows={[
+          ["1",  '"The information… is not yet available"',       '"Information" is uncountable — always singular'],
+          ["2",  'Remove "be" → "He isn\'t very communicative"',  "Never use do/does/did + be for negation"],
+          ["3",  'Remove "am" → "I agree that…"',                '"Agree" is a full verb, not an adjective'],
+          ["4",  'Remove "been" → "Were you working here when…"', '"Were you been" is impossible. Past progressive = were + -ing'],
+          ["5",  '"exhausted" is a state → "She was very exhausted"', "Feelings and states cannot use progressive be"],
+          ["6",  '"There are three candidates shortlisted"',      'Plural noun "three candidates" requires "are"'],
+          ["7",  '"When were you last in Paris"',                 'Past question: "were you" not "was you"'],
+          ["8",  '"The advice… was"',                            '"Advice" is uncountable — always singular'],
+          ["9",  '"I\'m bored of / with hearing…"',              '"Boring" = causes boredom; "bored" = feeling boredom'],
+          ["10", '"will already have been made"',                 "Future perfect: will + have + past participle"],
+          ["11", '"Where were you…"',                            '"You" always takes "were", never "was"'],
+          ["12", 'Remove "being" → "has been very secretive"',   '"have been being" is grammatically incorrect'],
+        ]}
+      />
+
+      <H3>Key — Exercise 4</H3>
+      <Table
+        headers={["#", "Answer", "Explanation"]}
+        rows={[
+          ["1", "B — He is being rude.",          "He is usually polite (state). Right now he is doing something rude (behaviour = progressive)."],
+          ["2", "B — I am tired.",                "Tiredness is a feeling/state. Never use 'being' with tired."],
+          ["3", "B — She is being impatient.",    "She normally has a calm character. She is currently behaving impatiently."],
+          ["4", "B — She is being well-behaved.", "This is unusual for her — a temporary behaviour, not her general character."],
+          ["5", "B — She is incredibly kind.",    "Describing a permanent character trait = simple be, not progressive."],
+          ["6", "A or B both possible",           '"He is being very articulate today" (behaviour) OR "He is very articulate" (general trait). "Today" suggests behaviour.'],
+        ]}
+      />
+
+      <H3>Key — Exercise 5</H3>
+      <Table
+        headers={["#", "Error", "Correction", "Explanation"]}
+        rows={[
+          ["1",  '"are you being ready"',      '"are you ready"',         '"Ready" is a state, not a behaviour. No progressive be.'],
+          ["2",  '"It is starts"',             '"It starts"',             'Simple present is needed — be is not required before "starts".'],
+          ["3",  '"Was there any updates"',    '"Are there any updates"', '"Updates" is plural and refers to current state → present are.'],
+          ["4",  '"the slides is now"',        '"the slides are now"',    '"Slides" is plural → are.'],
+          ["5",  '"the client\'s name are"',   '"the client\'s name is"', '"Name" is singular → is.'],
+          ["6",  '"I am agree"',               '"I agree"',               '"Agree" is a full verb. Never use be before it.'],
+          ["7",  '"going to being"',           '"going to be"',           'After "going to", always use bare infinitive: be.'],
+          ["8",  '"There is two people"',      '"There are two people"',  '"Two people" is plural → are.'],
+          ["9",  '"I am boring"',              '"I am bored"',            '"Boring" = causes boredom. "Bored" = the feeling of boredom.'],
+          ["10", '"Everything are fine"',      '"Everything is fine"',    '"Everything" is grammatically singular → is.'],
+        ]}
+      />
+
+      <H3>Key — Exercise 6 (Model Answers)</H3>
+      <Table
+        headers={["#", "Model Answer"]}
+        rows={[
+          ["1",  "Is the report finished / ready?"],
+          ["2",  "Where were you on Tuesday morning?"],
+          ["3",  "How much is the conference ticket? / What is the price?"],
+          ["4",  "How long will the flight be?"],
+          ["5",  "How long have you been in this role / position?"],
+          ["6",  "Why were you so upset at lunch yesterday?"],
+          ["7",  "Are there any seats left at the back of the theatre?"],
+          ["8",  "Will you be open on Sunday?"],
+          ["9",  "How are you feeling? / How is everyone feeling?"],
+          ["10", "What year was the architect born? / When was he/she born?"],
+        ]}
+      />
+
+      <H3>Key — Exercise 7A: Classification</H3>
+      <Table
+        headers={["#", "Answer", "Explanation"]}
+        rows={[
+          ["1",  "PF — Perfect auxiliary",    '"has been" + noun = present perfect'],
+          ["2",  "PA — Passive auxiliary",    '"is being taken" = passive progressive'],
+          ["3",  "PA — Passive auxiliary",    '"were considered" = past passive'],
+          ["4",  "PF — Perfect auxiliary",    '"has been" + adjective = present perfect'],
+          ["5",  "M — Main/linking verb",     '"there are" introduces existence of opportunities'],
+          ["6",  "PF — Perfect auxiliary",    '"has been teaching" = present perfect progressive'],
+          ["7",  "M — Main/linking verb",     '"to be present" = infinitive of be as linking verb'],
+          ["8",  "PA — Passive auxiliary",    '"are structured" = present passive'],
+          ["9",  "PA + PF",                   '"has been permanently altered" = present perfect passive'],
+          ["10", "M — Main/linking verb",     '"is legitimate" = be + adjective (linking)'],
+        ]}
+      />
+
+      <Tip>
+        <P><Bold>Exercises 7B & 8 are open-response.</Bold> When checking your work, focus on:</P>
+        <UL items={[
+          "✔ Correct form selection for each use of be (main verb, auxiliary, passive)",
+          "✔ Subject-verb agreement (especially with there is/are and uncountable nouns)",
+          "✔ Appropriate use of contractions (not at end of clause, not in formal writing)",
+          "✔ Distinction between progressive be (behaviour) and simple be (state)",
+        ]} />
+      </Tip>
+
+      <Quote author="Confucius">"It does not matter how slowly you go, as long as you do not stop."</Quote>
+
     </div>
   );
 }
