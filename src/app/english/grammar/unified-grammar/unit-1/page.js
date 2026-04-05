@@ -557,7 +557,10 @@ return (
 // MAIN UNIT PAGE COMPONENT
 // ─────────────────────────────────────────────────────────────
 export default function UnitPage() {
-  const { subject, book, unit: unitId } = useParams();
+  const params = useParams();
+  const subject = params.subject;
+  const book    = params.book;
+  const unitId  = params.unit;
   const [user, setUser]       = useState(null);
   const [role, setRole]       = useState(null);
   const [loading, setLoading] = useState(true);
