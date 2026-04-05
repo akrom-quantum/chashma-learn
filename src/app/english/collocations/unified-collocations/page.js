@@ -18,731 +18,842 @@ const app  = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[
 const auth = getAuth(app);
 const db   = getFirestore(app, "chashma-learn");
 
-// ── URL helpers ────────────────────────────────────────────────────────────────
-const BASE = "https://chashma-learn.vercel.app";
-const bookPath = {
-  Int: "collocations/ciu-intermediate",
-  Adv: "collocations/ciu-advanced",
+// ─────────────────────────────────────────────────────────────────────────────
+// MASTER GUIDEMAP DATA
+// sources: array of { book: "int"|"adv", unitId, unitNum, unitTitle }
+// focus:   array of strings (bullet points)
+// ─────────────────────────────────────────────────────────────────────────────
+const guidemap = [
+  {
+    part: "Part I — Foundation: Understanding Collocations",
+    partColor: { accent: "#0369a1", bg: "#f0f9ff", border: "#7dd3fc", badge: "#bae6fd", text: "#0c4a6e" },
+    units: [
+      {
+        id: "gm-01",
+        num: "01",
+        title: "What are collocations and how do they work?",
+        focus: [
+          "Definition, types (strong/weak/fixed), grammatical categories",
+          "Dictionary skills and self-study strategies",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u01", unitNum: "01", unitTitle: "What is a collocation?" },
+          { book: "int", unitId: "ciu-int-u02", unitNum: "02", unitTitle: "Finding, recording and learning collocations" },
+          { book: "int", unitId: "ciu-int-u03", unitNum: "03", unitTitle: "Using your dictionary" },
+          { book: "int", unitId: "ciu-int-u04", unitNum: "04", unitTitle: "Types of collocation" },
+          { book: "adv", unitId: "ciu-adv-u01", unitNum: "01", unitTitle: "Introducing collocations" },
+          { book: "adv", unitId: "ciu-adv-u02", unitNum: "02", unitTitle: "Strong, fixed and weak collocations" },
+          { book: "adv", unitId: "ciu-adv-u03", unitNum: "03", unitTitle: "Grammatical categories of collocation" },
+          { book: "adv", unitId: "ciu-adv-u04", unitNum: "04", unitTitle: "Using your dictionary and other resources" },
+          { book: "adv", unitId: "ciu-adv-u05", unitNum: "05", unitTitle: "Finding and working on collocations in texts" },
+        ],
+      },
+      {
+        id: "gm-02",
+        num: "02",
+        title: "Register: formal, informal, and academic collocations",
+        focus: [
+          "Recognising appropriate collocations across spoken, written, formal, and informal contexts",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u05", unitNum: "05", unitTitle: "Register" },
+          { book: "adv", unitId: "ciu-adv-u06", unitNum: "06", unitTitle: "Register" },
+        ],
+      },
+    ],
+  },
+  {
+    part: "Part II — Grammatical Patterns",
+    partColor: { accent: "#7c3aed", bg: "#faf5ff", border: "#c4b5fd", badge: "#ede9fe", text: "#4c1d95" },
+    units: [
+      {
+        id: "gm-03",
+        num: "03",
+        title: "Intensifying and softening adverbs",
+        focus: [
+          "Adverb + adjective and adverb + verb patterns",
+          "Degree and emphasis in spoken and written English",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u06", unitNum: "06", unitTitle: "Intensifying adverbs" },
+          { book: "adv", unitId: "ciu-adv-u08", unitNum: "08", unitTitle: "Intensifying and softening adverbs" },
+        ],
+      },
+      {
+        id: "gm-04",
+        num: "04",
+        title: "High-frequency everyday verbs: make, do, have, take, go",
+        focus: [
+          "The most common collocation-forming verbs",
+          "Choosing the right verb for the right noun",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u07", unitNum: "07", unitTitle: "Everyday verbs 1" },
+          { book: "int", unitId: "ciu-int-u08", unitNum: "08", unitTitle: "Everyday verbs 2" },
+          { book: "int", unitId: "ciu-int-u09", unitNum: "09", unitTitle: "Everyday verbs 3" },
+          { book: "adv", unitId: "ciu-adv-u09", unitNum: "09", unitTitle: "Make and verbs that mean make" },
+        ],
+      },
+      {
+        id: "gm-05",
+        num: "05",
+        title: "Phrasal verbs as collocations",
+        focus: [
+          "How phrasal verbs combine with objects to form fixed or semi-fixed collocations",
+        ],
+        sources: [
+          { book: "adv", unitId: "ciu-adv-u11", unitNum: "11", unitTitle: "Collocations with phrasal verbs" },
+        ],
+      },
+      {
+        id: "gm-06",
+        num: "06",
+        title: "Metaphorical collocations",
+        focus: [
+          "Collocations derived from physical or sensory metaphors",
+          "Common in academic and journalistic writing",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u12", unitNum: "12", unitTitle: "Metaphor" },
+          { book: "adv", unitId: "ciu-adv-u07", unitNum: "07", unitTitle: "Metaphor" },
+        ],
+      },
+      {
+        id: "gm-07",
+        num: "07",
+        title: "Synonyms and confusable words",
+        focus: [
+          "Why similar words take different collocates",
+          "Common learner errors to avoid",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u10", unitNum: "10", unitTitle: "Synonyms and confusable words 1" },
+          { book: "int", unitId: "ciu-int-u11", unitNum: "11", unitTitle: "Synonyms and confusable words 2" },
+        ],
+      },
+    ],
+  },
+  {
+    part: "Part III — People and Relationships",
+    partColor: { accent: "#be185d", bg: "#fdf2f8", border: "#f9a8d4", badge: "#fce7f3", text: "#831843" },
+    units: [
+      {
+        id: "gm-08",
+        num: "08",
+        title: "Character, behaviour, and personality",
+        focus: [
+          "Adjective + noun and verb + noun patterns describing inner qualities",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u17", unitNum: "17", unitTitle: "People: character and behaviour" },
+          { book: "adv", unitId: "ciu-adv-u45", unitNum: "45", unitTitle: "Appearance and personality" },
+        ],
+      },
+      {
+        id: "gm-09",
+        num: "09",
+        title: "Physical appearance",
+        focus: [
+          "Describing looks; collocations common in speaking and descriptive writing",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u18", unitNum: "18", unitTitle: "People: physical appearance" },
+          { book: "adv", unitId: "ciu-adv-u24", unitNum: "24", unitTitle: "Advertisements and fashion" },
+        ],
+      },
+      {
+        id: "gm-10",
+        num: "10",
+        title: "Family, relationships, and social life",
+        focus: [
+          "Noun + noun and verb + noun patterns in social and family contexts",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u19", unitNum: "19", unitTitle: "Families" },
+          { book: "int", unitId: "ciu-int-u20", unitNum: "20", unitTitle: "Relationships" },
+          { book: "adv", unitId: "ciu-adv-u40", unitNum: "40", unitTitle: "Friendship" },
+          { book: "adv", unitId: "ciu-adv-u19", unitNum: "19", unitTitle: "Social life" },
+          { book: "adv", unitId: "ciu-adv-u23", unitNum: "23", unitTitle: "Festivals and celebrations" },
+        ],
+      },
+      {
+        id: "gm-11",
+        num: "11",
+        title: "Feelings and emotions",
+        focus: [
+          "Adjective + noun, verb + noun patterns for expressing emotional states",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u21", unitNum: "21", unitTitle: "Feelings and emotions" },
+          { book: "adv", unitId: "ciu-adv-u59", unitNum: "59", unitTitle: "Negative situations and feelings" },
+          { book: "adv", unitId: "ciu-adv-u60", unitNum: "60", unitTitle: "Positive situations and feelings" },
+        ],
+      },
+      {
+        id: "gm-12",
+        num: "12",
+        title: "Youth, age, and life stages",
+        focus: [
+          "Collocations across the lifespan; natural expressions for age-related topics",
+        ],
+        sources: [
+          { book: "adv", unitId: "ciu-adv-u41", unitNum: "41", unitTitle: "Youth and age" },
+        ],
+      },
+      {
+        id: "gm-13",
+        num: "13",
+        title: "Criticising and praising people",
+        focus: [
+          "Evaluative collocations; useful for IELTS Writing Task 2 argument building",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u60", unitNum: "60", unitTitle: "Praising and criticising" },
+          { book: "adv", unitId: "ciu-adv-u43", unitNum: "43", unitTitle: "Criticising people" },
+          { book: "adv", unitId: "ciu-adv-u42", unitNum: "42", unitTitle: "Celebrities and heroes" },
+        ],
+      },
+    ],
+  },
+  {
+    part: "Part IV — Leisure and Lifestyle",
+    partColor: { accent: "#1d4ed8", bg: "#eff6ff", border: "#93c5fd", badge: "#dbeafe", text: "#1e3a8a" },
+    units: [
+      {
+        id: "gm-14",
+        num: "14",
+        title: "Housing and living spaces",
+        focus: [
+          "Verb + noun and adjective + noun patterns for describing places people live",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u22", unitNum: "22", unitTitle: "Houses, flats and rooms" },
+          { book: "adv", unitId: "ciu-adv-u32", unitNum: "32", unitTitle: "Town and country life" },
+        ],
+      },
+      {
+        id: "gm-15",
+        num: "15",
+        title: "Food, eating, and drinking",
+        focus: [
+          "Collocations around food preparation, meals, and hunger/appetite",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u23", unitNum: "23", unitTitle: "Eating and drinking" },
+        ],
+      },
+      {
+        id: "gm-16",
+        num: "16",
+        title: "Films, books, and the arts",
+        focus: [
+          "Critical and descriptive collocations for arts and media",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u24", unitNum: "24", unitTitle: "Films and books" },
+          { book: "adv", unitId: "ciu-adv-u29", unitNum: "29", unitTitle: "Film and book reviews" },
+        ],
+      },
+      {
+        id: "gm-17",
+        num: "17",
+        title: "Music and performance",
+        focus: [
+          "Collocations for describing musical events and activities",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u25", unitNum: "25", unitTitle: "Music" },
+        ],
+      },
+      {
+        id: "gm-18",
+        num: "18",
+        title: "Sport and physical activity",
+        focus: [
+          "Verb + sport noun patterns; competition and performance collocations",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u26", unitNum: "26", unitTitle: "Sport" },
+          { book: "adv", unitId: "ciu-adv-u27", unitNum: "27", unitTitle: "Sport" },
+        ],
+      },
+      {
+        id: "gm-19",
+        num: "19",
+        title: "Health and illness",
+        focus: [
+          "Medical and wellness collocations; common in IELTS Reading passages",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u27", unitNum: "27", unitTitle: "Health and illness" },
+          { book: "adv", unitId: "ciu-adv-u37", unitNum: "37", unitTitle: "Health and medicine" },
+        ],
+      },
+      {
+        id: "gm-20",
+        num: "20",
+        title: "Talking and conversation",
+        focus: [
+          "Verb + noun patterns for communication acts; useful for speaking and writing",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u49", unitNum: "49", unitTitle: "Ways of speaking" },
+          { book: "adv", unitId: "ciu-adv-u20", unitNum: "20", unitTitle: "Talking" },
+          { book: "adv", unitId: "ciu-adv-u10", unitNum: "10", unitTitle: "Communicating" },
+        ],
+      },
+    ],
+  },
+  {
+    part: "Part V — Travel, Places, and the Environment",
+    partColor: { accent: "#0f766e", bg: "#f0fdfa", border: "#5eead4", badge: "#ccfbf1", text: "#134e4a" },
+    units: [
+      {
+        id: "gm-21",
+        num: "21",
+        title: "Weather",
+        focus: [
+          "Adjective + noun and verb + noun patterns for weather description",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u13", unitNum: "13", unitTitle: "Weather" },
+        ],
+      },
+      {
+        id: "gm-22",
+        num: "22",
+        title: "Travel and transport",
+        focus: [
+          "Descriptive and practical travel collocations; IELTS Reading topic",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u14", unitNum: "14", unitTitle: "Travel" },
+          { book: "adv", unitId: "ciu-adv-u26", unitNum: "26", unitTitle: "Travel and adventure" },
+          { book: "adv", unitId: "ciu-adv-u25", unitNum: "25", unitTitle: "Traffic and driving" },
+        ],
+      },
+      {
+        id: "gm-23",
+        num: "23",
+        title: "Countryside and nature",
+        focus: [
+          "Nature and landscape collocations",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u15", unitNum: "15", unitTitle: "Countryside" },
+        ],
+      },
+      {
+        id: "gm-24",
+        num: "24",
+        title: "Towns, cities, and urban life",
+        focus: [
+          "Adjective + noun patterns for urban environments",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u16", unitNum: "16", unitTitle: "Towns and cities" },
+          { book: "adv", unitId: "ciu-adv-u32", unitNum: "32", unitTitle: "Town and country life" },
+        ],
+      },
+      {
+        id: "gm-25",
+        num: "25",
+        title: "The environment and global problems",
+        focus: [
+          "High-priority IELTS Task 2 vocabulary",
+          "Environmental and humanitarian collocations",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u39", unitNum: "39", unitTitle: "Global problems" },
+          { book: "adv", unitId: "ciu-adv-u31", unitNum: "31", unitTitle: "The environment" },
+        ],
+      },
+    ],
+  },
+  {
+    part: "Part VI — Work, Business, and Study",
+    partColor: { accent: "#065f46", bg: "#f0fdf4", border: "#6ee7b7", badge: "#d1fae5", text: "#022c22" },
+    units: [
+      {
+        id: "gm-26",
+        num: "26",
+        title: "Work and employment",
+        focus: [
+          "Career and job-related verb + noun patterns",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u30", unitNum: "30", unitTitle: "Work" },
+          { book: "adv", unitId: "ciu-adv-u12", unitNum: "12", unitTitle: "Working life" },
+          { book: "adv", unitId: "ciu-adv-u13", unitNum: "13", unitTitle: "New employment" },
+          { book: "adv", unitId: "ciu-adv-u44", unitNum: "44", unitTitle: "References" },
+        ],
+      },
+      {
+        id: "gm-27",
+        num: "27",
+        title: "Business and economics",
+        focus: [
+          "Professional and financial collocations; essential for IELTS Academic",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u31", unitNum: "31", unitTitle: "Business" },
+          { book: "adv", unitId: "ciu-adv-u15", unitNum: "15", unitTitle: "Business reports" },
+          { book: "adv", unitId: "ciu-adv-u16", unitNum: "16", unitTitle: "Customer services" },
+          { book: "adv", unitId: "ciu-adv-u34", unitNum: "34", unitTitle: "The economy" },
+        ],
+      },
+      {
+        id: "gm-28",
+        num: "28",
+        title: "Study, research, and student life",
+        focus: [
+          "Academic life collocations for both students and educators",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u29", unitNum: "29", unitTitle: "Study and learning" },
+          { book: "adv", unitId: "ciu-adv-u17", unitNum: "17", unitTitle: "Student life" },
+        ],
+      },
+      {
+        id: "gm-29",
+        num: "29",
+        title: "Academic writing: opinions and argument structure",
+        focus: [
+          "The most important section for IELTS Writing Task 2 Band 7–9 vocabulary",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u32", unitNum: "32", unitTitle: "Academic writing 1: giving opinions" },
+          { book: "int", unitId: "ciu-int-u33", unitNum: "33", unitTitle: "Academic writing 2: structuring an argument" },
+          { book: "adv", unitId: "ciu-adv-u18", unitNum: "18", unitTitle: "Writing essays, assignments and reports" },
+        ],
+      },
+      {
+        id: "gm-30",
+        num: "30",
+        title: "Thoughts, ideas, and beliefs",
+        focus: [
+          "Cognitive and intellectual collocations; critical thinking language",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u56", unitNum: "56", unitTitle: "Talking about beliefs and opinions" },
+          { book: "adv", unitId: "ciu-adv-u14", unitNum: "14", unitTitle: "Thoughts and ideas" },
+        ],
+      },
+      {
+        id: "gm-31",
+        num: "31",
+        title: "Computers and technology",
+        focus: [
+          "Digital and scientific collocations; growing IELTS topic area",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u28", unitNum: "28", unitTitle: "Computers" },
+          { book: "adv", unitId: "ciu-adv-u36", unitNum: "36", unitTitle: "Science and technology" },
+        ],
+      },
+    ],
+  },
+  {
+    part: "Part VII — Society, Law, and Current Affairs",
+    partColor: { accent: "#b45309", bg: "#fffbeb", border: "#fcd34d", badge: "#fde68a", text: "#78350f" },
+    units: [
+      {
+        id: "gm-32",
+        num: "32",
+        title: "News and current affairs",
+        focus: [
+          "Journalistic collocations; formal reporting language",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u36", unitNum: "36", unitTitle: "News" },
+          { book: "adv", unitId: "ciu-adv-u21", unitNum: "21", unitTitle: "News" },
+          { book: "adv", unitId: "ciu-adv-u22", unitNum: "22", unitTitle: "Current affairs" },
+        ],
+      },
+      {
+        id: "gm-33",
+        num: "33",
+        title: "Law, crime, and punishment",
+        focus: [
+          "Legal and civic collocations; frequent IELTS Reading and Writing topic",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u34", unitNum: "34", unitTitle: "Laws and punishments" },
+          { book: "int", unitId: "ciu-int-u35", unitNum: "35", unitTitle: "Crime" },
+          { book: "adv", unitId: "ciu-adv-u30", unitNum: "30", unitTitle: "Regulations and authority" },
+          { book: "adv", unitId: "ciu-adv-u38", unitNum: "38", unitTitle: "Criminal justice" },
+        ],
+      },
+      {
+        id: "gm-34",
+        num: "34",
+        title: "Money and personal finance",
+        focus: [
+          "Financial verb + noun patterns at personal and macro level",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u37", unitNum: "37", unitTitle: "Money" },
+          { book: "adv", unitId: "ciu-adv-u33", unitNum: "33", unitTitle: "Personal finance" },
+        ],
+      },
+      {
+        id: "gm-35",
+        num: "35",
+        title: "Social issues",
+        focus: [
+          "Sociological collocations; strong Task 2 essay vocabulary",
+        ],
+        sources: [
+          { book: "adv", unitId: "ciu-adv-u35", unitNum: "35", unitTitle: "Social issues" },
+        ],
+      },
+      {
+        id: "gm-36",
+        num: "36",
+        title: "War, conflict, and peace",
+        focus: [
+          "Military and diplomatic collocations; formal and journalistic register",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u38", unitNum: "38", unitTitle: "War and peace" },
+          { book: "adv", unitId: "ciu-adv-u39", unitNum: "39", unitTitle: "War and peace" },
+        ],
+      },
+    ],
+  },
+  {
+    part: "Part VIII — Basic Concepts and Senses",
+    partColor: { accent: "#0284c7", bg: "#f0f9ff", border: "#7dd3fc", badge: "#e0f2fe", text: "#075985" },
+    units: [
+      {
+        id: "gm-37",
+        num: "37",
+        title: "Time and space",
+        focus: [
+          "Temporal and spatial collocations; universal building blocks",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u40", unitNum: "40", unitTitle: "Time" },
+          { book: "adv", unitId: "ciu-adv-u46", unitNum: "46", unitTitle: "Time and space" },
+        ],
+      },
+      {
+        id: "gm-38",
+        num: "38",
+        title: "Sound",
+        focus: [
+          "Noun + verb and adjective + noun patterns describing auditory experience",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u41", unitNum: "41", unitTitle: "Sound" },
+          { book: "adv", unitId: "ciu-adv-u47", unitNum: "47", unitTitle: "Sound" },
+        ],
+      },
+      {
+        id: "gm-39",
+        num: "39",
+        title: "Distance, size, and quantity",
+        focus: [
+          "Measurement and scale collocations; useful across all academic topics",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u42", unitNum: "42", unitTitle: "Distance and size" },
+          { book: "int", unitId: "ciu-int-u46", unitNum: "46", unitTitle: "Number and frequency" },
+          { book: "adv", unitId: "ciu-adv-u50", unitNum: "50", unitTitle: "Quantity and size" },
+        ],
+      },
+      {
+        id: "gm-40",
+        num: "40",
+        title: "Colour, light, and texture",
+        focus: [
+          "Sensory and descriptive adjective + noun patterns",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u43", unitNum: "43", unitTitle: "Colour and light" },
+          { book: "int", unitId: "ciu-int-u44", unitNum: "44", unitTitle: "Texture" },
+        ],
+      },
+      {
+        id: "gm-41",
+        num: "41",
+        title: "Taste and smell",
+        focus: [
+          "Sensory collocations; useful for descriptive and creative writing",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u45", unitNum: "45", unitTitle: "Taste and smell" },
+        ],
+      },
+      {
+        id: "gm-42",
+        num: "42",
+        title: "Movement, speed, and walking",
+        focus: [
+          "Motion collocations; adverb + adjective and verb + adverb patterns",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u47", unitNum: "47", unitTitle: "Movement and speed" },
+          { book: "int", unitId: "ciu-int-u50", unitNum: "50", unitTitle: "Ways of walking" },
+        ],
+      },
+      {
+        id: "gm-43",
+        num: "43",
+        title: "Change",
+        focus: [
+          "Verb + noun and adjective + noun patterns describing transformation",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u48", unitNum: "48", unitTitle: "Change" },
+          { book: "adv", unitId: "ciu-adv-u51", unitNum: "51", unitTitle: "Change" },
+        ],
+      },
+      {
+        id: "gm-44",
+        num: "44",
+        title: "Ease and difficulty",
+        focus: [
+          "Collocations for describing challenge and resolution",
+          "Common in academic argument",
+        ],
+        sources: [
+          { book: "adv", unitId: "ciu-adv-u48", unitNum: "48", unitTitle: "Making things easier" },
+          { book: "adv", unitId: "ciu-adv-u49", unitNum: "49", unitTitle: "Difficulty" },
+        ],
+      },
+    ],
+  },
+  {
+    part: "Part IX — Functions and Communication",
+    partColor: { accent: "#a16207", bg: "#fefce8", border: "#fde047", badge: "#fef9c3", text: "#713f12" },
+    units: [
+      {
+        id: "gm-45",
+        num: "45",
+        title: "Starting and finishing",
+        focus: [
+          "Process and sequence collocations",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u51", unitNum: "51", unitTitle: "Starting and finishing" },
+          { book: "adv", unitId: "ciu-adv-u52", unitNum: "52", unitTitle: "Stopping and starting" },
+        ],
+      },
+      {
+        id: "gm-46",
+        num: "46",
+        title: "Success, failure, and effort",
+        focus: [
+          "Achievement and outcome collocations; strong IELTS Writing vocabulary",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u52", unitNum: "52", unitTitle: "Talking about success and failure" },
+          { book: "adv", unitId: "ciu-adv-u56", unitNum: "56", unitTitle: "Making an effort" },
+        ],
+      },
+      {
+        id: "gm-47",
+        num: "47",
+        title: "Cause and effect",
+        focus: [
+          "Essential academic writing collocations; linking ideas in Task 2",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u53", unitNum: "53", unitTitle: "Talking about cause and effect" },
+          { book: "adv", unitId: "ciu-adv-u53", unitNum: "53", unitTitle: "Cause and effect" },
+        ],
+      },
+      {
+        id: "gm-48",
+        num: "48",
+        title: "Memory, senses, and perception",
+        focus: [
+          "Cognitive collocations for describing mental experience",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u54", unitNum: "54", unitTitle: "Remembering and sensing" },
+        ],
+      },
+      {
+        id: "gm-49",
+        num: "49",
+        title: "Agreeing, disagreeing, and discussing",
+        focus: [
+          "Debate and discussion collocations",
+          "Critical for IELTS Speaking Part 3 and Writing",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u55", unitNum: "55", unitTitle: "Agreeing and disagreeing" },
+          { book: "adv", unitId: "ciu-adv-u58", unitNum: "58", unitTitle: "Discussing issues" },
+        ],
+      },
+      {
+        id: "gm-50",
+        num: "50",
+        title: "Beliefs, opinions, and claims",
+        focus: [
+          "Stance and position collocations; academic register",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u56", unitNum: "56", unitTitle: "Talking about beliefs and opinions" },
+          { book: "int", unitId: "ciu-int-u58", unitNum: "58", unitTitle: "Claiming and denying" },
+        ],
+      },
+      {
+        id: "gm-51",
+        num: "51",
+        title: "Deciding and choosing",
+        focus: [
+          "Decision-making collocations; useful for analytical writing",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u57", unitNum: "57", unitTitle: "Deciding and choosing" },
+          { book: "adv", unitId: "ciu-adv-u28", unitNum: "28", unitTitle: "Plans and decisions" },
+        ],
+      },
+      {
+        id: "gm-52",
+        num: "52",
+        title: "Liking, disliking, and preferences",
+        focus: [
+          "Evaluative collocations for expressing personal stance",
+        ],
+        sources: [
+          { book: "int", unitId: "ciu-int-u59", unitNum: "59", unitTitle: "Liking and disliking" },
+        ],
+      },
+      {
+        id: "gm-53",
+        num: "53",
+        title: "Comparing and contrasting",
+        focus: [
+          "Comparative collocations; essential for IELTS Task 1 and Task 2",
+        ],
+        sources: [
+          { book: "adv", unitId: "ciu-adv-u55", unitNum: "55", unitTitle: "Comparing and contrasting" },
+        ],
+      },
+      {
+        id: "gm-54",
+        num: "54",
+        title: "Describing groups and amounts",
+        focus: [
+          "Collective noun collocations and idiomatic quantity expressions",
+        ],
+        sources: [
+          { book: "adv", unitId: "ciu-adv-u54", unitNum: "54", unitTitle: "Describing groups and amounts" },
+        ],
+      },
+      {
+        id: "gm-55",
+        num: "55",
+        title: "Social English and everyday expressions",
+        focus: [
+          "Informal fixed collocations for natural conversation",
+        ],
+        sources: [
+          { book: "adv", unitId: "ciu-adv-u57", unitNum: "57", unitTitle: "Social English" },
+        ],
+      },
+    ],
+  },
+];
+
+// Helpers
+const bookLabel = (book) => book === "int" ? "Intermediate" : "Advanced";
+const bookPath  = (book, unitId) =>
+  book === "int"
+    ? `/english/collocations/ciu-intermediate/${unitId}`
+    : `/english/collocations/ciu-advanced/${unitId}`;
+const bookColors = {
+  int: { bg: "#dbeafe", text: "#1e40af", border: "#93c5fd", dot: "#3b82f6" },
+  adv: { bg: "#fce7f3", text: "#9d174d", border: "#f9a8d4", dot: "#ec4899" },
 };
-const levelLabel = {
-  Int: "Intermediate",
-  Adv: "Advanced",
-};
-const levelColors = {
-  Int: { bg: "#ede9fe", text: "#4c1d95", dot: "#7c3aed" },
-  Adv: { bg: "#fecdd3", text: "#9f1239", dot: "#e11d48" },
-};
 
-// ── BOOK DATA ─────────────────────────────────────────────────────────────────
-// src format: { level: "Int"|"Adv", unitId: "ciu-int-u01", label: "Unit 01 — Title" }
-// focus: string
+// Total counts
+const totalUnits = guidemap.reduce((acc, p) => acc + p.units.length, 0);
+const totalParts = guidemap.length;
 
-const bookData = {
-  title:   "Unified Collocations Book",
-  authors: "English Collocations in Use — Intermediate & Advanced",
-  cover:   "/books/unified-collocations.jpg",
-  unified: true,
-  sections: [
+// ─────────────────────────────────────────────────────────────────────────────
+// SourcesPanel — inline dropdown shown/hidden per unit
+// ─────────────────────────────────────────────────────────────────────────────
+function SourcesPanel({ sources, pc }) {
+  const intSources = sources.filter((s) => s.book === "int");
+  const advSources = sources.filter((s) => s.book === "adv");
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // PART I — Foundation: Understanding Collocations
-    // ─────────────────────────────────────────────────────────────────────────
-    {
-      title: "Part I — Foundation: Understanding Collocations",
-      icon: "🧠",
-      color: { accent: "#0369a1", bg: "#f0f9ff", badge: "#bae6fd", text: "#0c4a6e", border: "#7dd3fc" },
-      units: [
-        {
-          num: "1", id: "u1",
-          title: "What are collocations and how do they work?",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u01", label: "Unit 01 — What is a collocation?" },
-            { level: "Int", unitId: "ciu-int-u02", label: "Unit 02 — Finding, recording and learning collocations" },
-            { level: "Int", unitId: "ciu-int-u03", label: "Unit 03 — Using your dictionary" },
-            { level: "Int", unitId: "ciu-int-u04", label: "Unit 04 — Types of collocation" },
-            { level: "Adv", unitId: "ciu-adv-u01", label: "Unit 01 — Introducing collocations" },
-            { level: "Adv", unitId: "ciu-adv-u02", label: "Unit 02 — Strong, fixed and weak collocations" },
-            { level: "Adv", unitId: "ciu-adv-u03", label: "Unit 03 — Grammatical categories of collocation" },
-            { level: "Adv", unitId: "ciu-adv-u04", label: "Unit 04 — Using your dictionary and other resources" },
-            { level: "Adv", unitId: "ciu-adv-u05", label: "Unit 05 — Finding and working on collocations in texts" },
-          ],
-          focus: "Definition, types (strong/weak/fixed), grammatical categories, dictionary skills, self-study strategies",
-        },
-        {
-          num: "2", id: "u2",
-          title: "Register: formal, informal, and academic collocations",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u05", label: "Unit 05 — Register" },
-            { level: "Adv", unitId: "ciu-adv-u06", label: "Unit 06 — Register" },
-          ],
-          focus: "Recognising appropriate collocations across spoken, written, formal, and informal contexts",
-        },
-      ],
-    },
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // PART II — Grammatical Patterns
-    // ─────────────────────────────────────────────────────────────────────────
-    {
-      title: "Part II — Grammatical Patterns",
-      icon: "🔤",
-      color: { accent: "#7c3aed", bg: "#faf5ff", badge: "#ede9fe", text: "#4c1d95", border: "#c4b5fd" },
-      units: [
-        {
-          num: "3", id: "u3",
-          title: "Intensifying and softening adverbs",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u06", label: "Unit 06 — Intensifying adverbs" },
-            { level: "Adv", unitId: "ciu-adv-u08", label: "Unit 08 — Intensifying and softening adverbs" },
-          ],
-          focus: "Adverb + adjective and adverb + verb patterns; degree and emphasis",
-        },
-        {
-          num: "4", id: "u4",
-          title: "High-frequency everyday verbs: make, do, have, take, go",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u07", label: "Unit 07 — Everyday verbs 1" },
-            { level: "Int", unitId: "ciu-int-u08", label: "Unit 08 — Everyday verbs 2" },
-            { level: "Int", unitId: "ciu-int-u09", label: "Unit 09 — Everyday verbs 3" },
-            { level: "Adv", unitId: "ciu-adv-u09", label: "Unit 09 — Make and verbs that mean make" },
-          ],
-          focus: "The most common collocation-forming verbs; choosing the right verb for the right noun",
-        },
-        {
-          num: "5", id: "u5",
-          title: "Phrasal verbs as collocations",
-          sources: [
-            { level: "Adv", unitId: "ciu-adv-u11", label: "Unit 11 — Collocations with phrasal verbs" },
-          ],
-          focus: "How phrasal verbs combine with objects to form fixed or semi-fixed collocations",
-        },
-        {
-          num: "6", id: "u6",
-          title: "Metaphorical collocations",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u12", label: "Unit 12 — Metaphor" },
-            { level: "Adv", unitId: "ciu-adv-u07", label: "Unit 07 — Metaphor" },
-          ],
-          focus: "Collocations derived from physical or sensory metaphors; common in academic and journalistic writing",
-        },
-        {
-          num: "7", id: "u7",
-          title: "Synonyms and confusable words",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u10", label: "Unit 10 — Synonyms and confusable words 1" },
-            { level: "Int", unitId: "ciu-int-u11", label: "Unit 11 — Synonyms and confusable words 2" },
-          ],
-          focus: "Why similar words take different collocates; common learner errors",
-        },
-      ],
-    },
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // PART III — People and Relationships
-    // ─────────────────────────────────────────────────────────────────────────
-    {
-      title: "Part III — People and Relationships",
-      icon: "👥",
-      color: { accent: "#be185d", bg: "#fdf2f8", badge: "#fce7f3", text: "#831843", border: "#f9a8d4" },
-      units: [
-        {
-          num: "8", id: "u8",
-          title: "Character, behaviour, and personality",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u17", label: "Unit 17 — People: character and behaviour" },
-            { level: "Adv", unitId: "ciu-adv-u45", label: "Unit 45 — Appearance and personality" },
-          ],
-          focus: "Adjective + noun and verb + noun patterns describing inner qualities",
-        },
-        {
-          num: "9", id: "u9",
-          title: "Physical appearance",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u18", label: "Unit 18 — People: physical appearance" },
-            { level: "Adv", unitId: "ciu-adv-u24", label: "Unit 24 — Advertisements and fashion" },
-          ],
-          focus: "Describing looks; collocations common in speaking and descriptive writing",
-        },
-        {
-          num: "10", id: "u10",
-          title: "Family, relationships, and social life",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u19", label: "Unit 19 — Families" },
-            { level: "Int", unitId: "ciu-int-u20", label: "Unit 20 — Relationships" },
-            { level: "Adv", unitId: "ciu-adv-u40", label: "Unit 40 — Friendship" },
-            { level: "Adv", unitId: "ciu-adv-u19", label: "Unit 19 — Social life" },
-            { level: "Adv", unitId: "ciu-adv-u23", label: "Unit 23 — Festivals and celebrations" },
-          ],
-          focus: "Noun + noun and verb + noun patterns in social and family contexts",
-        },
-        {
-          num: "11", id: "u11",
-          title: "Feelings and emotions",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u21", label: "Unit 21 — Feelings and emotions" },
-            { level: "Adv", unitId: "ciu-adv-u59", label: "Unit 59 — Negative situations and feelings" },
-            { level: "Adv", unitId: "ciu-adv-u60", label: "Unit 60 — Positive situations and feelings" },
-          ],
-          focus: "Adjective + noun, verb + noun patterns for expressing emotional states",
-        },
-        {
-          num: "12", id: "u12",
-          title: "Youth, age, and life stages",
-          sources: [
-            { level: "Adv", unitId: "ciu-adv-u41", label: "Unit 41 — Youth and age" },
-          ],
-          focus: "Collocations across the lifespan; natural expressions for age-related topics",
-        },
-        {
-          num: "13", id: "u13",
-          title: "Criticising and praising people",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u60", label: "Unit 60 — Praising and criticising" },
-            { level: "Adv", unitId: "ciu-adv-u43", label: "Unit 43 — Criticising people" },
-            { level: "Adv", unitId: "ciu-adv-u42", label: "Unit 42 — Celebrities and heroes" },
-          ],
-          focus: "Evaluative collocations; useful for IELTS Writing Task 2 argument building",
-        },
-      ],
-    },
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // PART IV — Leisure and Lifestyle
-    // ─────────────────────────────────────────────────────────────────────────
-    {
-      title: "Part IV — Leisure and Lifestyle",
-      icon: "🎭",
-      color: { accent: "#1d4ed8", bg: "#eff6ff", badge: "#dbeafe", text: "#1e3a8a", border: "#93c5fd" },
-      units: [
-        {
-          num: "14", id: "u14",
-          title: "Housing and living spaces",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u22", label: "Unit 22 — Houses, flats and rooms" },
-            { level: "Adv", unitId: "ciu-adv-u32", label: "Unit 32 — Town and country life" },
-          ],
-          focus: "Verb + noun and adjective + noun patterns for describing places people live",
-        },
-        {
-          num: "15", id: "u15",
-          title: "Food, eating, and drinking",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u23", label: "Unit 23 — Eating and drinking" },
-          ],
-          focus: "Collocations around food preparation, meals, and hunger/appetite",
-        },
-        {
-          num: "16", id: "u16",
-          title: "Films, books, and the arts",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u24", label: "Unit 24 — Films and books" },
-            { level: "Adv", unitId: "ciu-adv-u29", label: "Unit 29 — Film and book reviews" },
-          ],
-          focus: "Critical and descriptive collocations for arts and media",
-        },
-        {
-          num: "17", id: "u17",
-          title: "Music and performance",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u25", label: "Unit 25 — Music" },
-          ],
-          focus: "Collocations for describing musical events and activities",
-        },
-        {
-          num: "18", id: "u18",
-          title: "Sport and physical activity",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u26", label: "Unit 26 — Sport" },
-            { level: "Adv", unitId: "ciu-adv-u27", label: "Unit 27 — Sport" },
-          ],
-          focus: "Verb + sport noun patterns; competition and performance collocations",
-        },
-        {
-          num: "19", id: "u19",
-          title: "Health and illness",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u27", label: "Unit 27 — Health and illness" },
-            { level: "Adv", unitId: "ciu-adv-u37", label: "Unit 37 — Health and medicine" },
-          ],
-          focus: "Medical and wellness collocations; common in IELTS Reading passages",
-        },
-        {
-          num: "20", id: "u20",
-          title: "Talking and conversation",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u49", label: "Unit 49 — Ways of speaking" },
-            { level: "Adv", unitId: "ciu-adv-u20", label: "Unit 20 — Talking" },
-            { level: "Adv", unitId: "ciu-adv-u10", label: "Unit 10 — Communicating" },
-          ],
-          focus: "Verb + noun patterns for communication acts; useful for speaking and writing",
-        },
-      ],
-    },
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // PART V — Travel, Places, and the Environment
-    // ─────────────────────────────────────────────────────────────────────────
-    {
-      title: "Part V — Travel, Places, and the Environment",
-      icon: "✈️",
-      color: { accent: "#b45309", bg: "#fffbeb", badge: "#fde68a", text: "#78350f", border: "#fcd34d" },
-      units: [
-        {
-          num: "21", id: "u21",
-          title: "Weather",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u13", label: "Unit 13 — Weather" },
-          ],
-          focus: "Adjective + noun and verb + noun patterns for weather description",
-        },
-        {
-          num: "22", id: "u22",
-          title: "Travel and transport",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u14", label: "Unit 14 — Travel" },
-            { level: "Adv", unitId: "ciu-adv-u26", label: "Unit 26 — Travel and adventure" },
-            { level: "Adv", unitId: "ciu-adv-u25", label: "Unit 25 — Traffic and driving" },
-          ],
-          focus: "Descriptive and practical travel collocations; IELTS Reading topic",
-        },
-        {
-          num: "23", id: "u23",
-          title: "Countryside and nature",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u15", label: "Unit 15 — Countryside" },
-          ],
-          focus: "Nature and landscape collocations",
-        },
-        {
-          num: "24", id: "u24",
-          title: "Towns, cities, and urban life",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u16", label: "Unit 16 — Towns and cities" },
-            { level: "Adv", unitId: "ciu-adv-u32", label: "Unit 32 — Town and country life" },
-          ],
-          focus: "Adjective + noun patterns for urban environments",
-        },
-        {
-          num: "25", id: "u25",
-          title: "The environment and global problems",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u39", label: "Unit 39 — Global problems" },
-            { level: "Adv", unitId: "ciu-adv-u31", label: "Unit 31 — The environment" },
-          ],
-          focus: "High-priority IELTS Task 2 vocabulary; environmental and humanitarian collocations",
-        },
-      ],
-    },
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // PART VI — Work, Business, and Study
-    // ─────────────────────────────────────────────────────────────────────────
-    {
-      title: "Part VI — Work, Business, and Study",
-      icon: "💼",
-      color: { accent: "#065f46", bg: "#f0fdf4", badge: "#d1fae5", text: "#022c22", border: "#6ee7b7" },
-      units: [
-        {
-          num: "26", id: "u26",
-          title: "Work and employment",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u30", label: "Unit 30 — Work" },
-            { level: "Adv", unitId: "ciu-adv-u12", label: "Unit 12 — Working life" },
-            { level: "Adv", unitId: "ciu-adv-u13", label: "Unit 13 — New employment" },
-            { level: "Adv", unitId: "ciu-adv-u44", label: "Unit 44 — References" },
-          ],
-          focus: "Career and job-related verb + noun patterns",
-        },
-        {
-          num: "27", id: "u27",
-          title: "Business and economics",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u31", label: "Unit 31 — Business" },
-            { level: "Adv", unitId: "ciu-adv-u15", label: "Unit 15 — Business reports" },
-            { level: "Adv", unitId: "ciu-adv-u16", label: "Unit 16 — Customer services" },
-            { level: "Adv", unitId: "ciu-adv-u34", label: "Unit 34 — The economy" },
-          ],
-          focus: "Professional and financial collocations; essential for IELTS Academic",
-        },
-        {
-          num: "28", id: "u28",
-          title: "Study, research, and student life",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u29", label: "Unit 29 — Study and learning" },
-            { level: "Adv", unitId: "ciu-adv-u17", label: "Unit 17 — Student life" },
-          ],
-          focus: "Academic life collocations for both students and educators",
-        },
-        {
-          num: "29", id: "u29",
-          title: "Academic writing: opinions and argument structure",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u32", label: "Unit 32 — Academic writing 1: giving opinions" },
-            { level: "Int", unitId: "ciu-int-u33", label: "Unit 33 — Academic writing 2: structuring an argument" },
-            { level: "Adv", unitId: "ciu-adv-u18", label: "Unit 18 — Writing essays, assignments and reports" },
-          ],
-          focus: "The most important section for IELTS Writing Task 2 Band 7–9 vocabulary",
-        },
-        {
-          num: "30", id: "u30",
-          title: "Thoughts, ideas, and beliefs",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u56", label: "Unit 56 — Talking about beliefs and opinions" },
-            { level: "Adv", unitId: "ciu-adv-u14", label: "Unit 14 — Thoughts and ideas" },
-          ],
-          focus: "Cognitive and intellectual collocations; critical thinking language",
-        },
-        {
-          num: "31", id: "u31",
-          title: "Computers and technology",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u28", label: "Unit 28 — Computers" },
-            { level: "Adv", unitId: "ciu-adv-u36", label: "Unit 36 — Science and technology" },
-          ],
-          focus: "Digital and scientific collocations; growing IELTS topic area",
-        },
-      ],
-    },
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // PART VII — Society, Law, and Current Affairs
-    // ─────────────────────────────────────────────────────────────────────────
-    {
-      title: "Part VII — Society, Law, and Current Affairs",
-      icon: "🏛️",
-      color: { accent: "#b91c1c", bg: "#fff1f2", badge: "#fecdd3", text: "#7f1d1d", border: "#fda4af" },
-      units: [
-        {
-          num: "32", id: "u32",
-          title: "News and current affairs",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u36", label: "Unit 36 — News" },
-            { level: "Adv", unitId: "ciu-adv-u21", label: "Unit 21 — News" },
-            { level: "Adv", unitId: "ciu-adv-u22", label: "Unit 22 — Current affairs" },
-          ],
-          focus: "Journalistic collocations; formal reporting language",
-        },
-        {
-          num: "33", id: "u33",
-          title: "Law, crime, and punishment",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u34", label: "Unit 34 — Laws and punishments" },
-            { level: "Int", unitId: "ciu-int-u35", label: "Unit 35 — Crime" },
-            { level: "Adv", unitId: "ciu-adv-u30", label: "Unit 30 — Regulations and authority" },
-            { level: "Adv", unitId: "ciu-adv-u38", label: "Unit 38 — Criminal justice" },
-          ],
-          focus: "Legal and civic collocations; frequent IELTS Reading and Writing topic",
-        },
-        {
-          num: "34", id: "u34",
-          title: "Money and personal finance",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u37", label: "Unit 37 — Money" },
-            { level: "Adv", unitId: "ciu-adv-u33", label: "Unit 33 — Personal finance" },
-          ],
-          focus: "Financial verb + noun patterns at personal and macro level",
-        },
-        {
-          num: "35", id: "u35",
-          title: "Social issues",
-          sources: [
-            { level: "Adv", unitId: "ciu-adv-u35", label: "Unit 35 — Social issues" },
-          ],
-          focus: "Sociological collocations; strong Task 2 essay vocabulary",
-        },
-        {
-          num: "36", id: "u36",
-          title: "War, conflict, and peace",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u38", label: "Unit 38 — War and peace" },
-            { level: "Adv", unitId: "ciu-adv-u39", label: "Unit 39 — War and peace" },
-          ],
-          focus: "Military and diplomatic collocations; formal and journalistic register",
-        },
-      ],
-    },
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // PART VIII — Basic Concepts and Senses
-    // ─────────────────────────────────────────────────────────────────────────
-    {
-      title: "Part VIII — Basic Concepts and Senses",
-      icon: "🔷",
-      color: { accent: "#0f766e", bg: "#f0fdfa", badge: "#ccfbf1", text: "#042f2e", border: "#5eead4" },
-      units: [
-        {
-          num: "37", id: "u37",
-          title: "Time and space",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u40", label: "Unit 40 — Time" },
-            { level: "Adv", unitId: "ciu-adv-u46", label: "Unit 46 — Time and space" },
-          ],
-          focus: "Temporal and spatial collocations; universal building blocks",
-        },
-        {
-          num: "38", id: "u38",
-          title: "Sound",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u41", label: "Unit 41 — Sound" },
-            { level: "Adv", unitId: "ciu-adv-u47", label: "Unit 47 — Sound" },
-          ],
-          focus: "Noun + verb and adjective + noun patterns describing auditory experience",
-        },
-        {
-          num: "39", id: "u39",
-          title: "Distance, size, and quantity",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u42", label: "Unit 42 — Distance and size" },
-            { level: "Int", unitId: "ciu-int-u46", label: "Unit 46 — Number and frequency" },
-            { level: "Adv", unitId: "ciu-adv-u50", label: "Unit 50 — Quantity and size" },
-          ],
-          focus: "Measurement and scale collocations; useful across all academic topics",
-        },
-        {
-          num: "40", id: "u40",
-          title: "Colour, light, and texture",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u43", label: "Unit 43 — Colour and light" },
-            { level: "Int", unitId: "ciu-int-u44", label: "Unit 44 — Texture" },
-          ],
-          focus: "Sensory and descriptive adjective + noun patterns",
-        },
-        {
-          num: "41", id: "u41",
-          title: "Taste and smell",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u45", label: "Unit 45 — Taste and smell" },
-          ],
-          focus: "Sensory collocations; useful for descriptive and creative writing",
-        },
-        {
-          num: "42", id: "u42",
-          title: "Movement, speed, and walking",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u47", label: "Unit 47 — Movement and speed" },
-            { level: "Int", unitId: "ciu-int-u50", label: "Unit 50 — Ways of walking" },
-          ],
-          focus: "Motion collocations; adverb + adjective and verb + adverb patterns",
-        },
-        {
-          num: "43", id: "u43",
-          title: "Change",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u48", label: "Unit 48 — Change" },
-            { level: "Adv", unitId: "ciu-adv-u51", label: "Unit 51 — Change" },
-          ],
-          focus: "Verb + noun and adjective + noun patterns describing transformation",
-        },
-        {
-          num: "44", id: "u44",
-          title: "Ease and difficulty",
-          sources: [
-            { level: "Adv", unitId: "ciu-adv-u48", label: "Unit 48 — Making things easier" },
-            { level: "Adv", unitId: "ciu-adv-u49", label: "Unit 49 — Difficulty" },
-          ],
-          focus: "Collocations for describing challenge and resolution; common in academic argument",
-        },
-      ],
-    },
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // PART IX — Functions and Communication
-    // ─────────────────────────────────────────────────────────────────────────
-    {
-      title: "Part IX — Functions and Communication",
-      icon: "⚙️",
-      color: { accent: "#a16207", bg: "#fefce8", badge: "#fef9c3", text: "#713f12", border: "#fde047" },
-      units: [
-        {
-          num: "45", id: "u45",
-          title: "Starting and finishing",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u51", label: "Unit 51 — Starting and finishing" },
-            { level: "Adv", unitId: "ciu-adv-u52", label: "Unit 52 — Stopping and starting" },
-          ],
-          focus: "Process and sequence collocations",
-        },
-        {
-          num: "46", id: "u46",
-          title: "Success, failure, and effort",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u52", label: "Unit 52 — Talking about success and failure" },
-            { level: "Adv", unitId: "ciu-adv-u56", label: "Unit 56 — Making an effort" },
-          ],
-          focus: "Achievement and outcome collocations; strong IELTS Writing vocabulary",
-        },
-        {
-          num: "47", id: "u47",
-          title: "Cause and effect",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u53", label: "Unit 53 — Talking about cause and effect" },
-            { level: "Adv", unitId: "ciu-adv-u53", label: "Unit 53 — Cause and effect" },
-          ],
-          focus: "Essential academic writing collocations; linking ideas in Task 2",
-        },
-        {
-          num: "48", id: "u48",
-          title: "Memory, senses, and perception",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u54", label: "Unit 54 — Remembering and sensing" },
-          ],
-          focus: "Cognitive collocations for describing mental experience",
-        },
-        {
-          num: "49", id: "u49",
-          title: "Agreeing, disagreeing, and discussing",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u55", label: "Unit 55 — Agreeing and disagreeing" },
-            { level: "Adv", unitId: "ciu-adv-u58", label: "Unit 58 — Discussing issues" },
-          ],
-          focus: "Debate and discussion collocations; critical for IELTS Speaking Part 3 and Writing",
-        },
-        {
-          num: "50", id: "u50",
-          title: "Beliefs, opinions, and claims",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u56", label: "Unit 56 — Talking about beliefs and opinions" },
-            { level: "Int", unitId: "ciu-int-u58", label: "Unit 58 — Claiming and denying" },
-          ],
-          focus: "Stance and position collocations; academic register",
-        },
-        {
-          num: "51", id: "u51",
-          title: "Deciding and choosing",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u57", label: "Unit 57 — Deciding and choosing" },
-            { level: "Adv", unitId: "ciu-adv-u28", label: "Unit 28 — Plans and decisions" },
-          ],
-          focus: "Decision-making collocations; useful for analytical writing",
-        },
-        {
-          num: "52", id: "u52",
-          title: "Liking, disliking, and preferences",
-          sources: [
-            { level: "Int", unitId: "ciu-int-u59", label: "Unit 59 — Liking and disliking" },
-          ],
-          focus: "Evaluative collocations for expressing personal stance",
-        },
-        {
-          num: "53", id: "u53",
-          title: "Comparing and contrasting",
-          sources: [
-            { level: "Adv", unitId: "ciu-adv-u55", label: "Unit 55 — Comparing and contrasting" },
-          ],
-          focus: "Comparative collocations; essential for IELTS Task 1 and Task 2",
-        },
-        {
-          num: "54", id: "u54",
-          title: "Describing groups and amounts",
-          sources: [
-            { level: "Adv", unitId: "ciu-adv-u54", label: "Unit 54 — Describing groups and amounts" },
-          ],
-          focus: "Collective noun collocations and idiomatic quantity expressions",
-        },
-        {
-          num: "55", id: "u55",
-          title: "Social English and everyday expressions",
-          sources: [
-            { level: "Adv", unitId: "ciu-adv-u57", label: "Unit 57 — Social English" },
-          ],
-          focus: "Informal fixed collocations for natural conversation",
-        },
-      ],
-    },
-
-  ],
-};
-
-const totalUnits = bookData.sections.reduce((acc, s) => acc + s.units.length, 0);
-
-// ── Expandable Unit Card ───────────────────────────────────────────────────────
-function UnitCard({ unit, sc }) {
-  const [open, setOpen] = useState(false);
   return (
-    <div style={{ borderBottom: "1px solid #f3f4f6" }}>
-      {/* Header row */}
-      <button
-        onClick={() => setOpen((p) => !p)}
-        style={{
-          width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between",
-          padding: "13px 20px", backgroundColor: open ? sc.bg : "#ffffff",
-          border: "none", cursor: "pointer", textAlign: "left",
-          transition: "background-color 0.15s",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-          {/* Number badge */}
-          <div style={{
-            minWidth: "38px", height: "38px", borderRadius: "8px",
-            backgroundColor: open ? sc.badge : "#f3f4f6",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: "11px", fontWeight: 800,
-            color: open ? sc.text : "#6b7280",
-            flexShrink: 0, letterSpacing: "-0.3px", padding: "0 4px",
-          }}>
-            {unit.num}
-          </div>
-          <p style={{ fontSize: "13px", fontWeight: 600, color: "#111827", margin: 0, lineHeight: 1.4 }}>
-            {unit.title}
+    <div style={{
+      marginTop: "10px",
+      padding: "12px 14px",
+      backgroundColor: "#ffffff",
+      border: `1px solid ${pc.border}`,
+      borderRadius: "8px",
+      display: "flex", flexDirection: "column", gap: "10px",
+    }}>
+      {intSources.length > 0 && (
+        <div>
+          <p style={{ fontSize: "10px", fontWeight: 800, color: bookColors.int.text, textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: "6px" }}>
+            📘 Intermediate
           </p>
-        </div>
-        {/* Source count pill + chevron */}
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0, marginLeft: "12px" }}>
-          <span style={{ fontSize: "10px", fontWeight: 700, backgroundColor: sc.badge, color: sc.text, padding: "2px 8px", borderRadius: "999px", whiteSpace: "nowrap" }}>
-            {unit.sources.length} {unit.sources.length === 1 ? "source" : "sources"}
-          </span>
-          <span style={{ fontSize: "16px", color: "#9ca3af", transform: open ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 0.2s", display: "inline-block" }}>›</span>
-        </div>
-      </button>
-
-      {/* Expanded details */}
-      {open && (
-        <div style={{ padding: "0 20px 16px 72px", backgroundColor: sc.bg }}>
-          {/* Focus */}
-          <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "12px" }}>
-            <span style={{ fontSize: "13px", flexShrink: 0 }}>🎯</span>
-            <p style={{ fontSize: "12px", color: sc.text, margin: 0, lineHeight: 1.6, fontStyle: "italic" }}>
-              {unit.focus}
-            </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+            {intSources.map((s) => (
+              <Link
+                key={s.unitId}
+                href={bookPath(s.book, s.unitId)}
+                style={{
+                  display: "flex", alignItems: "center", gap: "8px",
+                  padding: "6px 10px", borderRadius: "6px",
+                  backgroundColor: bookColors.int.bg,
+                  border: `1px solid ${bookColors.int.border}`,
+                  textDecoration: "none",
+                  transition: "opacity 0.15s",
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = "0.75"}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
+              >
+                <span style={{ fontSize: "10px", fontWeight: 800, color: bookColors.int.text, minWidth: "22px" }}>
+                  {s.unitNum}
+                </span>
+                <span style={{ fontSize: "12px", fontWeight: 500, color: bookColors.int.text, flex: 1 }}>
+                  {s.unitTitle}
+                </span>
+                <span style={{ fontSize: "11px", color: bookColors.int.dot }}>→</span>
+              </Link>
+            ))}
           </div>
-
-          {/* Source links */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-            {unit.sources.map((src, i) => {
-              const lc   = levelColors[src.level] || levelColors.Int;
-              const path = `/english/${bookPath[src.level]}/${src.unitId}`;
-              const href = `${BASE}${path}`;
-              return (
-                <a
-                  key={i}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "flex", alignItems: "center", gap: "10px",
-                    padding: "8px 12px", backgroundColor: "#ffffff",
-                    border: `1px solid ${sc.border}`, borderRadius: "8px",
-                    textDecoration: "none", transition: "border-color 0.15s",
-                  }}
-                >
-                  {/* Level badge */}
-                  <span style={{
-                    fontSize: "10px", fontWeight: 800,
-                    backgroundColor: lc.bg, color: lc.text,
-                    padding: "2px 8px", borderRadius: "999px",
-                    whiteSpace: "nowrap", flexShrink: 0,
-                  }}>
-                    {levelLabel[src.level]}
-                  </span>
-                  {/* Label */}
-                  <span style={{ fontSize: "12px", color: "#374151", fontWeight: 500, flex: 1, lineHeight: 1.4, fontFamily: "monospace" }}>
-                    {src.label}
-                  </span>
-                  {/* Arrow */}
-                  <span style={{ fontSize: "14px", color: "#9ca3af", flexShrink: 0 }}>↗</span>
-                </a>
-              );
-            })}
+        </div>
+      )}
+      {advSources.length > 0 && (
+        <div>
+          <p style={{ fontSize: "10px", fontWeight: 800, color: bookColors.adv.text, textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: "6px" }}>
+            📗 Advanced
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+            {advSources.map((s) => (
+              <Link
+                key={s.unitId}
+                href={bookPath(s.book, s.unitId)}
+                style={{
+                  display: "flex", alignItems: "center", gap: "8px",
+                  padding: "6px 10px", borderRadius: "6px",
+                  backgroundColor: bookColors.adv.bg,
+                  border: `1px solid ${bookColors.adv.border}`,
+                  textDecoration: "none",
+                  transition: "opacity 0.15s",
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = "0.75"}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
+              >
+                <span style={{ fontSize: "10px", fontWeight: 800, color: bookColors.adv.text, minWidth: "22px" }}>
+                  {s.unitNum}
+                </span>
+                <span style={{ fontSize: "12px", fontWeight: 500, color: bookColors.adv.text, flex: 1 }}>
+                  {s.unitTitle}
+                </span>
+                <span style={{ fontSize: "11px", color: bookColors.adv.dot }}>→</span>
+              </Link>
+            ))}
           </div>
         </div>
       )}
@@ -750,14 +861,123 @@ function UnitCard({ unit, sc }) {
   );
 }
 
-// ── Main page ──────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// UnitCard
+// ─────────────────────────────────────────────────────────────────────────────
+function UnitCard({ unit, pc, globalIndex }) {
+  const [sourcesOpen, setSourcesOpen] = useState(false);
+  const intCount = unit.sources.filter((s) => s.book === "int").length;
+  const advCount = unit.sources.filter((s) => s.book === "adv").length;
+
+  return (
+    <div style={{
+      backgroundColor: "#ffffff",
+      border: "1px solid #e5e7eb",
+      borderRadius: "10px",
+      overflow: "hidden",
+      transition: "box-shadow 0.2s",
+    }}
+      onMouseEnter={(e) => e.currentTarget.style.boxShadow = "0 2px 12px rgba(0,0,0,0.07)"}
+      onMouseLeave={(e) => e.currentTarget.style.boxShadow = "none"}
+    >
+      {/* Unit header row */}
+      <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", padding: "14px 16px" }}>
+
+        {/* Number badge */}
+        <div style={{
+          width: "36px", height: "36px", borderRadius: "8px",
+          backgroundColor: pc.badge, display: "flex", alignItems: "center",
+          justifyContent: "center", fontSize: "11px", fontWeight: 800,
+          color: pc.text, flexShrink: 0, letterSpacing: "-0.3px",
+        }}>
+          {unit.num}
+        </div>
+
+        {/* Title + focus */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          {/* Clickable title → unit page */}
+          <Link
+            href={`/english/collocations/unified/${unit.id}`}
+            style={{ textDecoration: "none" }}
+          >
+            <p style={{
+              fontSize: "13px", fontWeight: 700, color: "#111827",
+              margin: "0 0 6px", lineHeight: 1.35,
+              transition: "color 0.15s",
+            }}
+              onMouseEnter={(e) => e.target.style.color = pc.accent}
+              onMouseLeave={(e) => e.target.style.color = "#111827"}
+            >
+              {unit.title}
+            </p>
+          </Link>
+
+          {/* Focus bullets */}
+          <ul style={{ margin: 0, padding: "0 0 0 14px", listStyle: "disc" }}>
+            {unit.focus.map((f, fi) => (
+              <li key={fi} style={{ fontSize: "11.5px", color: "#6b7280", lineHeight: 1.5, marginBottom: "2px" }}>
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Sources toggle button */}
+        <button
+          onClick={() => setSourcesOpen((p) => !p)}
+          title={sourcesOpen ? "Hide sources" : "Show sources"}
+          style={{
+            flexShrink: 0,
+            display: "flex", alignItems: "center", gap: "5px",
+            padding: "5px 10px", borderRadius: "999px",
+            border: `1px solid ${sourcesOpen ? pc.accent : "#e5e7eb"}`,
+            backgroundColor: sourcesOpen ? pc.bg : "#f9fafb",
+            cursor: "pointer", transition: "all 0.15s",
+          }}
+        >
+          <span style={{ fontSize: "12px" }}>📚</span>
+          <span style={{ fontSize: "10px", fontWeight: 700, color: pc.accent }}>
+            {unit.sources.length}
+          </span>
+          <span style={{ fontSize: "10px", color: "#9ca3af", transform: sourcesOpen ? "rotate(180deg)" : "rotate(0deg)", display: "inline-block", transition: "transform 0.2s" }}>▾</span>
+        </button>
+      </div>
+
+      {/* Source book pills row (always visible) */}
+      <div style={{ paddingLeft: "64px", paddingRight: "16px", paddingBottom: "10px", display: "flex", gap: "6px", flexWrap: "wrap" }}>
+        {intCount > 0 && (
+          <span style={{ fontSize: "10px", fontWeight: 600, backgroundColor: bookColors.int.bg, color: bookColors.int.text, border: `1px solid ${bookColors.int.border}`, padding: "2px 8px", borderRadius: "999px" }}>
+            📘 Int ×{intCount}
+          </span>
+        )}
+        {advCount > 0 && (
+          <span style={{ fontSize: "10px", fontWeight: 600, backgroundColor: bookColors.adv.bg, color: bookColors.adv.text, border: `1px solid ${bookColors.adv.border}`, padding: "2px 8px", borderRadius: "999px" }}>
+            📗 Adv ×{advCount}
+          </span>
+        )}
+      </div>
+
+      {/* Collapsible sources panel */}
+      {sourcesOpen && (
+        <div style={{ padding: "0 16px 14px" }}>
+          <SourcesPanel sources={unit.sources} pc={pc} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Page component
+// ─────────────────────────────────────────────────────────────────────────────
 export default function UnifiedCollocationsPage() {
   const [user, setUser]       = useState(null);
   const [role, setRole]       = useState(null);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(
-    Object.fromEntries(bookData.sections.map((_, i) => [i, i === 0]))
+    Object.fromEntries(guidemap.map((_, i) => [i, true]))
   );
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     setPersistence(auth, browserLocalPersistence).then(() => {
@@ -774,9 +994,17 @@ export default function UnifiedCollocationsPage() {
     });
   }, []);
 
-  const toggleSec   = (i) => setExpanded((p) => ({ ...p, [i]: !p[i] }));
-  const expandAll   = () => setExpanded(Object.fromEntries(bookData.sections.map((_, i) => [i, true])));
-  const collapseAll = () => setExpanded(Object.fromEntries(bookData.sections.map((_, i) => [i, false])));
+  const togglePart = (i) => setExpanded((p) => ({ ...p, [i]: !p[i] }));
+
+  const filtered = search.trim().length > 1
+    ? guidemap.map((part) => ({
+        ...part,
+        units: part.units.filter((u) =>
+          u.title.toLowerCase().includes(search.toLowerCase()) ||
+          u.focus.some((f) => f.toLowerCase().includes(search.toLowerCase()))
+        ),
+      })).filter((p) => p.units.length > 0)
+    : guidemap;
 
   if (loading) return (
     <div style={{ fontFamily: "'Manrope', sans-serif", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#f9fafb" }}>
@@ -803,7 +1031,7 @@ export default function UnifiedCollocationsPage() {
             <span style={{ color: "#d1d5db" }}>›</span>
             <Link href="/english/collocations" style={{ color: "#6b7280", textDecoration: "none", fontWeight: 500 }}>Collocations</Link>
             <span style={{ color: "#d1d5db" }}>›</span>
-            <span style={{ color: "#064e3b", fontWeight: 700 }}>Unified Book</span>
+            <span style={{ color: "#064e3b", fontWeight: 700 }}>Unified Guide</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <Link href="/dashboard" style={{ fontSize: "13px", color: "#6b7280", textDecoration: "none" }}>Dashboard</Link>
@@ -816,98 +1044,109 @@ export default function UnifiedCollocationsPage() {
 
       <div style={{ maxWidth: "860px", margin: "0 auto", padding: "96px 24px 80px" }}>
 
-        {/* BOOK HEADER */}
-        <div style={{ display: "grid", gridTemplateColumns: "140px 1fr", gap: "28px", alignItems: "start", marginBottom: "32px" }}>
-          <div style={{ width: "140px", aspectRatio: "3/4", backgroundColor: "#e5e7eb", borderRadius: "10px", overflow: "hidden", border: "2px solid #bbf7d0", flexShrink: 0 }}>
-            <img src={bookData.cover} alt={bookData.title} style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              onError={(e) => { e.target.style.display = "none"; e.target.nextSibling.style.display = "flex"; }} />
-            <div style={{ display: "none", width: "100%", height: "100%", alignItems: "center", justifyContent: "center", flexDirection: "column", gap: "6px", backgroundColor: "#f3f4f6" }}>
-              <span style={{ fontSize: "32px" }}>📚</span>
-              <span style={{ fontSize: "10px", color: "#9ca3af", textAlign: "center", padding: "0 8px", lineHeight: 1.4 }}>Cover coming soon</span>
-            </div>
+        {/* PAGE HEADER */}
+        <div style={{ marginBottom: "36px" }}>
+          <div style={{ display: "flex", gap: "8px", marginBottom: "12px", flexWrap: "wrap" }}>
+            <span style={{ fontSize: "11px", fontWeight: 700, backgroundColor: "#dbeafe", color: "#1e40af", padding: "3px 10px", borderRadius: "999px" }}>📘 Intermediate</span>
+            <span style={{ fontSize: "11px", fontWeight: 700, backgroundColor: "#fce7f3", color: "#9d174d", padding: "3px 10px", borderRadius: "999px" }}>📗 Advanced</span>
+            <span style={{ fontSize: "11px", fontWeight: 700, backgroundColor: "#d1fae5", color: "#065f46", padding: "3px 10px", borderRadius: "999px" }}>UNIFIED</span>
+          </div>
+          <h1 style={{ fontSize: "28px", fontWeight: 800, color: "#064e3b", letterSpacing: "-0.5px", lineHeight: 1.2, marginBottom: "8px" }}>
+            English Collocations in Use
+          </h1>
+          <p style={{ fontSize: "14px", color: "#6b7280", marginBottom: "20px", fontWeight: 500 }}>
+            Master GuideMap — combining both Intermediate and Advanced books into one unified curriculum
+          </p>
+
+          {/* Stats row */}
+          <div style={{ display: "flex", gap: "24px", marginBottom: "24px" }}>
+            {[
+              { val: totalParts,  label: "Parts" },
+              { val: totalUnits,  label: "Unified topics" },
+              { val: "60+60",     label: "Source units" },
+            ].map(({ val, label }) => (
+              <div key={label}>
+                <p style={{ fontSize: "22px", fontWeight: 800, color: "#064e3b", lineHeight: 1 }}>{val}</p>
+                <p style={{ fontSize: "11px", color: "#9ca3af", marginTop: "2px" }}>{label}</p>
+              </div>
+            ))}
           </div>
 
-          <div>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", color: "#036c48", fontSize: "11px", fontWeight: 700, padding: "4px 12px", borderRadius: "999px", marginBottom: "10px" }}>
-              ✓ Master Guide Map
-            </div>
-            <h1 style={{ fontSize: "26px", fontWeight: 800, color: "#064e3b", letterSpacing: "-0.4px", lineHeight: 1.2, marginBottom: "6px" }}>{bookData.title}</h1>
-            <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "16px", fontWeight: 500 }}>
-              Integrates Intermediate · Advanced
-            </p>
-
-            {/* Level legend */}
-            <div style={{ display: "flex", gap: "10px", marginBottom: "20px", flexWrap: "wrap" }}>
-              {[
-                { key: "Int", label: "Intermediate" },
-                { key: "Adv", label: "Advanced" },
-              ].map(({ key, label }) => {
-                const lc = levelColors[key];
-                return (
-                  <div key={key} style={{ display: "flex", alignItems: "center", gap: "6px", backgroundColor: lc.bg, padding: "4px 10px", borderRadius: "999px" }}>
-                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: lc.dot }} />
-                    <span style={{ fontSize: "11px", fontWeight: 700, color: lc.text }}>{label}</span>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div style={{ display: "flex", gap: "24px" }}>
-              {[
-                { val: bookData.sections.length, label: "Parts" },
-                { val: totalUnits,               label: "Thematic Units" },
-                { val: "120",                    label: "Source Units" },
-              ].map(({ val, label }) => (
-                <div key={label}>
-                  <p style={{ fontSize: "22px", fontWeight: 800, color: "#064e3b", lineHeight: 1 }}>{val}</p>
-                  <p style={{ fontSize: "11px", color: "#9ca3af", marginTop: "2px" }}>{label}</p>
-                </div>
-              ))}
-            </div>
+          {/* Search */}
+          <div style={{ position: "relative" }}>
+            <span style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", fontSize: "14px", color: "#9ca3af" }}>🔍</span>
+            <input
+              type="text"
+              placeholder="Search topics, e.g. 'IELTS', 'metaphor', 'business'..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              style={{
+                width: "100%", boxSizing: "border-box",
+                padding: "10px 14px 10px 36px",
+                fontSize: "13px", color: "#111827",
+                border: "1px solid #d1d5db", borderRadius: "8px",
+                backgroundColor: "#ffffff", outline: "none",
+                fontFamily: "'Manrope', sans-serif",
+              }}
+            />
           </div>
         </div>
 
-        {/* EXPAND / COLLAPSE ALL */}
-        <div style={{ display: "flex", justifyContent: "flex-end", gap: "8px", marginBottom: "16px" }}>
-          <button onClick={expandAll}   style={{ fontSize: "12px", fontWeight: 600, color: "#059669", backgroundColor: "#f0fdf4", border: "1px solid #bbf7d0", padding: "5px 14px", borderRadius: "6px", cursor: "pointer" }}>Expand all</button>
-          <button onClick={collapseAll} style={{ fontSize: "12px", fontWeight: 600, color: "#6b7280", backgroundColor: "#f9fafb", border: "1px solid #e5e7eb", padding: "5px 14px", borderRadius: "6px", cursor: "pointer" }}>Collapse all</button>
-        </div>
+        {/* PARTS */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          {filtered.map((part, pi) => {
+            const pc     = part.partColor;
+            const isOpen = expanded[pi] !== false;
 
-        {/* SECTIONS */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-          {bookData.sections.map((section, si) => {
-            const sc     = section.color;
-            const isOpen = expanded[si];
             return (
-              <div key={si} style={{ backgroundColor: "#ffffff", border: `1px solid ${isOpen ? sc.border : "#e5e7eb"}`, borderRadius: "12px", overflow: "hidden", transition: "border-color 0.2s" }}>
-                {/* Section header */}
+              <div key={pi} style={{ border: `1px solid ${isOpen ? pc.border : "#e5e7eb"}`, borderRadius: "12px", overflow: "hidden", backgroundColor: "#ffffff", transition: "border-color 0.2s" }}>
+
+                {/* Part header */}
                 <button
-                  onClick={() => toggleSec(si)}
-                  style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", backgroundColor: isOpen ? sc.bg : "#ffffff", border: "none", cursor: "pointer", transition: "background-color 0.2s", textAlign: "left" }}
+                  onClick={() => togglePart(pi)}
+                  style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px", backgroundColor: isOpen ? pc.bg : "#ffffff", border: "none", cursor: "pointer", transition: "background-color 0.2s", textAlign: "left" }}
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <span style={{ fontSize: "20px" }}>{section.icon}</span>
+                    <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: pc.badge, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <span style={{ fontSize: "11px", fontWeight: 800, color: pc.text }}>{`P${pi + 1}`}</span>
+                    </div>
                     <div>
-                      <p style={{ fontSize: "14px", fontWeight: 700, color: sc.text, margin: 0 }}>{section.title}</p>
-                      <p style={{ fontSize: "11px", color: "#9ca3af", margin: "2px 0 0", fontWeight: 500 }}>
-                        {section.units.length} thematic units — click a unit to see sources & focus
-                      </p>
+                      <p style={{ fontSize: "14px", fontWeight: 700, color: pc.text, margin: 0 }}>{part.part}</p>
+                      <p style={{ fontSize: "11px", color: "#9ca3af", margin: "2px 0 0" }}>{part.units.length} topics</p>
                     </div>
                   </div>
                   <span style={{ fontSize: "18px", color: "#9ca3af", transform: isOpen ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 0.2s", display: "inline-block" }}>›</span>
                 </button>
 
-                {/* Unit cards */}
+                {/* Units grid */}
                 {isOpen && (
-                  <div style={{ borderTop: `1px solid ${sc.border}` }}>
-                    {section.units.map((unit) => (
-                      <UnitCard key={unit.id} unit={unit} sc={sc} />
+                  <div style={{ borderTop: `1px solid ${pc.border}`, padding: "16px", display: "flex", flexDirection: "column", gap: "10px", backgroundColor: pc.bg + "44" }}>
+                    {part.units.map((unit, ui) => (
+                      <UnitCard key={unit.id} unit={unit} pc={pc} globalIndex={ui} />
                     ))}
                   </div>
                 )}
               </div>
             );
           })}
+        </div>
+
+        {/* Legend */}
+        <div style={{ marginTop: "40px", padding: "16px 20px", backgroundColor: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: "10px" }}>
+          <p style={{ fontSize: "12px", fontWeight: 700, color: "#374151", marginBottom: "10px" }}>How to use this guide</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            {[
+              ["Click the unit title", "Opens the unified lesson page for that topic"],
+              ["Click 📚 button", "Shows/hides source units from each book"],
+              ["Click a source unit", "Goes directly to that unit in the Intermediate or Advanced book"],
+              ["📘 Int ×N / 📗 Adv ×N", "Shows how many units from each book cover this topic"],
+            ].map(([label, desc]) => (
+              <div key={label} style={{ display: "flex", gap: "8px", alignItems: "flex-start" }}>
+                <span style={{ fontSize: "11px", fontWeight: 700, color: "#064e3b", minWidth: "170px", flexShrink: 0 }}>{label}</span>
+                <span style={{ fontSize: "11px", color: "#6b7280" }}>{desc}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
