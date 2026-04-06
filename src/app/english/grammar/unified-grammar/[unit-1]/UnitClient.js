@@ -115,6 +115,9 @@ const unitRegistry = {
 // ─────────────────────────────────────────────
 // CONTENT — paste converted JSX here per unit
 // ─────────────────────────────────────────────
+
+<div style={{ backgroundColor: "#ffffff", borderRadius: "14px", border: "1px solid #e5e7eb", padding: "40px 48px", minHeight: "400px" }}>
+<p style={{ fontSize: "13px", color: "red", marginBottom: "16px" }}>DEBUG unitId: "{unitId}"</p>
 function TopicContent({ unitId }) {
   if (unitId === "unit-1") {
     return (
