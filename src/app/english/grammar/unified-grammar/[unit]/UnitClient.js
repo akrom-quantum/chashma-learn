@@ -281,7 +281,7 @@ export default function UnitClient({ subject, book, unitId }) {
 
         {/* Content */}
         <div style={{ backgroundColor: "#ffffff", borderRadius: "14px", border: "1px solid #e5e7eb", padding: "40px 48px", minHeight: "400px" }}>
-        <p style={{ fontSize: "13px", color: "red", marginBottom: "16px" }}>DEBUG unitId: "{unitId}"</p>
+        
           {activeTab === "topic"    && <TopicContent    unitId={unitId} />}
           {activeTab === "practice" && <PracticeContent unitId={unitId} />}
         </div>
