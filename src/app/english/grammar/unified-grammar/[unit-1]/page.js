@@ -1,11 +1,13 @@
 import UnitClient from "./UnitClient";
 
-export default function UnitPage({ params }) {
+export default async function UnitPage({ params }) {
+  const { subject, book, unit } = await params;
+
   return (
     <UnitClient
-      subject={params.subject}
-      book={params.book}
-      unitId={params.unit}
+      subject={subject}
+      book={book}
+      unitId={unit}
     />
   );
 }
