@@ -1,7 +1,22 @@
 "use client";
-import { auth, db } from "@/lib/firebase";
-import { onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { initializeApp, getApps } from "firebase/app";
+import { getAuth, onAuthStateChanged, signOut, browserLocalPersistence, setPersistence } from "firebase/auth";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import Link from "next/link";
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyBD65CTP7Tx84l-qL-KT9pj3uMUOsLOCI4",
+  authDomain:        "chashma-learn.firebaseapp.com",
+  projectId:         "chashma-learn",
+  storageBucket:     "chashma-learn.firebasestorage.app",
+  messagingSenderId: "1059701555295",
+  appId:             "1:1059701955295:web:104a64e41d60252a28dbea",
+};
+
+const app  = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const auth = getAuth(app);
+const db   = getFirestore(app, "chashma-learn");
 
 const modes = [
   {
