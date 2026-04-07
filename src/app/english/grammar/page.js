@@ -1,22 +1,6 @@
-"use client";
-import { useEffect, useState } from "react";
-import { initializeApp, getApps } from "firebase/app";
-import { getAuth, onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
-import Link from "next/link";
-
-const firebaseConfig = {
-  apiKey:            "AIzaSyBD65CTP7Tx84l-qL-KT9pj3uMUOsLOCI4",
-  authDomain:        "chashma-learn.firebaseapp.com",
-  projectId:         "chashma-learn",
-  storageBucket:     "chashma-learn.firebasestorage.app",
-  messagingSenderId: "1059701555295",
-  appId:             "1:1059701555295:web:104a64e41d60252a28dbea",
-};
-
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-const auth = getAuth(app);
-const db   = getFirestore(app, "chashma-learn");
+import { auth, db } from "@/lib/firebase";
+import { onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 const tabs = [
   { icon: "menu_book",            label: "Oxford Word Skills", href: "/english/oxford",        free: true  },
