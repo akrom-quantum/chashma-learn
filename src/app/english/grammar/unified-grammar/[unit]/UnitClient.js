@@ -1,7 +1,9 @@
-"uses client"
+"use client";
+import { useEffect, useState } from "react";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import Link from "next/link";
 
 // ─────────────────────────────────────────────
 // STYLE COMPONENTS
