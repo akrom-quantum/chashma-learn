@@ -1,7 +1,9 @@
 "use client";
+import { useState, useEffect } from "react";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import Link from "next/link";
 
 const ROLES = ["viewer", "learner", "admin", "owner"];
 
