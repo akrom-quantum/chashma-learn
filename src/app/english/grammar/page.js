@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-// rest of file unchanged...
+import { auth, db } from "@/lib/firebase";
+import { onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 
 const tabs = [
