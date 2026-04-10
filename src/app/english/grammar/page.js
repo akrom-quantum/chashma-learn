@@ -1,7 +1,8 @@
-"uses client"
-import { auth, db } from "@/lib/firebase";
-import { onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+"use client";
+
+import Link from "next/link";
+// rest of file unchanged...
+
 
 const tabs = [
   { icon: "menu_book",            label: "Oxford Word Skills", href: "/english/oxford",        free: true  },
