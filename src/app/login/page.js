@@ -5,6 +5,8 @@ import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
+export const dynamic = "force-dynamic";
+
 export default function LoginPage() {
   const [email, setEmail]     = useState("");
   const [password, setPassword] = useState("");
