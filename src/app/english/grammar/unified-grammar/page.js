@@ -10,7 +10,7 @@ const BOOK_DATA = {
   description: "A complete grammar reference from beginner to advanced.",
   units: [
     { id: "unit-1", title: "The Present Perfect Tense",       level: "B1", time: "12 mins" },
-    { id: "unit-2", title: "Present Perfect Continuous",       level: "B1", time: "10 mins", comingSoon: true },
+    { id: "unit-2", title: "There Is / There Are", level: "B1-B2", time: "40 mins" },
     { id: "unit-3", title: "Past Perfect & Narrative Tenses",  level: "B2", time: "14 mins", comingSoon: true },
   ],
 };
