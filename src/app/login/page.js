@@ -1,16 +1,19 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/AuthContext";
 
-export const dynamic = "force-dynamic";  // ← ADD THIS
-const { signInWithGoogle, signInWithEmail } = useAuth();
-  const router = useRouter();
+export const dynamic = "force-dynamic";
 
-  useEffect(() => {
-    // redirect if already logged in
-  }, []);
+export default function LoginPage() {
+  const { signInWithGoogle, signInWithEmail } = useAuth();
+  const router = useRouter();
+  const [email, setEmail]       = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError]       = useState("");
+  const [loading, setLoading]   = useState(false);
+  const [showPass, setShowPass] = useState(false);
 
   const handleGoogle = async () => {
     try {
@@ -37,47 +40,28 @@ const { signInWithGoogle, signInWithEmail } = useAuth();
     }
   };
 
-  const handleEmail = async (e) => {
-    e.preventDefault();
-    try {
-      setLoading(true);
-      setError("");
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (err) {
-      setError("Invalid email or password. Please try again.");
-      setLoading(false);
-    }
-  };
-
   return (
     <div style={{ fontFamily: "'Manrope', sans-serif", minHeight: "100vh", display: "grid", gridTemplateColumns: "1fr 1fr" }}>
 
       {/* LEFT — Brand panel */}
       <div style={{ backgroundColor: "#064e3b", padding: "60px", display: "flex", flexDirection: "column", justifyContent: "space-between", position: "relative", overflow: "hidden" }}>
-
-        {/* Background pattern */}
         <div style={{ position: "absolute", inset: 0, opacity: 0.04 }}>
           {[...Array(6)].map((_, i) => (
             <div key={i} style={{ position: "absolute", border: "1px solid #ffffff", borderRadius: "50%", width: `${(i + 1) * 120}px`, height: `${(i + 1) * 120}px`, top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} />
           ))}
         </div>
-
-        {/* Logo */}
         <div style={{ position: "relative", zIndex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "48px" }}>
             <img src="/logo.png" alt="Chashma Learn" style={{ width: "36px", height: "36px", borderRadius: "6px", objectFit: "contain" }} />
             <span style={{ fontSize: "18px", fontWeight: 800, color: "#ffffff", letterSpacing: "-0.5px" }}>Chashma Learn</span>
           </div>
-
           <h1 style={{ fontSize: "40px", fontWeight: 800, color: "#ffffff", letterSpacing: "-1.5px", lineHeight: 1.1, marginBottom: "16px" }}>
             Your path to<br />English mastery
           </h1>
-          <p style={{ fontSize: "12px", color: "#6ee7b7", lineHeight: 1.7, maxWidth: "340px", fontWeight: 400, fontStyle: "italic"}}>
+          <p style={{ fontSize: "12px", color: "#6ee7b7", lineHeight: 1.7, maxWidth: "340px", fontWeight: 400, fontStyle: "italic" }}>
             From your first lesson to your dream score — Chashma Learn gives you the structure, the practice, and the guidance to get there.
           </p>
         </div>
-
-        {/* Stats */}
         <div style={{ position: "relative", zIndex: 1 }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", marginBottom: "40px" }}>
             {[
@@ -100,17 +84,13 @@ const { signInWithGoogle, signInWithEmail } = useAuth();
       {/* RIGHT — Form panel */}
       <div style={{ backgroundColor: "#ffffff", padding: "60px", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div style={{ width: "100%", maxWidth: "380px" }}>
-
           <div style={{ marginBottom: "40px" }}>
             <h2 style={{ fontSize: "30px", fontWeight: 800, color: "#111827", letterSpacing: "-1px", marginBottom: "8px" }}>
               Welcome back
             </h2>
-            <p style={{ fontSize: "15px", color: "#9ca3af" }}>
-              Sign in to continue learning.
-            </p>
+            <p style={{ fontSize: "15px", color: "#9ca3af" }}>Sign in to continue learning.</p>
           </div>
 
-          {/* Error */}
           {error && (
             <div style={{ backgroundColor: "#fef2f2", border: "1px solid #fecaca", borderRadius: "8px", padding: "12px 16px", marginBottom: "20px", display: "flex", alignItems: "center", gap: "10px" }}>
               <span style={{ fontSize: "16px" }}>⚠️</span>
@@ -118,11 +98,10 @@ const { signInWithGoogle, signInWithEmail } = useAuth();
             </div>
           )}
 
-          {/* Google */}
           <button
             onClick={handleGoogle}
             disabled={loading}
-            style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "12px", padding: "13px 16px", borderRadius: "10px", border: "1px solid #e5e7eb", backgroundColor: loading ? "#f9fafb" : "#ffffff", fontSize: "14px", fontWeight: 600, color: "#111827", cursor: loading ? "not-allowed" : "pointer", marginBottom: "20px", transition: "background 0.15s" }}
+            style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "12px", padding: "13px 16px", borderRadius: "10px", border: "1px solid #e5e7eb", backgroundColor: loading ? "#f9fafb" : "#ffffff", fontSize: "14px", fontWeight: 600, color: "#111827", cursor: loading ? "not-allowed" : "pointer", marginBottom: "20px" }}
           >
             <svg width="18" height="18" viewBox="0 0 24 24">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -133,14 +112,12 @@ const { signInWithGoogle, signInWithEmail } = useAuth();
             {loading ? "Signing in..." : "Continue with Google"}
           </button>
 
-          {/* Divider */}
           <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
             <div style={{ flex: 1, height: "1px", backgroundColor: "#f3f4f6" }} />
             <span style={{ fontSize: "12px", color: "#d1d5db", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.5px" }}>or</span>
             <div style={{ flex: 1, height: "1px", backgroundColor: "#f3f4f6" }} />
           </div>
 
-          {/* Form */}
           <form onSubmit={handleEmail} style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "24px" }}>
             <div>
               <label style={{ display: "block", fontSize: "12px", fontWeight: 700, color: "#374151", marginBottom: "8px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
@@ -185,14 +162,14 @@ const { signInWithGoogle, signInWithEmail } = useAuth();
             <button
               type="submit"
               disabled={loading}
-              style={{ width: "100%", padding: "13px", borderRadius: "10px", backgroundColor: loading ? "#9ca3af" : "#036c48", color: "#ffffff", fontSize: "15px", fontWeight: 700, border: "none", cursor: loading ? "not-allowed" : "pointer", fontFamily: "'Manrope', sans-serif", letterSpacing: "-0.2px" }}
+              style={{ width: "100%", padding: "13px", borderRadius: "10px", backgroundColor: loading ? "#9ca3af" : "#036c48", color: "#ffffff", fontSize: "15px", fontWeight: 700, border: "none", cursor: loading ? "not-allowed" : "pointer", fontFamily: "'Manrope', sans-serif" }}
             >
               {loading ? "Signing in..." : "Sign In"}
             </button>
           </form>
 
           <p style={{ textAlign: "center", fontSize: "14px", color: "#9ca3af" }}>
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href="/register" style={{ color: "#036c48", fontWeight: 700, textDecoration: "none" }}>
               Create account
             </Link>
@@ -203,7 +180,6 @@ const { signInWithGoogle, signInWithEmail } = useAuth();
               ← Back to homepage
             </Link>
           </div>
-
         </div>
       </div>
     </div>
