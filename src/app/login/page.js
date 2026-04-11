@@ -1,12 +1,4 @@
 "use client";
-
-import { 
-  signInWithPopup, 
-  signInWithEmailAndPassword, 
-  GoogleAuthProvider,
-  setPersistence,
-  browserLocalPersistence 
-} from "firebase/auth";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
