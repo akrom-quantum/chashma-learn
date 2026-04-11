@@ -9,9 +9,9 @@ const BOOK_DATA = {
   title: "Unified Grammar",
   description: "A complete grammar reference from beginner to advanced.",
   units: [
-    { id: "unit-1", title: "The Present Perfect Tense",       level: "B1", time: "12 mins" },
-    { id: "unit-2", title: "There Is / There Are", level: "B1-B2", time: "40 mins" },
-    { id: "unit-3", title: "Past Perfect & Narrative Tenses",  level: "B2", time: "14 mins", comingSoon: true },
+    { id: "unit-1", title: "Be: Forms, Functions & Mastery",       level: "B1", time: "12 mins" },
+    { id: "unit-2", title: "There Is / There Are", level: "B1-B2", time: "30 mins" },
+    { id: "unit-3", title: "have: Main Verb and Auxiliary",  level: "B2", time: "30 mins", comingSoon: true },
   ],
 };
 
