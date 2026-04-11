@@ -13,30 +13,34 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/AuthContext";
 
 export const dynamic = "force-dynamic";  // ← ADD THIS
-
-export default function LoginPage() {
-  const [email, setEmail]     = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError]     = useState("");
-  const [loading, setLoading] = useState(false);
-  const [showPass, setShowPass] = useState(false);
+const { signInWithGoogle, signInWithEmail } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    setPersistence(auth, browserLocalPersistence);
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) window.location.href = "/dashboard";
-    });
-    return () => unsubscribe();
+    // redirect if already logged in
   }, []);
 
   const handleGoogle = async () => {
     try {
       setLoading(true);
       setError("");
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      await signInWithGoogle();
+      router.push("/dashboard");
     } catch (err) {
-      setError(err.message);
+      setError("Google sign-in failed. Please try again.");
+      setLoading(false);
+    }
+  };
+
+  const handleEmail = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      setError("");
+      await signInWithEmail(email, password);
+      router.push("/dashboard");
+    } catch (err) {
+      setError("Invalid email or password. Please try again.");
       setLoading(false);
     }
   };
