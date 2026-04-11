@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
