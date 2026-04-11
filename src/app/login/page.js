@@ -1,11 +1,10 @@
 "use client";
+import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/AuthContext";
 
-import { useState, useEffect } from "react";
-import { auth, db } from "@/lib/firebase";
-import { onAuthStateChanged, browserLocalPersistence, setPersistence } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";  // ← ADD THIS
 
 export default function LoginPage() {
   const [email, setEmail]     = useState("");
