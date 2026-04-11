@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 // Unit list per book — add entries here as content grows
 const BOOK_DATA = {
   "unified-grammar": {
