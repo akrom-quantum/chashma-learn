@@ -2,16 +2,17 @@
 // Single source of truth for every piece of content on the platform.
 // Every page component imports from here; never from individual subject files directly.
 
-import * as products from "./products";
+import * as products from "./products.js";
 
 // ---------- Subject manifests ----------
 // As subjects get built, register them here. Keeping imports at the top prevents
 // circular dependencies and makes the registry visible at a glance.
 
-import grammarSubject from "./english/grammar/subject";
-import unifiedGrammar from "./english/grammar/books/unified-grammar/index";
-import owsSubject from "./english/oxford-word-skills/subject";
-import unifiedWordSkills from "./english/oxford-word-skills/books/unified-word-skills/index";
+import grammarSubject from "./english/grammar/subject.js";
+import unifiedGrammar from "./english/grammar/books/unified-grammar/index.js";
+
+import owsSubject from "./english/oxford-word-skills/subject.js";
+import unifiedWordSkills from "./english/oxford-word-skills/books/unified-word-skills/index.js";
 
 // ---------- Registry ----------
 const SUBJECTS = {

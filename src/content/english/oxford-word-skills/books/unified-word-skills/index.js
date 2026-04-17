@@ -1,5 +1,5 @@
 // src/content/english/oxford-word-skills/books/unified-word-skills/index.js
-import Unit1 from "../../../../oxford-word-skills/unified-word-skills/unit-1";
+import Unit1 from "../../../../oxford-word-skills/unified-word-skills/unit-1.jsx";
 
 const BOOK = {
   id: "unified-word-skills",

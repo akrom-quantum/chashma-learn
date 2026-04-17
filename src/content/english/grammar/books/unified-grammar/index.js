@@ -2,8 +2,8 @@
 // Wraps the existing content at src/content/grammar/unified-grammar/
 // so the new universal registry can access it without moving files.
 
-import Unit1 from "../../../../grammar/unified-grammar/unit-1";
-import Unit2 from "../../../../grammar/unified-grammar/unit-2";
+import Unit1 from "../../../../grammar/unified-grammar/unit-1.jsx";
+import Unit2 from "../../../../grammar/unified-grammar/unit-2.jsx";
 
 const BOOK = {
   id: "unified-grammar",
