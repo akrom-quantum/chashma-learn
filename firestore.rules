@@ -1,0 +1,99 @@
+// firestore.rules
+// Chashma Learn security rules — patched to match existing admin + student code.
+// Deploy with:
+//   firebase deploy --only firestore:rules
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- Helpers ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+    // Null-safe role lookup: returns null if the user doc doesn't exist yet
+    // (e.g., Google sign-in before the user doc has been created).
+    function userRole() {
+      return isSignedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        ? get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role
+        : null;
+    }
+    function isAdmin() {
+      return userRole() in ['admin', 'owner'];
+    }
+
+    // --- Users ---
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid);
+      allow update: if isOwner(uid) || isAdmin();
+      allow delete: if userRole() == 'owner';
+    }
+
+    // --- Groups (top-level doc + ALL subcollections) ---
+    // Admin panel writes to groups/{groupId}/attendance, .../assignments, .../scores.
+    // Students read these to see their assignments and attendance.
+    match /groups/{groupId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+
+      // Subcollections (attendance, assignments, scores, etc.) — all nested docs
+      match /{subcoll}/{docId} {
+        allow read: if isSignedIn();
+        allow write: if isAdmin();
+      }
+    }
+
+    // --- Assignments (top-level — used by Phase 0's admin assignments page) ---
+    match /assignments/{assignmentId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // --- Progress (per-user, per-book-unit) ---
+    // Written by CompletionBar when a student marks a unit as read/done.
+    match /progress/{uid}/{bookId}/{unitId} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow write: if isOwner(uid);
+    }
+
+    // --- Attempts (test-taking record) ---
+    match /attempts/{attemptId} {
+      allow read: if isSignedIn() &&
+        (resource.data.uid == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() &&
+        request.resource.data.uid == request.auth.uid;
+      allow update: if false;  // immutable once written
+      allow delete: if isAdmin();
+
+      match /answers/{questionId} {
+        allow read: if isSignedIn() &&
+          (get(/databases/$(database)/documents/attempts/$(attemptId)).data.uid == request.auth.uid || isAdmin());
+        allow create: if isSignedIn() &&
+          get(/databases/$(database)/documents/attempts/$(attemptId)).data.uid == request.auth.uid;
+        allow update, delete: if false;
+      }
+    }
+
+    // --- Bookmarks (per-user) ---
+    match /bookmarks/{uid}/items/{bookmarkId} {
+      allow read, write: if isOwner(uid);
+    }
+
+    // --- Drill sessions ---
+    match /drillSessions/{sessionId} {
+      allow read: if isSignedIn() &&
+        (resource.data.uid == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() &&
+        request.resource.data.uid == request.auth.uid;
+      allow update: if isSignedIn() &&
+        resource.data.uid == request.auth.uid &&
+        request.resource.data.questionIds == resource.data.questionIds;
+      allow delete: if isAdmin();
+    }
+  }
+}
