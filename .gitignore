@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Firebase agent skills (locally cached, regenerated on demand)
+.agents/
+skills-lock.json
