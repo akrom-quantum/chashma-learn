@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import Callout from "@/components/unit/Callout";
-import Table from "@/components/unit/Table";
-import { H2, H3, P, Bold, Em } from "@/components/unit/Typography";
+import Callout from "@/components/callouts/Callout";
+import Table from "@/components/content/Table";
+import { H2, H3, P, Bold, Em } from "@/components/content/Typography";
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
