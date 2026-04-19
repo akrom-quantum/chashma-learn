@@ -60,20 +60,39 @@ export const GuideMetaSchema = z.object({
 // ---------- Practice-Test (Shape 4) ----------
 const QuestionTypeSchema = z.enum([
   // IELTS Reading
-  "multiple-choice", "true-false-notgiven", "yes-no-notgiven",
-  "matching-information", "matching-headings", "matching-features",
-  "matching-sentence-endings", "sentence-completion", "summary-completion",
-  "note-completion", "table-completion", "flowchart-completion",
-  "diagram-label-completion", "short-answer",
+  "multiple-choice", 
+  "true-false-notgiven", 
+  "yes-no-notgiven",
+  "matching-information", 
+  "matching-headings", 
+  "matching-features",
+  "matching-sentence-endings", 
+  "sentence-completion", 
+  "summary-completion",
+  "note-completion", 
+  "table-completion", 
+  "flowchart-completion",
+  "diagram-label-completion", 
+  "short-answer",
   // IELTS Listening
-  "map-labeling", "form-completion", "plan-labeling",
+  "map-labeling", 
+  "form-completion", 
+  "plan-labeling",
   // SAT Reading & Writing
-  "words-in-context", "command-of-evidence-textual", "command-of-evidence-quantitative",
-  "central-ideas-details", "inferences", "text-structure-purpose",
-  "cross-text-connections", "transitions", "rhetorical-synthesis",
-  "boundaries", "form-structure-sense",
+  "words-in-context", 
+  "command-of-evidence-textual", 
+  "command-of-evidence-quantitative",
+  "central-ideas-details", 
+  "inferences", 
+  "text-structure-purpose",
+  "cross-text-connections", 
+  "transitions", 
+  "rhetorical-synthesis",
+  "boundaries", 
+  "form-structure-sense",
   // SAT Math
-  "math-grid-in", "math-multiple-choice",
+  "math-grid-in", 
+  "math-multiple-choice",
 ]);
 
 export const QuestionSchema = z.object({
