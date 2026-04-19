@@ -1,28 +1,39 @@
 // src/app/[product]/[subject]/guides/[guide]/page.js
-// Guide-Page (Shape 3) — scaffold.
+// Guide-Page (Shape 3). Server component resolves content, delegates to GuideClient.
 
-import Link from "next/link";
-import { getGuide } from "@/content/registry";
+import { notFound } from "next/navigation";
+import {
+  getGuide,
+  getSubject,
+  getProduct,
+} from "@/content/registry";
+import GuideClient from "./GuideClient";
 
 export const dynamic = "force-dynamic";
 
-export default async function GuideDetail({ params }) {
+export default async function GuidePage({ params }) {
   const { product, subject, guide } = await params;
+
+  const p = getProduct(product);
+  const s = getSubject(product, subject);
   const g = getGuide(product, subject, guide);
 
-  if (!g) {
-    return (
-      <main style={{ maxWidth: 900, margin: "0 auto", padding: "48px 24px", fontFamily: "Manrope, sans-serif" }}>
-        <nav style={{ fontSize: 14, color: "#6b7280", marginBottom: 12 }}>
-          <Link href={`/${product}/${subject}/guides`} style={{ color: "#036c48", textDecoration: "none" }}>← Guides</Link>
-        </nav>
-        <h1 style={{ fontSize: 28, fontWeight: 700 }}>Guide not yet authored</h1>
-        <p style={{ color: "#6b7280" }}>
-          <code>{product}/{subject}/guides/{guide}</code> is not registered.
-        </p>
-      </main>
-    );
-  }
+  if (!p || !s || !g) notFound();
 
-  return <div>Guide: {g.meta?.title}</div>;
+  const breadcrumb = [
+    { label: p.title, href: `/${product}` },
+    { label: s.title, href: `/${product}/${subject}` },
+    { label: "Guides", href: `/${product}/${subject}/guides` },
+    { label: g.meta?.title || guide },
+  ];
+
+  return (
+    <GuideClient
+      product={product}
+      subject={subject}
+      guideId={guide}
+      meta={g.meta}
+      breadcrumb={breadcrumb}
+    />
+  );
 }
