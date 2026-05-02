@@ -43,3 +43,9 @@ next-env.d.ts
 # Firebase agent skills (locally cached, regenerated on demand)
 .agents/
 skills-lock.json
+
+# Velite generated output
+src/velite/
+
+# Claude Code artifacts
+claude

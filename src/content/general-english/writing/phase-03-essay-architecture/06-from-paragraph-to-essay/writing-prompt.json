@@ -1,0 +1,13 @@
+{
+  "unitSlug": "from-paragraph-to-essay",
+  "prompt": "Write a B2-level academic text related to the topic of From Paragraph To Essay. Aim for 150–200 words.",
+  "wordCountMin": 150,
+  "wordCountMax": 200,
+  "timeLimit": 45,
+  "criteria": [
+    "Clear structure",
+    "Appropriate vocabulary",
+    "Correct grammar",
+    "Coherent argument"
+  ]
+}

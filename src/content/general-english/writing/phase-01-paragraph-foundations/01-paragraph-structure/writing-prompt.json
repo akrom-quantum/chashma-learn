@@ -1,0 +1,13 @@
+{
+  "unitSlug": "paragraph-structure",
+  "prompt": "Write a B1-level academic text related to the topic of Paragraph Structure. Aim for 150–200 words.",
+  "wordCountMin": 150,
+  "wordCountMax": 200,
+  "timeLimit": 40,
+  "criteria": [
+    "Clear structure",
+    "Appropriate vocabulary",
+    "Correct grammar",
+    "Coherent argument"
+  ]
+}

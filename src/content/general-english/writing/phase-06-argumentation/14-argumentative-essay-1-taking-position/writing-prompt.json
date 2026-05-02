@@ -1,0 +1,13 @@
+{
+  "unitSlug": "argumentative-essay-1-taking-position",
+  "prompt": "Write a B2-C1-level academic text related to the topic of Argumentative Essay 1 Taking Position. Aim for 150–200 words.",
+  "wordCountMin": 150,
+  "wordCountMax": 200,
+  "timeLimit": 55,
+  "criteria": [
+    "Clear structure",
+    "Appropriate vocabulary",
+    "Correct grammar",
+    "Coherent argument"
+  ]
+}

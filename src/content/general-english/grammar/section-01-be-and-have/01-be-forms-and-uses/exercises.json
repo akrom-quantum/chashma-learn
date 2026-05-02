@@ -1,0 +1,92 @@
+{
+  "unitSlug": "be-forms-and-uses",
+  "exercises": [
+    {
+      "id": "be-01",
+      "type": "fill-in-blank",
+      "instruction": "Complete with the correct form of BE (present simple).",
+      "sentence": "She ___ a doctor at the city hospital.",
+      "answer": "is",
+      "hint": "She = third person singular",
+      "explanation": "Use 'is' with he/she/it in present simple."
+    },
+    {
+      "id": "be-02",
+      "type": "fill-in-blank",
+      "instruction": "Complete with the correct form of BE (present simple).",
+      "sentence": "We ___ very happy about the results.",
+      "answer": "are",
+      "hint": "We = first person plural",
+      "explanation": "Use 'are' with you/we/they in present simple."
+    },
+    {
+      "id": "be-03",
+      "type": "fill-in-blank",
+      "instruction": "Complete with the correct form of BE (past simple).",
+      "sentence": "The tickets ___ very expensive last year.",
+      "answer": "were",
+      "hint": "The tickets = plural subject",
+      "explanation": "Use 'were' with you/we/they in past simple."
+    },
+    {
+      "id": "be-04",
+      "type": "multiple-choice",
+      "instruction": "Choose the correct form.",
+      "question": "I ___ ready to start the exam.",
+      "options": ["am", "is", "are", "be"],
+      "correctIndex": 0,
+      "explanation": "'Am' is the only correct form with the subject 'I'."
+    },
+    {
+      "id": "be-05",
+      "type": "multiple-choice",
+      "instruction": "Choose the correct negative form.",
+      "question": "He ___ at home right now — try his mobile.",
+      "options": ["amn't", "isn't", "aren't", "not is"],
+      "correctIndex": 1,
+      "explanation": "Use 'isn't' (is not) as the contracted negative for he/she/it."
+    },
+    {
+      "id": "be-06",
+      "type": "multiple-choice",
+      "instruction": "Choose the correct question form.",
+      "question": "___ they from Spain?",
+      "options": ["Is", "Am", "Are", "Be"],
+      "correctIndex": 2,
+      "explanation": "Use 'Are' to form questions with you/we/they."
+    },
+    {
+      "id": "be-07",
+      "type": "error-correction",
+      "instruction": "Find and correct the error with BE.",
+      "question": "She are the best student in the class.",
+      "answer": "She is the best student in the class.",
+      "explanation": "'She' is third person singular. Use 'is', not 'are'."
+    },
+    {
+      "id": "be-08",
+      "type": "error-correction",
+      "instruction": "Find and correct the error with BE.",
+      "question": "I is very tired after the long flight.",
+      "answer": "I am very tired after the long flight.",
+      "explanation": "With 'I', always use 'am', never 'is' or 'are'."
+    },
+    {
+      "id": "be-09",
+      "type": "error-correction",
+      "instruction": "Find and correct the error with BE.",
+      "question": "Where was they when the phone rang?",
+      "answer": "Where were they when the phone rang?",
+      "explanation": "'They' requires 'were' in the past simple, not 'was'."
+    },
+    {
+      "id": "be-10",
+      "type": "fill-in-blank",
+      "instruction": "Complete the auxiliary use of BE (present continuous).",
+      "sentence": "They ___ working on a new project right now.",
+      "answer": "are",
+      "hint": "They + BE + -ing = present continuous",
+      "explanation": "BE acts as an auxiliary verb in the present continuous. Use 'are' with 'they'."
+    }
+  ]
+}

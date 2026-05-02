@@ -1,0 +1,13 @@
+{
+  "unitSlug": "advanced-grammar",
+  "prompt": "Write a C1-level academic text related to the topic of Advanced Grammar. Aim for 150–200 words.",
+  "wordCountMin": 150,
+  "wordCountMax": 200,
+  "timeLimit": 60,
+  "criteria": [
+    "Clear structure",
+    "Appropriate vocabulary",
+    "Correct grammar",
+    "Coherent argument"
+  ]
+}

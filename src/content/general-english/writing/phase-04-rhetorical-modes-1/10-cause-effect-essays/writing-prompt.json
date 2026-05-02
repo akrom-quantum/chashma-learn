@@ -1,0 +1,13 @@
+{
+  "unitSlug": "cause-effect-essays",
+  "prompt": "Write a B2-level academic text related to the topic of Cause Effect Essays. Aim for 150–200 words.",
+  "wordCountMin": 150,
+  "wordCountMax": 200,
+  "timeLimit": 50,
+  "criteria": [
+    "Clear structure",
+    "Appropriate vocabulary",
+    "Correct grammar",
+    "Coherent argument"
+  ]
+}

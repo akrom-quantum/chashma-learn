@@ -1,0 +1,257 @@
+{
+  "unitSlug": "present-continuous-forms-and-use",
+  "exercises": [
+    {
+      "id": "pcon-sp-01",
+      "type": "fill-in-blank",
+      "instruction": "Write the correct -ing form of the verb in brackets.",
+      "sentence": "The sea level is ___ (rise) by 4.2 mm per year.",
+      "answer": "rising",
+      "hint": "This verb ends in a silent -e.",
+      "explanation": "Silent -e rule: drop the -e, add -ing. rise → rising."
+    },
+    {
+      "id": "pcon-sp-02",
+      "type": "fill-in-blank",
+      "instruction": "Write the correct -ing form of the verb in brackets.",
+      "sentence": "The glacier is ___ (run) out of ice at a faster rate than expected.",
+      "answer": "running",
+      "hint": "Short verb: one vowel + one consonant, stressed syllable.",
+      "explanation": "Doubling rule: r-u-n has one vowel + one consonant and is stressed. Double the n: running."
+    },
+    {
+      "id": "pcon-sp-03",
+      "type": "fill-in-blank",
+      "instruction": "Write the correct -ing form of the verb in brackets.",
+      "sentence": "Carbon emissions are ___ (drive) global temperature increases.",
+      "answer": "driving",
+      "hint": "This verb ends in a silent -e.",
+      "explanation": "Silent -e rule: drop the -e, add -ing. drive → driving."
+    },
+    {
+      "id": "pcon-sp-04",
+      "type": "fill-in-blank",
+      "instruction": "Write the correct -ing form of the verb in brackets.",
+      "sentence": "The situation is ___ (get) worse in the most vulnerable regions.",
+      "answer": "getting",
+      "hint": "Short verb: one vowel + one consonant, stressed syllable.",
+      "explanation": "Doubling rule: g-e-t has one vowel + one consonant and is stressed. Double the t: getting."
+    },
+    {
+      "id": "pcon-sp-05",
+      "type": "fill-in-blank",
+      "instruction": "Write the correct -ing form of the verb in brackets.",
+      "sentence": "More countries are ___ (begin) to invest seriously in renewable energy.",
+      "answer": "beginning",
+      "hint": "The stress falls on the FINAL syllable: be-GIN.",
+      "explanation": "Doubling rule: be-GIN — stress on the final syllable, one vowel + one consonant. Double the n: beginning."
+    },
+    {
+      "id": "pcon-sp-06",
+      "type": "fill-in-blank",
+      "instruction": "Write the correct -ing form of the verb in brackets.",
+      "sentence": "Coral reefs are ___ (die) at rates that recovery cycles cannot match.",
+      "answer": "dying",
+      "hint": "This verb ends in -ie.",
+      "explanation": "-ie rule: verbs ending in -ie change -ie to -y, then add -ing. die → dying."
+    },
+    {
+      "id": "pcon-sp-07",
+      "type": "fill-in-blank",
+      "instruction": "Write the correct -ing form of the verb in brackets.",
+      "sentence": "Deforestation is ___ (stop) in some regions due to international pressure.",
+      "answer": "stopping",
+      "hint": "Short verb: one vowel + one consonant, stressed syllable.",
+      "explanation": "Doubling rule: s-t-o-p has one vowel + one consonant and is stressed. Double the p: stopping."
+    },
+    {
+      "id": "pcon-sp-08",
+      "type": "fill-in-blank",
+      "instruction": "Write the correct -ing form of the verb in brackets.",
+      "sentence": "Scientists are ___ (prefer) newer models that incorporate feedback loops.",
+      "answer": "preferring",
+      "hint": "The stress falls on the FINAL syllable: pre-FER.",
+      "explanation": "Doubling rule: pre-FER — stress on the final syllable, one vowel + one consonant. Double the r: preferring."
+    },
+    {
+      "id": "pcon-sp-09",
+      "type": "fill-in-blank",
+      "instruction": "Write the correct -ing form of the verb in brackets.",
+      "sentence": "The number of species ___ (lie) dormant in Arctic soil is unknown.",
+      "answer": "lying",
+      "hint": "This verb ends in -ie.",
+      "explanation": "-ie rule: lie → change -ie to -y, add -ing → lying."
+    },
+    {
+      "id": "pcon-sp-10",
+      "type": "fill-in-blank",
+      "instruction": "Write the correct -ing form of the verb in brackets.",
+      "sentence": "Marine biologists are ___ (swim) daily to document reef damage.",
+      "answer": "swimming",
+      "hint": "Short verb: one vowel + one consonant, stressed syllable.",
+      "explanation": "Doubling rule: s-w-i-m has one vowel + one consonant and is stressed. Double the m: swimming."
+    },
+    {
+      "id": "pcon-fb-01",
+      "type": "fill-in-blank",
+      "instruction": "Complete with the correct present continuous form of the verb in brackets.",
+      "sentence": "Dr Amara ___ (collect) water temperature samples every morning this week.",
+      "answer": "is collecting",
+      "hint": "Dr Amara = singular subject. This week = temporary, around-now activity.",
+      "explanation": "Present continuous = is/are + -ing. Singular subject (Dr Amara) → is collecting."
+    },
+    {
+      "id": "pcon-fb-02",
+      "type": "fill-in-blank",
+      "instruction": "Complete with the correct present continuous form of the verb in brackets.",
+      "sentence": "The ocean temperature ___ (rise) at an alarming rate in this region.",
+      "answer": "is rising",
+      "hint": "Singular subject. This is a trend in progress.",
+      "explanation": "Singular subject → is + -ing. rise drops the -e: is rising."
+    },
+    {
+      "id": "pcon-fb-03",
+      "type": "fill-in-blank",
+      "instruction": "Complete with the correct present continuous negative (contracted).",
+      "sentence": "Kwame ___ (analyse) the satellite data today — he is presenting at a conference.",
+      "answer": "isn't analysing",
+      "hint": "Negative + singular subject. Use a contraction.",
+      "explanation": "Negative present continuous: is not / isn't + -ing. Singular → isn't analysing."
+    },
+    {
+      "id": "pcon-fb-04",
+      "type": "fill-in-blank",
+      "instruction": "Complete with the correct present continuous form of the verb in brackets.",
+      "sentence": "More local fishing communities ___ (begin) to notice changes in fish migration patterns.",
+      "answer": "are beginning",
+      "hint": "Plural subject. begin: stress on final syllable — double the n.",
+      "explanation": "Plural subject → are + -ing. be-GIN → double n: are beginning."
+    },
+    {
+      "id": "pcon-fb-05",
+      "type": "fill-in-blank",
+      "instruction": "Complete with the correct present continuous form. Place the adverb between the auxiliary and the -ing form.",
+      "sentence": "Several international media outlets ___ currently ___ (cover) the team's research.",
+      "answer": "are ... covering",
+      "hint": "Plural subject. Adverb goes between auxiliary and -ing form.",
+      "explanation": "Plural → are + -ing. Adverb position: are currently covering (auxiliary + adverb + -ing)."
+    },
+    {
+      "id": "pcon-ec-01",
+      "type": "error-correction",
+      "instruction": "Find and correct the single error in this sentence.",
+      "question": "Scientists are study the long-term effects of microplastic accumulation in ocean food chains.",
+      "answer": "Scientists are studying the long-term effects of microplastic accumulation in ocean food chains.",
+      "explanation": "The -ing form is missing after the auxiliary are. Present continuous = are + -ing. study → studying."
+    },
+    {
+      "id": "pcon-ec-02",
+      "type": "error-correction",
+      "instruction": "Find and correct the single error in this sentence.",
+      "question": "I am not believing that the current international agreements are sufficient to address the crisis.",
+      "answer": "I do not believe that the current international agreements are sufficient to address the crisis.",
+      "explanation": "believe is a state verb (mental state). State verbs cannot be used in the progressive. Use present simple: do not believe."
+    },
+    {
+      "id": "pcon-ec-03",
+      "type": "error-correction",
+      "instruction": "Find and correct the single error in this sentence.",
+      "question": "The renewable energy sector are expanding faster than any other part of the energy industry.",
+      "answer": "The renewable energy sector is expanding faster than any other part of the energy industry.",
+      "explanation": "sector is a singular noun. Singular subject → is expanding, not are expanding."
+    },
+    {
+      "id": "pcon-ec-04",
+      "type": "error-correction",
+      "instruction": "Find and correct the single error in this sentence.",
+      "question": "Forest fires don't becoming more frequent by accident — decades of mismanagement play a role.",
+      "answer": "Forest fires aren't becoming more frequent by accident — decades of mismanagement play a role.",
+      "explanation": "Progressive negative uses are not / aren't + -ing. Never don't + -ing form. → aren't becoming."
+    },
+    {
+      "id": "pcon-ec-05",
+      "type": "error-correction",
+      "instruction": "Find and correct the single error in this sentence.",
+      "question": "The sea level at this monitoring point is riseing by 4.2 millimetres per year.",
+      "answer": "The sea level at this monitoring point is rising by 4.2 millimetres per year.",
+      "explanation": "rise ends in a silent -e. Drop the -e before adding -ing: rising, not riseing."
+    },
+    {
+      "id": "pcon-ec-06",
+      "type": "error-correction",
+      "instruction": "Find and correct the single error in this sentence.",
+      "question": "My organisation is working on this issue since 2015.",
+      "answer": "My organisation has been working on this issue since 2015.",
+      "explanation": "Duration with since requires the present perfect continuous (has/have been + -ing), not the present continuous. The present continuous cannot express how long something has been happening."
+    },
+    {
+      "id": "pcon-ec-07",
+      "type": "error-correction",
+      "instruction": "Find and correct the single error in this sentence.",
+      "question": "Governments around the world are beging to understand the economic costs of inaction.",
+      "answer": "Governments around the world are beginning to understand the economic costs of inaction.",
+      "explanation": "begin: be-GIN — stress on the final syllable, one vowel + one consonant → double the n: beginning, not beging."
+    },
+    {
+      "id": "pcon-ec-08",
+      "type": "error-correction",
+      "instruction": "Find and correct the single error in this sentence.",
+      "question": "Why the international community is not responding more urgently to the latest IPCC report?",
+      "answer": "Why is the international community not responding more urgently to the latest IPCC report?",
+      "explanation": "Question structure requires inversion: auxiliary (is) must come before the subject. Why + is + subject + not + -ing?"
+    },
+    {
+      "id": "pcon-ec-09",
+      "type": "error-correction",
+      "instruction": "Find and correct the single error in this sentence.",
+      "question": "The polar bear population is dieing out at a rate that concerns biologists worldwide.",
+      "answer": "The polar bear population is dying out at a rate that concerns biologists worldwide.",
+      "explanation": "die ends in -ie. Apply the -ie rule: change -ie to -y, then add -ing. die → dying, not dieing."
+    },
+    {
+      "id": "pcon-mc-01",
+      "type": "multiple-choice",
+      "instruction": "Choose the correct form. This is Norway's general, permanent energy policy.",
+      "question": "Norway ___ heavily on hydroelectric power for domestic energy production.",
+      "options": ["is relying", "relies", "rely", "has relied"],
+      "correctIndex": 1,
+      "explanation": "A permanent, stable general truth → present simple: relies. The continuous would wrongly suggest this is temporary or changing."
+    },
+    {
+      "id": "pcon-mc-02",
+      "type": "multiple-choice",
+      "instruction": "Choose the correct form. Professor Nakamura is describing her CURRENT research project during this period.",
+      "question": "I ___ the impact of ocean warming on deep-sea ecosystems right now, during this research period.",
+      "options": ["study", "am studying", "studies", "have studied"],
+      "correctIndex": 1,
+      "explanation": "Current, around-now project = temporary situation → present continuous: am studying. Present simple (study) would describe her general field, not her current focus."
+    },
+    {
+      "id": "pcon-mc-03",
+      "type": "multiple-choice",
+      "instruction": "Choose the correct form. The speaker is expressing FRUSTRATION about a colleague's repeated behaviour.",
+      "question": "He ___ comments that derail the conversation. (said with annoyance)",
+      "options": ["always makes", "is always making", "always is making", "always made"],
+      "correctIndex": 1,
+      "explanation": "is always + -ing expresses annoyance or exasperation at repeated behaviour. always makes is neutral; is always making carries emotional charge."
+    },
+    {
+      "id": "pcon-mc-04",
+      "type": "multiple-choice",
+      "instruction": "Choose the correct form for this state verb.",
+      "question": "I ___ why the urgency isn't translating into policy action.",
+      "options": ["am not understanding", "don't understand", "not understand", "am not understand"],
+      "correctIndex": 1,
+      "explanation": "understand is a state verb (mental state). State verbs cannot be used in the progressive. Use present simple with do/does: don't understand."
+    },
+    {
+      "id": "pcon-mc-05",
+      "type": "multiple-choice",
+      "instruction": "Choose the correct form. The speaker has a two-year secondment — a TEMPORARY assignment.",
+      "question": "I ___ at the UN Environment Programme this year — it is a two-year secondment.",
+      "options": ["work", "am working", "works", "have worked"],
+      "correctIndex": 1,
+      "explanation": "A temporary, time-limited assignment → present continuous: am working. If it were a permanent job, present simple (work) would be more natural."
+    }
+  ]
+}

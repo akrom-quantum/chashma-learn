@@ -1,0 +1,13 @@
+{
+  "unitSlug": "argumentative-essay-2-concession-refutation",
+  "prompt": "Write a B2-C1-level academic text related to the topic of Argumentative Essay 2 Concession Refutation. Aim for 150–200 words.",
+  "wordCountMin": 150,
+  "wordCountMax": 200,
+  "timeLimit": 55,
+  "criteria": [
+    "Clear structure",
+    "Appropriate vocabulary",
+    "Correct grammar",
+    "Coherent argument"
+  ]
+}

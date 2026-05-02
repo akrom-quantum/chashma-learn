@@ -1,0 +1,13 @@
+{
+  "unitSlug": "the-thesis-statement",
+  "prompt": "Write a B2-level academic text related to the topic of The Thesis Statement. Aim for 150–200 words.",
+  "wordCountMin": 150,
+  "wordCountMax": 200,
+  "timeLimit": 45,
+  "criteria": [
+    "Clear structure",
+    "Appropriate vocabulary",
+    "Correct grammar",
+    "Coherent argument"
+  ]
+}

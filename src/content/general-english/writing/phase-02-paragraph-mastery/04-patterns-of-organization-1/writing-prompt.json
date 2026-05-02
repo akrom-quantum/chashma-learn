@@ -1,0 +1,13 @@
+{
+  "unitSlug": "patterns-of-organization-1",
+  "prompt": "Write a B1-B2-level academic text related to the topic of Patterns Of Organization 1. Aim for 150–200 words.",
+  "wordCountMin": 150,
+  "wordCountMax": 200,
+  "timeLimit": 45,
+  "criteria": [
+    "Clear structure",
+    "Appropriate vocabulary",
+    "Correct grammar",
+    "Coherent argument"
+  ]
+}
